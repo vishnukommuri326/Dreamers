@@ -3,6 +3,7 @@
 ## Team Members
 
 * [Kahmeeah Obey](https://github.com/kahmeeah)
+* [Derrick Song](https://github.com/Songdddd)
 
 
 
