@@ -1,8 +1,12 @@
-# Project Repository
+# While We Were Dreaming
 
-This repository will be used for team projects.
+## Team Members
 
-Several sets of instructions are included in this repository. They should each be treated as separate assignments with their own due dates and sets of requirements.
+* [Kahmeeah Obey](https://github.com/kahmeeah)
+
+
+
+## Instructions
 
 1. See the [App Map & Wireframes](instructions-0a-app-map-wireframes.md) and [Prototyping](./instructions-0b-prototyping.md) instructions for the requirements of the initial user experience design of the app.
 
