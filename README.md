@@ -3,6 +3,7 @@
 ## Team Members
 
 * [Kahmeeah Obey](https://github.com/kahmeeah)
+* [Seo Kwak] (https://github.com/seokwak)
 
 
 
