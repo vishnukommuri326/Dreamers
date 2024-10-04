@@ -2,7 +2,7 @@
 
 ## Team Norms
 
-### Team Values
+### Our Values
 
 * We will work together to achieve the best results, valuing each other's input and expertise.
 * All team communication and decisions are open and shared.
@@ -17,7 +17,7 @@
 
 ### Sprint Cadence
 
-* We will operate in 2 week sprints.
+* We will operate in 2 week sprints to ensure a good balance.
 
 ### Daily Standups
 
@@ -28,8 +28,9 @@
 
 ### Coding Standards
 
-* Visual Studio Code will be the designated code editor for the team/
-* Code for each task and spike must be peer-reAlways push working code, if you break the pipeline/build then fix it.viewed and pass tests before merging into the main branch of code.
+* Visual Studio Code will be the designated code editor for the team
+* Code for each task and spike must be peer-reviewed and pass tests before merging into the main branch of code.
+* Always push working code, if you break the pipeline/build then fix it.
 * Write self documenting code. Use descriptive variable and function names. Avoid unnecessary name shortening.
 * Don't leave dead/commented out code behind. If you see such code, delete it.
 * Make small, frequent commits that reflect individual changes or steps.
