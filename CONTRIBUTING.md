@@ -69,4 +69,16 @@
 
 ## Setting up local environment
 
+1. Clone the main repository to your local machine:
+
+   * `git clone https://github.com/agiledev-students-fall2024/4-final-project-while-we-were-dreaming.git`
+
+2. Navigate to the project directory:
+
+   * `cd 4-final-project-while-we-were-dreaming`
+
+3. Install project dependencies:
+
+   * `npm install`
+
 ## Bulding & Testing
