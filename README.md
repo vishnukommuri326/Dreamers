@@ -7,6 +7,7 @@ While We Were Dreaming is a location-based platform designed to connect NYU stud
 ## 👥 Team Members
 
 * [Kahmeeah Obey](https://github.com/kahmeeah)
+* [Golam Raiyan](https://github.com/raiyan-codes)
 * [Derrick Song](https://github.com/Songdddd)
 * [Mohamed Alremeithi](https://github.com/Mohamed-Alremeithi)
 * [Vishnu Kommuri](https://github.com/vishnukommuri326)
