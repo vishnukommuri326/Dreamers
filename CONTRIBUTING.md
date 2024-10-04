@@ -35,11 +35,21 @@
 * Make small, frequent commits that reflect individual changes or steps.
 * Avoid large, monolithic commits, as they make it harder to track changes and review the code.
 * Provide descriptive commit messages.
-* Always sync with the main branch before pushing your changes.
+* Always sync with the main branch before pushing your commits.
 
 ## Git workflow
 
-## Rules/How&what to contribute
+* We will follow the feature branch workflow.
+* A branch will be created for each new feature.
+* Once a feature is declared complete by the developer, they will open a pull request to the main branch, and add a reviwer.
+* Features will only be merged to the main branch through pull requests, never directly.
+* Always sync with the main and current branch before pushing your commits.
+
+## Rules for Contribution
+
+### What to Contribute
+
+### How to Contribute
 
 ## Setting up local environment
 
