@@ -57,16 +57,22 @@
 
 ### How to Contribute
 
-* Fork and Clone: If you’re an external contributor, fork the repository and clone it locally.
-* Create a Branch: Following our Git workflow standards, create a new branch for your changes:
-  * `git checkout -b <branch-name>`
-* Commit and Push: Commit your changes regularly with descriptive messages and push your branch to the remote repository:
-  * `git commit -m "Descriptive message of what you did"`
-  * `git push origin <branch-name>`
-* Create a Pull Request: Once your changes are complete, create a pull request to merge your branch into main. Ensure your Pull Request is clear and concise.
-* Code Reviews:
-  * Every contribution will be reviewed by at least one other team member.
-  * Follow our coding standards, write clean and self-documenting code, and provide meaningful commit messages.
+1. Fork and Clone: If you’re an external contributor, fork the repository and clone it locally.
+
+2. Create a Branch: Following our Git workflow standards, create a new branch for your changes:
+
+    * `git checkout -b <branch-name>`
+
+3. Commit and Push: Commit your changes regularly with descriptive messages and push your branch to the remote repository:
+
+    * `git commit -m "Descriptive message of what you did"`
+    * `git push origin <branch-name>`
+
+4. Create a Pull Request: Once your changes are complete, create a pull request to merge your branch into main. Ensure your Pull Request is clear and concise.
+
+5. Code Reviews:
+    * Every contribution will be reviewed by at least one other team member.
+    * Follow our coding standards, write clean and self-documenting code, and provide meaningful commit messages.
 
 ## Setting up local environment
 
