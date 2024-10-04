@@ -34,7 +34,6 @@
 * **Good Commits**: Avoid large, monolithic commits, as they make it harder to track changes and review the code.
 * **Sync Regularly**: Always sync with the main branch before pushing changes.
 
-
 ### 🌿 Git workflow
 
 * We will follow the feature branch workflow.
@@ -52,7 +51,7 @@
 * **Code Improvements**: Refactor existing code for performance or readability, but ensure your changes don’t introduce new issues.
 * **Tests**: Write tests for new features or improve existing ones to cover critical functionality and ensure stability.
 
-###  🔀 How to Contribute
+### 🔀 How to Contribute
 
 1. **Fork and Clone:** If you’re an external contributor, fork the repository and clone it locally.
 
