@@ -4,16 +4,15 @@
 
 ### 🌟 Our Values
 
-* We will work together to achieve the best results, valuing each other's input and expertise.
-* All team communication and decisions are open and shared.
-* We work in sprints, iterating quickly and improving based on feedback. We will follow the Scrum framework guidelines.
-* Members will communicate actively in team communication channels.
-* Each member will be an active, synchronous participant in each standup. Attendance is obligatory, except in emergent situations.
-* We will resolve conflicts by discussing as a group and making decisions by consensus.
-* Members who require help are encouraged to ask the team openly and proactively.
-* Team members are expected to fulfill their commitments and meet deadlines. We hold each other accountable.
-* If a member is not delivering on their obligations, we will have an open discussion to understand the situation and find a solution.
-* Failure to participate in standups or make progress on tasks for two consecutive standups will be reported to the stakeholders.
+* **Collaboration**: We will work together to achieve the best results, valuing each other's input and expertise.
+* **Transparency**: All team communication and decisions are open and shared.
+* **Continuous Improvement**: We work in sprints, iterating quickly and improving based on feedback, following Scrum framework guidelines.
+* **Active Participation**: Members will communicate actively in team channels. Standup attendance is obligatory, except in emergencies.
+* **Conflict Resolution**: We resolve conflicts as a group, making decisions by consensus.
+* **Supportive Culture**: Members who need help are encouraged to ask openly and proactively.
+* **Accountability**: Team members are expected to fulfill their commitments and meet deadlines. We hold each other accountable.
+* **Addressing Challenges**: If a member struggles to meet their obligations, we’ll have an open discussion to understand the situation and find a constructive solution together.
+* **Consistent Engagement**: Regular participation in standups and task progress is essential. If a member is inactive for two consecutive standups, we will notify the stakeholders to keep them informed.
 
 ### 🔄 Sprint Cadence
 
@@ -21,30 +20,28 @@
 
 ### 👥 Daily Standups
 
-* Standups will operate during the weekday in the evening.
-* Standups will last about 15 minutes.
-* Standups will be held at least 3 times a week.
-* The Scrum Master will share their meeting summaries in a communication channel with the stakeholders.
+* **Frequency**: Held on weekdays in the evening, at least 3 times a week, lasting about 15 minutes.
+* **Attendance**: Synchronous participation is required. The Scrum Master will share summaries in team channels.
 
 ### 💻 Coding Standards
 
-* Visual Studio Code will be the designated code editor for the team
-* Code for each task and spike must be peer-reviewed and pass tests before merging into the main branch of code.
-* Always push working code, if you break the pipeline/build then fix it.
-* Write self documenting code. Use descriptive variable and function names. Avoid unnecessary name shortening.
-* Don't leave dead/commented out code behind. If you see such code, delete it.
-* Make small, frequent commits that reflect individual changes or steps.
-* Avoid large, monolithic commits, as they make it harder to track changes and review the code.
-* Provide descriptive commit messages.
-* Always sync with the main branch before pushing your commits.
+* **Editor**: We’ll use Visual Studio Code for our designated code editor.
+* **Peer Reviews**: All tasks and spikes must be peer-reviewed and pass tests before merging.
+* **Code Quality**: Push only working code. If you break the pipeline/build, fix it immediately.
+* **Self-Documenting Code**: Use descriptive names for variables and functions, avoiding unnecessary abbreviations.
+* **Clean Code**: Delete any dead/commented-out code you come across.
+* **Frequent Commits**: Make small, focused commits with descriptive messages.
+* **Good Commits**: Avoid large, monolithic commits, as they make it harder to track changes and review the code.
+* **Sync Regularly**: Always sync with the main branch before pushing changes.
+
 
 ### 🌿 Git workflow
 
 * We will follow the feature branch workflow.
-* A branch will be created for each new feature.
-* Once a feature is declared complete by the developer, they will open a pull request to the main branch, and add a reviwer.
-* Features will only be merged to the main branch through pull requests, never directly.
-* Always sync with the main and current branch before pushing your commits.
+  * A branch will be created for each new feature.
+  * Once a feature is declared complete by the developer, they will open a pull request to the main branch, and add a reviwer.
+  * Features will only be merged to the main branch through pull requests, never directly.
+  * Always sync with both the main and current branch before pushing your commits.
 
 ## 📋 Rules for Contribution
 
