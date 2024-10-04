@@ -49,7 +49,23 @@
 
 ### What to Contribute
 
+* Features: When adding new features, create a feature branch and ensure that your feature aligns with the project’s goals. Clearly document any new functionality added.
+* Bug Fixes: If you notice a bug, feel free to address it. Please create a bug report if one doesn’t already exist and link it in your pull request.
+* Code Improvements: Refactor existing code for performance or readability, but ensure your changes don’t introduce new issues.
+* Tests: Write tests for new features or improve existing ones to cover critical functionality and ensure stability.
+
 ### How to Contribute
+
+* Fork and Clone: If you’re an external contributor, fork the repository and clone it locally.
+* Create a Branch: Following our Git workflow standards, create a new branch for your changes:
+  * `git checkout -b <branch-name>`
+* Commit and Push: Commit your changes regularly with descriptive messages and push your branch to the remote repository:
+  * `git commit -m "Descriptive message of what you did"`
+  * `git push origin <branch-name>`
+* Create a Pull Request: Once your changes are complete, create a pull request to merge your branch into main. Ensure your Pull Request is clear and concise.
+* Code Reviews:
+  * Every contribution will be reviewed by at least one other team member.
+  * Follow our coding standards, write clean and self-documenting code, and provide meaningful commit messages.
 
 ## Setting up local environment
 
