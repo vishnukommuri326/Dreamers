@@ -38,7 +38,7 @@
 * Provide descriptive commit messages.
 * Always sync with the main branch before pushing your commits.
 
-## Git workflow
+### Git workflow
 
 * We will follow the feature branch workflow.
 * A branch will be created for each new feature.
@@ -50,41 +50,41 @@
 
 ### What to Contribute
 
-* Features: When adding new features, create a feature branch and ensure that your feature aligns with the project’s goals. Clearly document any new functionality added.
-* Bug Fixes: If you notice a bug, feel free to address it. Please create a bug report if one doesn’t already exist and link it in your pull request.
-* Code Improvements: Refactor existing code for performance or readability, but ensure your changes don’t introduce new issues.
-* Tests: Write tests for new features or improve existing ones to cover critical functionality and ensure stability.
+* **Features**: When adding new features, create a feature branch and ensure that your feature aligns with the project’s goals. Clearly document any new functionality added.
+* **Bug Fixes**: If you notice a bug, feel free to address it. Please create a bug report if one doesn’t already exist and link it in your pull request.
+* **Code Improvements**: Refactor existing code for performance or readability, but ensure your changes don’t introduce new issues.
+* **Tests**: Write tests for new features or improve existing ones to cover critical functionality and ensure stability.
 
 ### How to Contribute
 
-1. Fork and Clone: If you’re an external contributor, fork the repository and clone it locally.
+1. **Fork and Clone:** If you’re an external contributor, fork the repository and clone it locally.
 
-2. Create a Branch: Following our Git workflow standards, create a new branch for your changes:
+2. **Create a Branch**: Following our Git workflow standards, create a new branch for your changes:
 
     * `git checkout -b <branch-name>`
 
-3. Commit and Push: Commit your changes regularly with descriptive messages and push your branch to the remote repository:
+3. **Commit and Push**: Commit your changes regularly with descriptive messages and push your branch to the remote repository:
 
     * `git commit -m "Descriptive message of what you did"`
     * `git push origin <branch-name>`
 
-4. Create a Pull Request: Once your changes are complete, create a pull request to merge your branch into main. Ensure your Pull Request is clear and concise.
+4. **Create a Pull Request**: Once your changes are complete, create a pull request to merge your branch into main. Ensure your Pull Request is clear and concise.
 
-5. Code Reviews:
+5. **Code Reviews**:
     * Every contribution will be reviewed by at least one other team member.
     * Follow our coding standards, write clean and self-documenting code, and provide meaningful commit messages.
 
 ## Setting up local environment
 
-1. Clone the main repository to your local machine:
+1. **Clone the main repository to your local machine**:
 
    * `git clone https://github.com/agiledev-students-fall2024/4-final-project-while-we-were-dreaming.git`
 
-2. Navigate to the project directory:
+2. **Navigate to the project directory**:
 
    * `cd 4-final-project-while-we-were-dreaming`
 
-3. Install project dependencies:
+3. **Install project dependencies**:
 
    * `npm install`
 
