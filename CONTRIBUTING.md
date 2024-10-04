@@ -81,6 +81,6 @@
 
    * `npm install`
 
-## Bulding & Testing
+## Building & Testing
 
 Once the project reaches the appropriate stage, this section will be updated with detailed instructions for building and testing the application.
