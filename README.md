@@ -20,7 +20,7 @@ Over time, the idea evolved into a simple, anonymous platform that prioritizes r
 
 ## How to Contribute
 
-We welcome contributions from the community! To get started, please review our [CONTRIBUTING.md](https://github.com/agiledev-students-fall2024/4-final-project-while-we-were-dreaming/blob/main/CONTRIBUTING.md) document, which outlines the guidelines for contributing.
+We welcome contributions from the community! To get started, please review our [CONTRIBUTING.md](./CONTRIBUTING.md) document, which outlines the guidelines for contributing.
 
 ## Building & Testing
 
