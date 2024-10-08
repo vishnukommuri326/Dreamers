@@ -1,12 +1,17 @@
 # User Experience Design
 
+## Prototype
+
+You can view and interact with the full prototype of While We Were Dreaming [here](https://www.figma.com/proto/I6RjRxM0OYAEB7d8XJelcX/While-We-Were-Dreaming?node-id=1-2&t=RvDExkdPPokDqlZd-1).
+
 ## App Map
 
 The following diagram outlines the structure of our project. This app map displays the main sections of the app, which guide users through creating, exploring, and managing their memory pins on campus.
 
-[App Map](./ux-design/app-map-colored.png)
+![App Map](./ux-design/app-map-colored.png)
 
 ## Mobile Wire Frame PNGs
+
 1. Home Page [Home](ux-design/wireframePNGs/Home_page.png)
     1. User Page [User](ux-design/wireframePNGs/User_page.png)
         - login in/sign up [LoginIn/SignUp](ux-design/wireframePNGs/sign_up_page.png)
@@ -21,3 +26,4 @@ The following diagram outlines the structure of our project. This app map displa
     4. About Page [About](ux-design/wireframePNGs/About_page.png)
         - feedback [Feedback](ux-design/wireframePNGs/feedback_form.png)
         - contact [Contact](ux-design/wireframePNGs/contact_form.png)
+
