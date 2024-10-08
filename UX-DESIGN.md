@@ -1,11 +1,10 @@
 # User Experience Design
 
-This repository contains instructions and files for two assignments that together comprise the user experience design phase of a web app.
+## App Map
 
-Replace the contents of this file with the completed assignments, as described in:
+The following diagram outlines the structure of our project. This app map displays the main sections of the app, which guide users through creating, exploring, and managing their memory pins on campus.
 
-- [app map & wireframe instructions](instructions-0a-app-map-wireframes.md).
-- [prototype instructions](instructions-0b-prototyping.md)
+[App Map](./ux-design/app-map-colored.png)
 
 ## Mobile Wire Frame PNGs
 1. Home Page [Home](ux-design/wireframePNGs/Home_page.png)
