@@ -12,28 +12,50 @@ jobs:
     env:
       COMMIT_LOG_API: ${{ secrets.COMMIT_LOG_API }}
       GITHUB_LOGIN: ${{ github.actor }}
-      REPOSITORY_URL: ${{ github.repository_url }}  # This might be the correct key
+      PR_CREATED_AT: ${{ github.event.pull_request.created_at }}
+      PR_CLOSED_AT: ${{ github.event.pull_request.closed_at }}
 
     steps:
     - uses: actions/checkout@v3
       with:
-        fetch-depth: 0
+        fetch-depth: 0  # Fetch all history for better git stats
 
     - uses: actions/setup-python@v3
       with:
         python-version: '3.x'
 
-    - name: Debug Info
+    - name: Install Python dependencies
       run: |
-        echo "Repository URL: ${REPOSITORY_URL}"
-        echo "GitHub Login: ${GITHUB_LOGIN}"
-        echo "Commit Log API: ${COMMIT_LOG_API}"
+        python -m pip install --upgrade pip
+        pip install pipenv
+        pipenv install --dev
 
     - name: Log pull request opened
       if: github.event_name == 'pull_request' && github.event.action == 'opened'
       run: |
-        if [ -z "${REPOSITORY_URL}" ]; then
-          echo "Error: REPOSITORY_URL is empty."
-          exit 1
-        fi
-        pipenv run gitcommitlogger -r ${REPOSITORY_URL} -u ${GITHUB_LOGIN} --t pull_request_opened -d ${PR_CREATED_AT} -o commit_stats.csv -v ${COMMIT_LOG_API}
+        REPOSITORY_URL="https://github.com/agiledev-students-fall2024/4-final-project-while-we-were-dreaming"
+        echo "Repository URL: ${REPOSITORY_URL}"
+        pipenv run gitcommitlogger -r ${REPOSITORY_URL} -u ${GITHUB_LOGIN} -t pull_request_opened -d ${PR_CREATED_AT} -o commit_stats.csv -v ${COMMIT_LOG_API}
+
+    - name: Log pull request closed and merged
+      if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+      run: |
+        REPOSITORY_URL="https://github.com/agiledev-students-fall2024/4-final-project-while-we-were-dreaming"
+        echo "Repository URL: ${REPOSITORY_URL}"
+        pipenv run gitcommitlogger -r ${REPOSITORY_URL} -u ${GITHUB_LOGIN} -t ${PR_CLOSED_AT} --merged -o commit_stats.csv -v ${COMMIT_LOG_API}
+
+    - name: Log pull request closed without merge
+      if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == false
+      run: |
+        REPOSITORY_URL="https://github.com/agiledev-students-fall2024/4-final-project-while-we-were-dreaming"
+        echo "Repository URL: ${REPOSITORY_URL}"
+        pipenv run gitcommitlogger -r ${REPOSITORY_URL} -u ${GITHUB_LOGIN} -t ${PR_CLOSED_AT} -o commit_stats.csv -v ${COMMIT_LOG_API}
+
+    - name: Log push
+      if: github.event_name == 'push'
+      run: |
+        REPOSITORY_URL="https://github.com/agiledev-students-fall2024/4-final-project-while-we-were-dreaming"
+        echo "Repository URL: ${REPOSITORY_URL}"
+        echo $COMMITS > commits.json
+        cat commits.json
+        pipenv run gitcommitlogger -r ${REPOSITORY_URL} -t push -i commits.json -o commit_stats.csv -v ${COMMIT_LOG_API}
