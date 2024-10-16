@@ -59,3 +59,4 @@ jobs:
         echo $COMMITS > commits.json
         cat commits.json
         pipenv run gitcommitlogger -r ${REPOSITORY_URL} -t push -i commits.json -o commit_stats.csv -v ${COMMIT_LOG_API}
+
