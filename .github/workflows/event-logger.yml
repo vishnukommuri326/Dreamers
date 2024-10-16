@@ -30,6 +30,11 @@ jobs:
         pip install pipenv
         pipenv install --dev
 
+    - name: Debugging Repository URL
+      run: |
+        REPOSITORY_URL="https://github.com/agiledev-students-fall2024/4-final-project-while-we-were-dreaming"
+        echo "Repository URL: ${REPOSITORY_URL}"
+
     - name: Log pull request opened
       if: github.event_name == 'pull_request' && github.event.action == 'opened'
       run: |
@@ -59,4 +64,5 @@ jobs:
         echo $COMMITS > commits.json
         cat commits.json
         pipenv run gitcommitlogger -r ${REPOSITORY_URL} -t push -i commits.json -o commit_stats.csv -v ${COMMIT_LOG_API}
+
 
