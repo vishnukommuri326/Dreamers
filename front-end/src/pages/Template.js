@@ -5,9 +5,9 @@
  */
 const Template = props => {
   return (
-    <>
+    <div>
       <h1>Start writing here!</h1>
-    </>
+    </div>
   )
 }
 
