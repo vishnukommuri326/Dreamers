@@ -6,7 +6,7 @@
 const Header = props => {
     return (
       <div>
-        <p>Start writing here!</p>
+        <p>Welcome Dreamers!</p>
       </div>
     )
   }
