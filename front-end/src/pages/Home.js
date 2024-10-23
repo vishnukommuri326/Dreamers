@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import '../assets/styles/App.css';
 import logo from '../assets/images/logo.svg';
 import map from '../assets/images/map.png';
