@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../src/assets/styles/App.css';
+import logo from '../src/assets/images/logo.svg';
+import map from '../src/assets/images/map.png';
 
 function App() {
   const [scale, setScale] = useState(1);
@@ -13,7 +15,7 @@ function App() {
     <div className="App">
       {/* Header */}
       <header className="App-header">
-        <img src="../src/assets/images/logo.svg" alt="Logo" className="logo" />
+        <img src={logo} alt="Logo" className="logo" />
         <button className="hamburger-menu" onClick={() => alert('Menu clicked!')}>
           &#9776;
         </button>
@@ -26,7 +28,7 @@ function App() {
         </div>
         <div className="map" onWheel={handleZoom}>
           <img
-            src = "front-end/src/map.png"
+            src = {map}
             alt="Map"
             className="zoomable-map"
             style={{ transform: `scale(${scale})` }}
