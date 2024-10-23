@@ -20,6 +20,7 @@ const App = props => {
           <Routes>
             {/* a route for the home page */}
             <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
 
             {/* a route for the about page */}
             <Route path="/about" element={<About />} />
