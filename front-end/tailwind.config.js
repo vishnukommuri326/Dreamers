@@ -1,7 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
-  content: [],
+  content: [
+    
+    "./src/**/*.{html,js,jsx,ts,tsx}"
+
+
+  ],
   theme: {
     extend: {
       colors: {
@@ -12,10 +17,6 @@ module.exports = {
     },
   },
 
-  "scripts": {
-    "build:css": "tailwindcss -i ./src/styles/tailwind.css -o ./dist/output.css --watch"
-  }
+  important: true,
 
 };
-
-
