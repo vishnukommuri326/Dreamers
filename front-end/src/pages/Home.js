@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../assets/styles/App.css';
 import logo from '../assets/images/logo.svg';
 import map from '../assets/images/map.png';
+import Button from '../components/button'
 
 /**
  * A React component that represents a single page of the app.
@@ -32,7 +33,7 @@ const Home = props => {
       {/* Map Section */}
       <section className="map-container">
         <div className="map-settings">
-          <button>Map Settings</button>
+          <Button>Map Settings</Button>
         </div>
         <div className="map" onWheel={handleZoom}>
           <img
