@@ -20,3 +20,6 @@ module.exports = {
   important: true,
 
 };
+
+// AFTER ADDING NEW TAILWIND CSS CLASSES, RUN THE FOLLOWING COMMAND IN YOUR LOCAL REPO AT LEAST ONCE
+// npx tailwindcss -i ./src/assets/styles/tailwind.css -o ./src/assets/styles/output.css --watch
