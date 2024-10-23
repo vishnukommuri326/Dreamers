@@ -11,3 +11,7 @@ gitcommitlogger = "*"
 [requires]
 python_version = "3.9"
 python_full_version = "3.9.6"
+
+[scripts]
+gitcommitlogger = "gitcommitlogger"
+
