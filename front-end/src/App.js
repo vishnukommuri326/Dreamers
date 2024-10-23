@@ -10,6 +10,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Profile from './pages/Profile'
 import UserSettings from './pages/UserSettings'
+import TestPage from './pages/TestPage';
 
 const App = props => {
 
@@ -37,6 +38,9 @@ const App = props => {
 
             {/* a route for the profile page */}
             <Route path="/user-settings" element={<UserSettings />} />
+
+            {/* a route for the testing page */}
+            <Route path="/testing" element={<TestPage />} />
             
           </Routes>
         </main>
