@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../assets/styles/App.css';
-import logo from '../assets/images/logo.svg';
 import map from '../assets/images/map.png';
 
 /**
@@ -20,20 +19,9 @@ const Home = props => {
     };
 
     return (
-      <div className="App">
-      {/* Header */}
-      <header className="App-header">
-        <img src={logo} alt="Logo" className="logo" />
-        <button className="hamburger-menu" onClick={() => alert('Menu clicked!')}>
-          &#9776;
-        </button>
-      </header>
-
-      {/* Map Section */}
+    <div className="App">
       <section className="map-container">
-        <div className="map-settings">
-          <button>Map Settings</button>
-        </div>
+        
         <div className="map" onWheel={handleZoom}>
           <img
             src = {map}
@@ -41,6 +29,9 @@ const Home = props => {
             className="zoomable-map"
             style={{ transform: `scale(${scale})` }}
           />
+        </div>
+        <div className="map-settings">
+          <button>Map Settings</button>
         </div>
       </section>
     </div>

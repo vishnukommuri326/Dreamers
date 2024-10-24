@@ -3,13 +3,24 @@
  * Use this file to create new pages as needed
  * Don't forget to add the new route to App.js
  */
+import React, { useState } from 'react';
+import '../assets/styles/App.css';
+import logo from '../assets/images/dreamer-1.png';
+
+
+
 const Header = props => {
     return (
       <div>
-        <p>Start writing here!</p>
+        <header className="App-header">
+        <img src={logo} alt="Logo" className="logo" />
+        <button className="hamburger-menu" onClick={() => alert('Menu clicked!')}>
+          &#9776;
+        </button>
+      </header>
+
       </div>
     )
   }
-  
-  // make this component available to be imported into any other file
+
   export default Header

@@ -15,12 +15,26 @@ body, html, #root {
   justify-content: space-between;
   align-items: center;
   background-color: #4B0082; /* Purple color */
-  padding: 10px;
+  padding: 15px;
   height: 70px;
 }
 
+.App-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4B0082; /* Purple color */
+  padding: 15px;
+  height: 70px;
+}
+
+.App-footer h1{
+  color: white;
+  font-size: 15pt;;
+}
+
 .logo {
-  height: 50px;
+  height: 100%;
 }
 
 .hamburger-menu {
@@ -36,10 +50,14 @@ body, html, #root {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  width: 1280px;
+  height: 1071px;
+  align-self: center;
 }
 
 .map-settings {
   padding: 10px;
+  align-self: center;
 }
 
 .map {

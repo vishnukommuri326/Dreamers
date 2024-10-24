@@ -3,13 +3,18 @@
  * Use this file to create new pages as needed
  * Don't forget to add the new route to App.js
  */
+
+import React, { useState } from 'react';
+import '../assets/styles/App.css';
+
 const Footer = props => {
     return (
       <div>
-        <p>Start writing here!</p>
+        <footer className="App-footer">
+          <h1>Pin Your Dreams, Share Your Journey – Welcome to Dreamer!</h1>
+        </footer>
       </div>
     )
   }
-  
-  // make this component available to be imported into any other file
+
   export default Footer
