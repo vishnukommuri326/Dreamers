@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../assets/styles/App.css';
-import logo from '../assets/images/logo.svg';
 import map from '../assets/images/map.png';
 import Button from '../components/button';
 import { Link } from 'react-router-dom';
@@ -54,6 +53,8 @@ const Home = (props) => {
         <div className="map-settings">
           <Button>Map Settings</Button>
         </div>
+
+
         <div className="map" onWheel={handleZoom}>
           <img
             src={map}
@@ -61,6 +62,9 @@ const Home = (props) => {
             className="zoomable-map"
             style={{ transform: `scale(${scale})` }}
           />
+        </div>
+        <div className="map-settings">
+          <button>Map Settings</button>
         </div>
       </section>
     </div>
