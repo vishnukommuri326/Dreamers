@@ -14,11 +14,11 @@ const Header = props => {
       <div>
         <header className="App-header">
         <img src={logo} alt="Logo" className="logo" />
+        <p>Welcome Dreamers!</p>
         <button className="hamburger-menu" onClick={() => alert('Menu clicked!')}>
           &#9776;
         </button>
       </header>
-
       </div>
     )
   }
