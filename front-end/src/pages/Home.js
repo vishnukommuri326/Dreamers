@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import '../assets/styles/App.css';
 import map from '../assets/images/map.png';
-import logo from '../assets/images/dreamer-1.png'
 import Button from '../components/button';
-import { Link } from 'react-router-dom';
 
 /**
  * A React component that represents a single page of the app.
@@ -14,12 +12,7 @@ import { Link } from 'react-router-dom';
  */
 
 const Home = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [scale, setScale] = useState(1);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
 
   const handleZoom = (event) => {
     const zoomFactor = event.deltaY < 0 ? 0.1 : -0.1;
