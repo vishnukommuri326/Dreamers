@@ -4,16 +4,20 @@
  * Don't forget to add the new route to App.js
  */
 import '../assets/styles/About.css';
-import logo from '../assets/images/dreamer-1.png';
+import logo from '../assets/images/dreamer-1-Alternate.png';
 
+
+/*         <img src="../assets/images/dreamer-1-Alternate.jpg" alt="AltLogo" className="Altlogo" width = "100" height = "100" />  
+*/
 
 const About = props => {
     return (
       <div>
         <h1>About Us</h1>
 
-        <img src={logo} alt="Logo" className="logo" width = "200" height = "200" />  
+        <img src={logo} alt="Logo" className="Altlogo"/>  
         
+
 
 
         
