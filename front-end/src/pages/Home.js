@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../assets/styles/App.css';
 import map from '../assets/images/map.png';
+import logo from '../assets/images/dreamer-1.png'
 import Button from '../components/button';
 import { Link } from 'react-router-dom';
 
@@ -27,26 +28,6 @@ const Home = (props) => {
 
   return (
     <div className="App">
-      {/* Header */}
-      <header className="App-header">
-        <img src={logo} alt="Logo" className="logo" />
-        <div className="dropdown">
-          <button className="hamburger-menu" onClick={toggleDropdown}>
-            &#9776; {/* Hamburger Icon */}
-          </button>
-
-          {/* Conditionally render the dropdown menu based on state */}
-          {isOpen && (
-            <ul className="dropdown-menu">
-              <li><Link to="/login">Login</Link></li>
-              <li><Link to="/register">Register</Link></li>
-              <li><Link to="/profile">Profile</Link></li>
-              <li><Link to="/about">About</Link></li>
-              <li><Link to="/user-settings">User Settings</Link></li>
-            </ul>
-          )}
-        </div>
-      </header>
 
       {/* Map Section */}
       <section className="map-container">
