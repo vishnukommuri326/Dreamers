@@ -10,25 +10,43 @@ body, html, #root {
   height: 100vh;
 }
 
+.App-main{
+  flex-grow: 1;
+}
+
 .App-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #4B0082; /* Purple color */
-  padding: 10px;
+  padding: 15px;
   height: 70px;
 }
 
+.App-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4B0082; /* Purple color */
+  padding: 15px;
+  height: 70px;
+  position: relative;
+}
+
+.App-footer h1{
+  color: white;
+  font-size: 15pt;;
+}
+
 .logo {
-  height: 50px;
+  height: 100%;
 }
 
 .hamburger-menu {
-  background: none;
+  background-color: transparent;
   border: none;
-  color: white;
-  font-size: 30px;
   cursor: pointer;
+  font-size: 24px;
 }
 
 /* Map Section */
@@ -36,10 +54,14 @@ body, html, #root {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  width: 1280px;
+  height: 1071px;
+  align-self: center;
 }
 
 .map-settings {
   padding: 10px;
+  align-self: center;
 }
 
 .map {
@@ -73,3 +95,28 @@ body, html, #root {
 }
 
 
+.dropdown-menu {
+  display: block;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 12px 16px;
+  list-style: none;
+  margin-left: -120px;
+}
+
+.dropdown-menu li {
+  padding: 8px 12px;
+}
+
+.dropdown-menu li a {
+  text-decoration: none;
+  color: black;
+  display: block;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f1f1f1;
+}

@@ -1,0 +1,23 @@
+
+h1 {
+
+    font-family: Impact, sans-serif;
+    color: #050404;
+    font-size: 45px;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+
+    }
+
+
+
+h2 {
+    padding: 25px 75px 75px 100px;
+}
+
+.Altlogo{
+    /* width: 100px; */
+    height: 100px;
+    margin: 20px auto;
+}
+    
