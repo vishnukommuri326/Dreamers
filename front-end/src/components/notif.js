@@ -23,9 +23,9 @@ function Notif({ message, onClose, type = 'info', duration = 3000, topPosition }
 
 // manages stack of notifs
 function NotifContainer({ notifs, setNotifs }) {
-  // automatically remove the oldest notification when more than 5 are shown
+  // automatically remove the oldest notification when more than 3 are shown
   useEffect(() => {
-    if (notifs.length > 5) {
+    if (notifs.length > 3) {
         setNotifs((prevQueue) => prevQueue.slice(1));  // remove the oldest notif
     }
   }, [notifs, setNotifs]);
