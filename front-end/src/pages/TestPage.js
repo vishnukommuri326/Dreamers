@@ -1,5 +1,7 @@
+import React, { useState } from 'react';
 import Button from '../components/button'
 import {Form, Dropdown, InputField} from '../components/form'
+import {Notif, NotifContainer} from '../components/notif';
 
 /**
  * A React component that represents a single page of the app.
@@ -11,6 +13,14 @@ const TestPage = props => {
         e.preventDefault();
         alert('Form submitted');
       };
+
+  // nesscessary for notif component
+  const [notifs, setNotitfs] = useState([]);
+
+  const addNotif = (message, type) => {
+    setNotitfs((prev) => [...prev, { message, type }]);
+  };
+
     return (
       <div>
          <h1 className="text-2xl font-bold mb-4">Component Playground</h1>
@@ -31,7 +41,22 @@ const TestPage = props => {
                     { label: 'Option 2', value: '2' }
                 ]}
                 />
-            </Form>
+        </Form>
+
+
+      {/* Example notif trigger workflow */}
+      <div>
+      <button onClick={() => addNotif('I am a bad notification!!!!!!!!!!!!! Oh nnoooooooooooooooooooooooooooooo', 'error')}>
+        <Button>Add Bad Notification </Button>
+      </button>
+      </div>
+      <div>
+      <button onClick={() => addNotif('I am a notification!!!!!!!!!!!!! Yaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaay', 'success')}>
+        <Button>Add Notification </Button>
+      </button>
+      </div>
+      <NotifContainer notifs={notifs} setNotifs={setNotitfs} />
+
 
 
 
@@ -39,9 +64,6 @@ const TestPage = props => {
 
 
       </div>
-
-
-
     )
   }
   
