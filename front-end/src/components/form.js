@@ -5,7 +5,7 @@ import Button from './button'
 function InputField({ label, type, value, onChange, placeholder }) {
   return (
     <div className="mb-4">
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
+      <label className="block text-sm font-medium text-purpleGrey">{label}</label>
       <input
         type={type}
         value={value}
@@ -20,7 +20,7 @@ function InputField({ label, type, value, onChange, placeholder }) {
 // Dropdown Component
 function Dropdown({ options, onSelect }) {
   return (
-    <select onChange={(e) => onSelect(e.target.value)} className="border p-2 rounded">
+    <select onChange={(e) => onSelect(e.target.value)} className="border p-2 rounded bg-purpleLighter border-purpleGrey text-gray-400">
       {options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}
@@ -35,7 +35,7 @@ function Form({ children, onSubmit }) {
   return (
     <form onSubmit={onSubmit} className="p-4">
       {children}  {/* Allows dynamic components to be passed in */}
-      <Button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
+      <Button type="submit" >
         Submit
       </Button>
     </form>
