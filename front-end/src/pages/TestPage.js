@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Button from '../components/button'
 import {Form, Dropdown, InputField} from '../components/form'
 import {Notif, NotifContainer} from '../components/notif';
+import Card from '../components/card';
+import Modal from '../components/modal';
 
 /**
  * A React component that represents a single page of the app.
@@ -21,15 +23,19 @@ const TestPage = props => {
     setNotitfs((prev) => [...prev, { message, type }]);
   };
 
+  // nesscessary for modal component
+  const [isModalOpen, setModalOpen] = useState(false);
+
+
     return (
       <div>
          <h1 className="text-2xl font-bold mb-4">Component Playground</h1>
 
-        {/* Test Button */}
+        {/* Example Button */}
         <Button>Test Button</Button>
 
 
-        {/* Testing Form with InputField and Dropdown */}
+        {/* Example Form with InputField and Dropdown */}
         <Form onSubmit={handleSubmit}>
                 {/* InputField without state management */}
                 <InputField type="text" placeholder="Test Input" label="Name" />
@@ -46,19 +52,25 @@ const TestPage = props => {
 
       {/* Example notif trigger workflow */}
       <div>
-      <button onClick={() => addNotif('I am a bad notification!!!!!!!!!!!!! Oh nnoooooooooooooooooooooooooooooo', 'error')}>
-        <Button>Add Bad Notification </Button>
-      </button>
+        <Button onClick={() => addNotif('I am a bad notification!!!!!!!!!!!!! Oh nnoooooooooooooooooooooooooooooo', 'error')} >Add Bad Notification </Button>
       </div>
       <div>
-      <button onClick={() => addNotif('I am a notification!!!!!!!!!!!!! Yaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaay', 'success')}>
-        <Button>Add Notification </Button>
-      </button>
+        <Button onClick={() => addNotif('I am a notification!!!!!!!!!!!!! Yaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaay', 'success')} >Add Notification </Button>
       </div>
       <NotifContainer notifs={notifs} setNotifs={setNotitfs} />
 
+       {/* Example card */}
 
+      <Card title="">
+        <p>This is some content inside the card.</p>
+      </Card>
 
+      {/* Example modal */}
+      <Button onClick={() => setModalOpen(true)}>  Open Modal </Button>
+      <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} title="Example Modal">
+        <p>This is the modal content. You can add buttons and stuff</p>
+        <Button> Hii  </Button> 
+      </Modal>
 
 
 
