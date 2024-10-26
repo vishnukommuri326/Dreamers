@@ -61,7 +61,7 @@ const TestPage = props => {
 
        {/* Example card */}
 
-      <Card title="">
+      <Card title="Optional Title">
         <p>This is some content inside the card.</p>
       </Card>
 
@@ -69,6 +69,7 @@ const TestPage = props => {
       <Button onClick={() => setModalOpen(true)}>  Open Modal </Button>
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} title="Example Modal">
         <p>This is the modal content. You can add buttons and stuff</p>
+        <br></br>
         <Button> Hii  </Button> 
       </Modal>
 
