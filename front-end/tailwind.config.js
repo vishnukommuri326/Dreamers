@@ -10,12 +10,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#3490dc',
-        secondary: '#ffed4a',
-        danger: '#e3342f',
+        purpleGrey: '#b39ddb',
+        purpleLighter: '#ede7f6',
+        purpleLight: '#f3e5f5',  
+        purpleMain: '#6a1b9a',
+        purpleMedium: '#7e57c2',
+        purpleDark: '#5e35b1',
+        purpleDarker: '#512da8',
       },
     },
   },
+
+
 
   important: true,
 

@@ -8,17 +8,32 @@ body, html, #root {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow: hidden;
 }
 
-.App-main{
-  flex-grow: 1;
+.App-main {
+  flex-grow: 1; 
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  overflow: hidden;
+  padding: 20px;
+  box-sizing: border-box;
 }
+
+.App-main > * {
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
 
 .App-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4B0082; /* Purple color */
+  /* background-color: #4B0082;  */
+  @apply bg-purpleMain;
   padding: 15px;
   height: 70px;
 }
@@ -27,7 +42,8 @@ body, html, #root {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4B0082; /* Purple color */
+  /* background-color: #4B0082;  */
+  @apply bg-purpleMedium;
   padding: 15px;
   height: 70px;
   position: relative;
@@ -47,6 +63,8 @@ body, html, #root {
   border: none;
   cursor: pointer;
   font-size: 24px;
+  color: white;
+  z-index: 1000;
 }
 
 /* Map Section */
@@ -54,8 +72,9 @@ body, html, #root {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  width: 1280px;
-  height: 1071px;
+  max-width: 100vw;
+  width: 100%;
+  height: 100%;
   align-self: center;
 }
 
@@ -74,8 +93,9 @@ body, html, #root {
   width: 100%;
   height: auto;
   display: block;
-  max-width: 100vw; /* Prevent overflow */
+  max-width: 100%; /* Prevent overflow */
   max-height: 100vh; /* Prevent overflow */
+  object-fit: cover;
   transform-origin: center center;
 }
 
@@ -101,7 +121,7 @@ body, html, #root {
   background-color: white;
   min-width: 160px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  z-index: 1000;
   padding: 12px 16px;
   list-style: none;
   margin-left: -120px;
