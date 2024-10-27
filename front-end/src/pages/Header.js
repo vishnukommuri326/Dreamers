@@ -3,6 +3,7 @@
  * Use this file to create new pages as needed
  * Don't forget to add the new route to App.js
  */
+
 import React, { useState } from 'react';
 import '../assets/styles/App.css';
 import logo from '../assets/images/dreamer-1.png';
