@@ -37,9 +37,6 @@ const Home = (props) => {
             style={{ transform: `scale(${scale})` }}
           />
         </div>
-        <div className="map-settings">
-          <button>Map Settings</button>
-        </div>
       </section>
     </div>
   );

@@ -120,3 +120,45 @@ body, html, #root {
 .dropdown-menu li a:hover {
   background-color: #f1f1f1;
 }
+
+.profile-container {
+  padding: 20px;
+}
+
+.avatar-frame {
+  width: 150px;
+  height: 150px;
+  border: 2px solid gray;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-label {
+  cursor: pointer;
+  text-align: center;
+}
+
+.file-input {
+  display: none;
+}
+
+.info-section {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.info-input {
+  margin-left: 10px;
+}
+
+.edit-button {
+  margin-left: 10px;
+}
