@@ -182,7 +182,7 @@ const Profile = () => {
                 </ul>
                 <input
                     type="text"
-                    placeholder="Add new friend..."
+                    placeholder="Add new friend"
                     value={newFriend}
                     onChange={(e) => setNewFriend(e.target.value)}
                     className="add-input"
