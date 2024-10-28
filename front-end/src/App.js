@@ -12,6 +12,8 @@ import Profile from './pages/Profile';
 import UserSettings from './pages/UserSettings';
 import TestPage from './pages/TestPage';
 import Contact from './pages/Contact'; // Import the Contact component
+import Feedback from './pages/Feedback';
+
 
 const App = props => {
 
@@ -45,6 +47,8 @@ const App = props => {
 
             {/* a route for the contact page */}
             <Route path="/contact" element={<Contact />} />
+
+            <Route path="/feedback" element={<Feedback />} />
           </Routes>
         </main>
         <Footer />
