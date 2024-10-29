@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import logo from '../assets/images/dreamer-1-Alternate.png';
+import '../assets/styles/About.css'; // Used for back button formatting
+
 
 const Contact = (props) => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -65,6 +67,9 @@ const Contact = (props) => {
 
         <button type="submit" className="submit-btn">Send Message</button>
       </form>
+
+      <button type="button" className="back-btn" onClick={() => window.location.href='/about'}>Back</button>
+
     </div>
   );
 };

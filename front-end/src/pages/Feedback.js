@@ -1,5 +1,6 @@
 import React from 'react';
 import '../assets/styles/Feedback.css';
+import '../assets/styles/About.css'; // Used for back button formatting
 
 const FeedbackForm = () => {
   return (
@@ -8,11 +9,11 @@ const FeedbackForm = () => {
       <form>
         <div className="form-group">
           <label>Question 1</label>
-          <input type="text" placeholder="Your response" />
+          <input type="text" placeholder="Your response" required/>
         </div>
         <div className="form-group">
           <label>Question 2</label>
-          <input type="text" placeholder="Your response" />
+          <input type="text" placeholder="Your response" required/>
         </div>
     
         <div className="form-group">
@@ -21,7 +22,10 @@ const FeedbackForm = () => {
         </div>
         <button type="submit" className="submit-btn">Submit Feedback</button>
       </form>
-    </div>
+
+      <button type="button" className="back-btn" onClick={() => window.location.href='/about'}>Back</button>
+
+      </div>
   );
 };
 
