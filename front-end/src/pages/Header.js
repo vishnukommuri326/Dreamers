@@ -3,6 +3,7 @@
  * Use this file to create new pages as needed
  * Don't forget to add the new route to App.js
  */
+
 import React, { useState } from 'react';
 import '../assets/styles/App.css';
 import logo from '../assets/images/dreamer-1.png';
@@ -18,11 +19,26 @@ const Header = props => {
     return (
       <div>
          <header className="App-header">
-        <img src={logo} alt="Logo" className="logo" />
+
+          <Link to="/"> 
+          
+          <img src={logo} alt="Logo" className="logo" />
+
+          </Link>
+
+
+        <div className= "controls-container"> 
+
+        <button type="button" className="prof-btn" onClick={() => window.location.href='/login'}>Login</button>
+
         <div className="dropdown">
           <button className="hamburger-menu" onClick={toggleDropdown}>
             &#9776; {/* Hamburger Icon */}
           </button>
+
+        </div>
+
+
 
           {/* Conditionally render the dropdown menu based on state */}
           {isOpen && (
