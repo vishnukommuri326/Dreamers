@@ -19,7 +19,12 @@ const Header = props => {
     return (
       <div>
          <header className="App-header">
-        <img src={logo} alt="Logo" className="logo" />
+
+          <Link to="/"> 
+          
+          <img src={logo} alt="Logo" className="logo" />
+
+          </Link>
 
 
         <div className= "controls-container"> 
