@@ -8,7 +8,7 @@ function Button({ children, onClick }) {
     <button onClick={onClick} className="bg-purpleMedium hover:bg-purpleDark active:bg-purpleDarker text-white py-2 px-4 rounded">
       {children}
     </button>
-  );
+  ); 
 }
 
 export default Button;
