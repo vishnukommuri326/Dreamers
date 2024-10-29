@@ -1,8 +1,8 @@
 import React from 'react';
 
-function Card({ title, children }) {
+function Card({ title, children, width = '', height = ''}) {
   return (
-    <div className="bg-purpleLight text-purpleDark shadow-md rounded-lg p-4">
+    <div className={`bg-purpleLight text-purpleDark p-4 rounded-lg shadow-lg ${width} ${height} overflow-auto`}>
       {title && <h2 className="text-2xl font-bold p-1">{title}</h2>}
       <div className='m-1'>
         {children}
