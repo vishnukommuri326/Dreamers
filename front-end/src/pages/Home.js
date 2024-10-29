@@ -4,6 +4,7 @@ import map from '../assets/images/map.png';
 import Button from '../components/button';
 import PinModal from '../components/pinModal';
 import PinCreation from '../components/pinCreation';
+import MapSettings from '../components/MapSettings';
 
 /**
  * A React component that represents a single page of the app.
@@ -15,31 +16,68 @@ import PinCreation from '../components/pinCreation';
 
 const Home = (props) => {
 
-  // Pin creation state
-  const [pins, setPins] = useState([]);
+  // #region map settings stuff
+  const [isMapModalOpen, setMapModalOpen] = useState(false);
+  // for future use
+  const [viewPersonal, setViewPersonal] = useState(false);
+  const [viewFriends, setViewFriends] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Open the map settings modal
+  const handleMapSettingsClick = () => {
+    setMapModalOpen(true);
+  };
+
+  // Toggle for Personal Pins
+  const handleTogglePersonal = (isOn) => {
+    setViewPersonal(isOn);
+    console.log('Personal view toggled:', isOn);
+  };
+
+  // Toggle for Friends' Pins
+  const handleToggleFriends = (isOn) => {
+    setViewFriends(isOn);
+    console.log('Friends view toggled:', isOn);
+  };
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    console.log('Searching for:', query);
+    // Implement your map searching logic here
+  };
+
+
+
+  // #endregion
+
+
+  // #region pin creation
   const [isModalOpen, setModalOpen] = useState(false);
+  const [pins, setPins] = useState([]);
   const [newPinLocation, setNewPinLocation] = useState({ x: 0, y: 0 });
 
-  // Handle clicking on the map to place a new pin
+  // handle clicking on the map to place a new pin
   const handleMapClick = (e) => {
     const x = e.clientX;
     const y = e.clientY;
     setNewPinLocation({ x, y });
-    setModalOpen(true);  // Open the modal for pin creation
+    setModalOpen(true);  // open the modal for pin creation
   };
 
-  // Handle creating a new pin from modal submission
+  // handle creating a new pin from modal submission
   const handleCreatePin = (description) => {
     setPins([...pins, { description, x: newPinLocation.x, y: newPinLocation.y }]);
-    setModalOpen(false);  // Close modal after creating pin
+    setModalOpen(false);  // close modal after creating pin
   };
 
-  // Handle reporting a pin
+  // handle reporting a pin
   const handleReportPin = (index) => {
     alert(`Reporting pin ${index}`);
   };
 
-  // Zoom functionality for map
+  // #endregion
+
+  // zoom functionality for map
   const [scale, setScale] = useState(1);
   const handleZoom = (event) => {
     const zoomFactor = event.deltaY < 0 ? 0.1 : -0.1;
@@ -52,8 +90,15 @@ const Home = (props) => {
       {/* Map Section */}
       <section className="map-container">
         <div className="map-settings">
-          <Button>Map Settings</Button>
+        <Button onClick={handleMapSettingsClick}>Map Settings</Button>
         </div>
+
+        <MapSettings
+        isOpen={isMapModalOpen}
+        onClose={() => setMapModalOpen(false)}
+        onTogglePersonal={handleTogglePersonal}
+        onToggleFriends={handleToggleFriends}
+      />
 
         {/* Render existing pins */}
         {pins.map((pin, index) => (
@@ -81,10 +126,6 @@ const Home = (props) => {
             className="zoomable-map"
             style={{ transform: `scale(${scale})` }}
           />
-        </div>
-
-        <div className="map-settings">
-          <button>Map Settings</button>
         </div>
       </section>
     </div>
