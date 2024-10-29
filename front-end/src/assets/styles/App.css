@@ -67,6 +67,35 @@ body, html, #root {
   z-index: 1000;
 }
 
+button.prof-btn {
+  padding: 10px;
+  background-color: #7e57c2; 
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+button.prof-btn:hover {
+  background-color: #5e35b1; 
+}
+
+button.prof-btn:active {
+  background-color: #cec3e8;
+}
+
+.controls-container{
+
+  display: flex;
+  margin-right: 10px;
+  gap: 10px;
+
+}
+
+
+
 /* Map Section */
 .map-container {
   flex-grow: 1;
@@ -125,6 +154,8 @@ body, html, #root {
   padding: 12px 16px;
   list-style: none;
   margin-left: -120px;
+  right: 0; 
+  transform: translateY(20%);  /* moves the dropdown to the bottom (to avoid blocking with profile button) */
 }
 
 .dropdown-menu li {

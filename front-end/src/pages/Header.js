@@ -20,10 +20,20 @@ const Header = props => {
       <div>
          <header className="App-header">
         <img src={logo} alt="Logo" className="logo" />
+
+
+        <div className= "controls-container"> 
+
+        <button type="button" className="prof-btn" onClick={() => window.location.href='/login'}>Login</button>
+
         <div className="dropdown">
           <button className="hamburger-menu" onClick={toggleDropdown}>
             &#9776; {/* Hamburger Icon */}
           </button>
+
+        </div>
+
+
 
           {/* Conditionally render the dropdown menu based on state */}
           {isOpen && (
