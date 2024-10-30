@@ -5,6 +5,7 @@ import Button from '../components/button';
 import PinModal from '../components/pinModal';
 import PinCreation from '../components/pinCreation';
 import MapSettings from '../components/MapSettings';
+import MapComponent from '../components/Map';
 
 /**
  * A React component that represents a single page of the app.
@@ -85,49 +86,13 @@ const Home = (props) => {
   };
 
   return (
-    <div className="App">
+    <div className="map-container w-full h-[80vh]">
 
-      {/* Map Section */}
-      <section className="map-container">
-        <div className="map-settings">
-        <Button onClick={handleMapSettingsClick}>Map Settings</Button>
-        </div>
 
-        <MapSettings
-        isOpen={isMapModalOpen}
-        onClose={() => setMapModalOpen(false)}
-        onTogglePersonal={handleTogglePersonal}
-        onToggleFriends={handleToggleFriends}
-      />
+      <MapComponent />
+  
 
-        {/* Render existing pins */}
-        {pins.map((pin, index) => (
-          <PinCreation
-            key={index}
-            description={pin.description}
-            x={pin.x}
-            y={pin.y}
-            onReport={() => handleReportPin(index)}
-          />
-        ))}
-
-        {/* Modal for creating a new pin */}
-        <PinModal
-          isOpen={isModalOpen}
-          onClose={() => setModalOpen(false)}
-          onCreate={handleCreatePin}
-        />
-
-        {/* Map image with zoom and click functionality */}
-        <div className="map" onWheel={handleZoom} onClick={handleMapClick}>
-          <img
-            src={map}
-            alt="Map"
-            className="zoomable-map"
-            style={{ transform: `scale(${scale})` }}
-          />
-        </div>
-      </section>
+      
     </div>
   );
 };
