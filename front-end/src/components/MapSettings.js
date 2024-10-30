@@ -26,17 +26,6 @@ function MapSettings({ isOpen, onClose, onTogglePersonal, onToggleFriends }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Map Settings">
       <div className="p-4 space-y-6">
-        {/* search bar */}
-        <div className="space-y-2">
-          <label className="text-purpleDark font-bold">Search Location</label>
-          <input
-            type="text"
-            placeholder="Search for a location..."
-            className="w-full p-2 border border-purpleMedium rounded-md focus:outline-none focus:ring-2 focus:ring-purpleDark"
-            value={searchQuery}
-            onChange={handleSearchChange}
-          />
-        </div>
 
         <div className="space-y-2">
           <label className="text-purpleDark font-bold">Personal View</label>
@@ -45,7 +34,7 @@ function MapSettings({ isOpen, onClose, onTogglePersonal, onToggleFriends }) {
             onToggle={handlePersonalToggle}
           />
         </div>
-        
+
         <div className="space-y-2">
           <label className="text-purpleDark font-bold">Friends View</label>
           <ToggleButton

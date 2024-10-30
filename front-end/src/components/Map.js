@@ -4,6 +4,8 @@ import L from 'leaflet';
 import PinModal from './pinModal';
 import 'leaflet/dist/leaflet.css';
 import '../assets/styles/App.css';
+import MapSettings from './MapSettings';
+import { ReactComponent as SettingsIcon } from '../assets/images/icons/settings.svg';
 
 // custom svg marker
 const createCustomIcon = () => {
@@ -25,6 +27,19 @@ const MapComponent = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [newPinLocation, setNewPinLocation] = useState(null); // coords for new pin
   const [phantomPin, setPhantomPin] = useState(null); // coords for the phantom pin
+
+  const [isSettingsOpen, setSettingsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const toggleSettingsModal = () => {
+    setSettingsOpen(!isSettingsOpen);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    console.log('Searching for:', searchQuery);
+    // future logic for searching locations will be added here
+  };
 
   const handleAddPin = (description) => {
     const newPin = {
@@ -52,7 +67,30 @@ const MapComponent = () => {
   };
 
   return (
-    <>
+
+
+<div className="relative">
+      {/* map settings */}
+      <button
+        onClick={toggleSettingsModal}
+        className="absolute top-4 right-4 z-[1000] bg-white p-2 rounded-full shadow-md hover:bg-purpleLight">
+        <SettingsIcon className="w-6 h-6 text-purpleMedium"
+        />
+      </button>
+
+      {/* search Bar */}
+        <div className="fixed md:absolute bottom-20 md:top-4 left-1/2 transform -translate-x-1/2 
+        z-[1000] w-72 h-10 flex items-center ">
+            <input
+                type="text"
+                placeholder="Search for a location..."
+                className="w-full h-full p-2 border border-purpleMedium rounded-md focus:outline-none focus:ring-2 focus:ring-purpleDark "
+                value={searchQuery}
+                onChange={handleSearchChange}
+                />
+        </div>
+
+
       <MapContainer
         center={[40.7309, -73.9973]} // start at wash sq
         zoom={23}
@@ -96,7 +134,19 @@ const MapComponent = () => {
         onClose={() => setModalOpen(false)}
         onCreate={handleAddPin}
       />
-    </>
+
+        {/* modal for map settings */}
+        {isSettingsOpen && (
+            <MapSettings
+            isOpen={isSettingsOpen}
+            onClose={toggleSettingsModal}
+            onTogglePersonal={() => {}}
+            onToggleFriends={() => {}}
+            />
+        )}
+
+      
+    </div>
   );
 };
 
