@@ -10,10 +10,12 @@ import '../assets/styles/App.css';
 const Footer = props => {
     return (
       <div>
-        <footer className="App-footer">
-          <h1>Pin Your Dreams, Share Your Journey – Welcome to Dreamer!</h1>
+        <footer>
+        <div className="container mx-auto text-center">
+        &copy; {new Date().getFullYear()} Dreamers. 
+        </div>
         </footer>
-      </div>
+        </div>
     )
   }
 

@@ -66,7 +66,6 @@ body, html, #root {
   cursor: pointer;
   font-size: 24px;
   color: white;
-  z-index: 1000;
 }
 
 button.prof-btn {
@@ -152,7 +151,7 @@ button.prof-btn:active {
   background-color: white;
   min-width: 160px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  z-index: 999999;
   padding: 12px 16px;
   list-style: none;
   margin-left: -120px;
@@ -214,4 +213,35 @@ button.prof-btn:active {
 
 .edit-button {
   margin-left: 10px;
+}
+
+
+.custom-icon {
+  transition: fill 0.3s ease;
+
+  fill:#7e57c2;
+}
+
+.custom-icon:hover {
+  fill: #512da8; /* Darker purple on hover */
+}
+
+.custom-icon:active {
+  fill: #512da8; /* Even darker purple when clicked */
+}
+
+.leaflet-popup-content-wrapper {
+  width: 300px; /* Set your desired width */
+  min-height: 20px; 
+  background-color: #f3e5f5 !important; /* Custom purple */
+  padding: 1px;
+  border-radius: 12px;
+}
+
+.leaflet-popup-tip {
+  background-color: #f3e5f5 !important; /* Match the tip */
+}
+
+.leaflet-popup-close-button {
+  color: #7e57c2 !important; /* Purple close button */
 }
