@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import '../assets/styles/App.css';
 import logo from '../assets/images/dreamer-1.png';
 import { Link } from 'react-router-dom';
+import Button from '../components/button';
 
 
 
@@ -29,7 +30,7 @@ const Header = props => {
 
         <div className= "controls-container"> 
 
-        <button type="button" className="prof-btn" onClick={() => window.location.href='/login'}>Login</button>
+        <Button type="button"  onClick={() => window.location.href='/login'}>Login</Button>
 
         <div className="dropdown">
           <button className="hamburger-menu" onClick={toggleDropdown}>
