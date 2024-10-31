@@ -3,6 +3,29 @@ body, html, #root {
   padding: 0;
   height: 100%;
 }
+* {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+h1, h2, h3 {
+  color: #6a1b9a !important;
+  font-weight: bolder !important;
+
+}
+
+h1 {
+  color: #6a1b9a !important;
+  letter-spacing: -3px !important;
+  font-size: 45px !important;
+  padding-top: 0.5em !important;
+  padding-bottom: 0.5em !important;
+  }
+
+
+
+h2 {
+  letter-spacing: -3px !important;
+}
 
 .App {
   display: flex;
@@ -15,9 +38,9 @@ body, html, #root {
   flex-grow: 1; 
   display: flex;
   justify-content: center;
-  align-items: flex-start; 
+  align-items: center; 
   overflow: auto;
-  padding: 20px;
+  padding: 0px;
   box-sizing: border-box;
 }
 
@@ -49,10 +72,7 @@ body, html, #root {
   position: relative;
 }
 
-.App-footer h1{
-  color: white;
-  font-size: 15pt;;
-}
+
 
 .logo {
   height: auto;
@@ -98,51 +118,21 @@ button.prof-btn:active {
 
 
 /* Map Section */
-.map-container {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  max-width: 100vw;
+
+.map-wrapper {
   width: 100%;
   height: 100%;
-  align-self: center;
+  display: flex;
+  flex-direction: column;
 }
 
-.map-settings {
-  padding: 10px;
-  align-self: center;
-}
 
-.map {
+.map-container {
   flex-grow: 1;
-  overflow: hidden;
-  position: relative;
-}
-
-.zoomable-map {
   width: 100%;
-  height: auto;
-  display: block;
-  max-width: 100%; /* Prevent overflow */
-  max-height: 100vh; /* Prevent overflow */
-  object-fit: cover;
-  transform-origin: center center;
+  height: 100%;
 }
 
-
-/* Zoom behavior */
-.zoomable-map:hover {
-  cursor: zoom-in;
-}
-
-/* Add zooming when mouse scrolls */
-.map {
-  overflow: hidden;
-}
-
-.map img {
-  transition: transform 0.3s ease;
-}
 
 
 .dropdown-menu {

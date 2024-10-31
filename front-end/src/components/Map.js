@@ -69,7 +69,7 @@ const MapComponent = () => {
   return (
 
 
-<div className="relative">
+<div className="map-wrapper w-full h-full relative">
       {/* map settings */}
       <button
         onClick={toggleSettingsModal}
@@ -94,7 +94,7 @@ const MapComponent = () => {
       <MapContainer
         center={[40.7309, -73.9973]} // start at wash sq
         zoom={23}
-        style={{ height: '100vh', width: '100%' }}
+        style={{ height: 'calc(100vh - 95px)', width: '100%' }}
       >
         <MapEvents handleMapClick={handleMapClick} />
 

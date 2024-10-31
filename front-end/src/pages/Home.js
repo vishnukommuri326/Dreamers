@@ -17,7 +17,7 @@ import MapComponent from '../components/Map';
 
 const Home = (props) => {
   return (
-    <div className="map-container w-full h-[80vh]">
+    <div className="map-container">
       <MapComponent />
     </div>
   );
