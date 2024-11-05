@@ -17,7 +17,7 @@
     "tailwindcss": "^3.4.14"
   },
   "scripts": {
-    "start": "cd front-end && react-scripts start",
+    "start": "cd back-end && node app.js",
     "build": "cd front-end && react-scripts build"
   }
 }
