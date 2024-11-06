@@ -3,6 +3,8 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const PORT = 5001;
+// import external routes
+const testRoute = require('./routes/testroute.js');
 
 // import middleware
 const axios = require('axios')
@@ -15,13 +17,13 @@ app.use(morgan('dev'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
-// routes
-// app.use('/api', routes);
-
-// test route
+// default test route
 app.get('/', (req, res) => {
   res.send('Hello world');
 });
+
+// register external routes
+app.use('/test', testRoute); // the path can be named anything ex: /api/test, /dogs, etc
 
 // start the server
 app.listen(PORT, () => {
