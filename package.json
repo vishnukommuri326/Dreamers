@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "axios": "^1.7.7",
+    "concurrently": "^9.1.0",
     "cors": "^2.8.5",
     "leaflet": "^1.9.4",
     "react": "^18.3.1",
@@ -24,7 +25,9 @@
     "tailwindcss": "^3.4.14"
   },
   "scripts": {
-    "start": "cd back-end && node app.js",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server":"cd back-end && npm start",
+    "client":"cd front-end && npm start",
     "build": "cd front-end && react-scripts build"
   }
 }
