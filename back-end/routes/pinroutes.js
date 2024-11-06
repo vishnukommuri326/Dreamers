@@ -22,7 +22,7 @@ const pins = [
     {
         id: 3, 
         userId: 456,
-        message: 'I am a thurd default pin', 
+        message: 'I am a third default pin', 
         location: [40.7309, -73.9980] 
 
     },
