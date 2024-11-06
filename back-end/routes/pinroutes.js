@@ -40,4 +40,24 @@ router.get('/pins/user/:userId', (req, res) => {
     res.json(userPins);
 });
 
+// get pin by id
+router.get('/pins/:id', (req, res) => {
+
+});
+
+// post create new pin
+router.post('/pins', (req, res) => {
+
+});
+
+// put update existing pin by id
+router.put('/pins/:id', (req, res) => {
+
+});
+
+// delete pin by id
+router.delete('/pins/:id', (req, res) => {
+
+});
+
 module.exports = router;
