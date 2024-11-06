@@ -1,33 +1,34 @@
-// import express
-const express = require('express') 
-const app = express()
-const path = require('path')
-const PORT = 5001;
-// import external routes
+// Import necessary modules
+const express = require('express');
+const app = express();
+const path = require('path');
+const cors = require('cors');
+const morgan = require('morgan');
+require('dotenv').config();
+
+// Define the port, use environment variable if available
+const PORT = process.env.PORT || 5001;
+
+// Import external routes
 const testRoute = require('./routes/testroute.js');
 
-// import middleware
-const axios = require('axios')
-require('dotenv').config({ silent: true }) 
-const morgan = require('morgan') 
+// Middleware setup
+app.use(morgan('dev')); // Log HTTP requests
+app.use(cors()); // Enable CORS for cross-origin requests
+app.use(express.json()); // Parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
-// use the morgan middleware to log all incoming http requests
-app.use(morgan('dev'))
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
-
-// default test route
+// Default test route for root path
 app.get('/', (req, res) => {
-  res.send('Hello world');
+    res.send('Hello world');
 });
 
-// register external routes
-app.use('/test', testRoute); // the path can be named anything ex: /api/test, /dogs, etc
+// Register external routes
+app.use('/test', testRoute); // Example route; can be changed or expanded as needed
 
-// start the server
+// Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
 
-module.exports = app
+module.exports = app;
