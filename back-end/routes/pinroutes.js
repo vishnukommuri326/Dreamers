@@ -80,6 +80,13 @@ router.put('/pins/:id', (req, res) => {
 
 // delete pin by id
 router.delete('/pins/:id', (req, res) => {
+    const pinIndex = pins.findIndex(p => p.id === parseInt(req.params.id));
+
+    if (pinIndex !== -1) { // if pin exists
+       pins.splice(pinIndex, 1);
+    } else {
+        res.status(404).json({ message: 'Pin not found' });
+    }
 
 });
 
