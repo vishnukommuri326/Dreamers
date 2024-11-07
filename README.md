@@ -43,7 +43,7 @@ To run the project locally:
 1. Start the backend server:
    ```bash
    cd back-end
-   npm run dev
+   npm start
    ```
    The server should be running on `http://localhost:5001`.
 
@@ -74,4 +74,8 @@ To run the tests and check code coverage:
 
 ### Frontend-Backend Integration
 Ensure that the frontend is configured to make API calls to the local backend server (`http://localhost:5001`) for development. This integration step is crucial for end-to-end testing and should be reflected in the frontend's environment variables or API configurations.
+
+
+
+
 
