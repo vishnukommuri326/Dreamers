@@ -14,7 +14,6 @@ import UserSettings from './pages/UserSettings';
 import TestPage from './pages/TestPage';
 import Contact from './pages/Contact'; // Import the Contact component
 import Feedback from './pages/Feedback';
-import 'leaflet/dist/leaflet.css';
 
 
 const App = props => {
