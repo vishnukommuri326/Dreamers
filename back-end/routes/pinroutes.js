@@ -22,7 +22,7 @@ const pins = [
     {
         id: 3, 
         userId: 456,
-        message: 'I am a thurd default pin', 
+        message: 'I am a third default pin', 
         location: [40.7309, -73.9980] 
 
     },
@@ -42,21 +42,51 @@ router.get('/pins/user/:userId', (req, res) => {
 
 // get pin by id
 router.get('/pins/:id', (req, res) => {
+    const pin = pins.find(p => p.id === parseInt(req.params.id));
+
+    if (pin) {
+        res.json(pin); // send pin data
+    } else {
+        res.status(404).json({ message: 'Pin not found' }); // send error
+    }
 
 });
 
 // post create new pin
 router.post('/pins', (req, res) => {
+    const newPin = {
+        id: pins.length + 1, // add actual functionality when db is made
+        userId: req.body.userId,
+        message: req.body.message,
+        location: req.body.message,
+    }
 
+    pins.push(newPin)
+    res.status(201).json(newPin); // send new pin data 
 });
 
 // put update existing pin by id
 router.put('/pins/:id', (req, res) => {
+    const pin = pins.find(p => p.id === parseInt(req.params.id));
+
+    if (pin) {
+        message: req.body.message
+        res.json(pin)
+    } else {
+        res.status(404).json({ message: 'Pin not found'})
+    }
 
 });
 
 // delete pin by id
 router.delete('/pins/:id', (req, res) => {
+    const pinIndex = pins.findIndex(p => p.id === parseInt(req.params.id));
+
+    if (pinIndex !== -1) { // if pin exists
+       pins.splice(pinIndex, 1);
+    } else {
+        res.status(404).json({ message: 'Pin not found' });
+    }
 
 });
 
