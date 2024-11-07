@@ -42,18 +42,27 @@ router.get('/pins/user/:userId', (req, res) => {
 
 // get pin by id
 router.get('/pins/:id', (req, res) => {
-    
     const pin = pins.find(p => p.id === parseInt(req.params.id));
+
     if (pin) {
-        res.json(pin);
+        res.json(pin); // send pin data
     } else {
-        res.status(404).json({ message: 'Pin not found' });
+        res.status(404).json({ message: 'Pin not found' }); // send error
     }
+
 });
 
 // post create new pin
 router.post('/pins', (req, res) => {
+    const newPin = {
+        id: pins.length + 1, // add actual functionality when db is made
+        userId: req.body.userId,
+        message: req.body.message,
+        location: req.body.message,
+    }
 
+    pins.push(newPin)
+    res.status(201).json(newPin); // send new pin data 
 });
 
 // put update existing pin by id
