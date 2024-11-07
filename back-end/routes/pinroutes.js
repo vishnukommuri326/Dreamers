@@ -70,8 +70,8 @@ router.put('/pins/:id', (req, res) => {
     const pin = pins.find(p => p.id === parseInt(req.params.id));
 
     if (pin) {
-        message: req.body.message
-        res.json(pin)
+        pin.message = req.body.message
+        res.status(200).json(pin);
     } else {
         res.status(404).json({ message: 'Pin not found'})
     }
