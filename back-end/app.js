@@ -1,13 +1,11 @@
-// app.js
-
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
-// import routes
 const testRoute = require('./routes/testroute.js');
 const pinRoutes = require('./routes/pinroutes.js');
+const authRoutes = require('./routes/authroutes.js');  
 
 dotenv.config();
 const app = express();
@@ -25,11 +23,10 @@ app.get('/', (req, res) => {
     res.send('Hello world');
 });
 
-// Register external routes
+// Register routes
 app.use('/test', testRoute);
-
-// register the pin routes under the /api prefix
 app.use('/api', pinRoutes); 
+app.use('/auth', authRoutes); 
 
 // Start the server if this file is run directly
 if (require.main === module) {
@@ -39,7 +36,3 @@ if (require.main === module) {
 }
 
 module.exports = app;
-
-//test test test
-
-
