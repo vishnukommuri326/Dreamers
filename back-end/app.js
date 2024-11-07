@@ -8,6 +8,7 @@ const dotenv = require('dotenv');
 // import routes
 const testRoute = require('./routes/testroute.js');
 const pinRoutes = require('./routes/pinroutes.js');
+const mapRoutes = require('./routes/maproutes.js');
 
 dotenv.config();
 const app = express();
@@ -28,8 +29,9 @@ app.get('/', (req, res) => {
 // Register external routes
 app.use('/test', testRoute);
 
-// register the pin routes under the /api prefix
+// register the pin and map routes under the /api prefix
 app.use('/api', pinRoutes); 
+app.use('/api', mapRoutes); 
 
 // Start the server if this file is run directly
 if (require.main === module) {
