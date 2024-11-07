@@ -72,6 +72,18 @@ To run the tests and check code coverage:
    npm run test:coverage
    ```
    Ensure that at least 10% code coverage is met as required.
+   
+### Routes (install Rest Client Extension in VS Code)
+#### Pins
+- **GET** `/api/pins` - Get all pins
+- **GET** `/api/pins/user/:userId` - Get pins for a specific user
+- **GET** `/api/pins/:id` - Get a pin by ID
+- **POST** `/api/pins` - Add a new pin
+- **PUT** `/api/pins/:id` - Update an existing pin
+- **DELETE** `/api/pins/:id` - Delete a pin by ID
+
+#### Test
+- **GET** `/test/mock-data` - Fetch mock user data
 
 ### Frontend-Backend Integration
 Ensure that the frontend is configured to make API calls to the local backend server (`http://localhost:5001`) for development. This integration step is crucial for end-to-end testing and should be reflected in the frontend's environment variables or API configurations.
