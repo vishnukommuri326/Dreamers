@@ -67,6 +67,14 @@ router.post('/pins', (req, res) => {
 
 // put update existing pin by id
 router.put('/pins/:id', (req, res) => {
+    const pin = pins.find(p => p.id === parseInt(req.params.id));
+
+    if (pin) {
+        message: req.body.message
+        res.json(pin)
+    } else {
+        res.status(404).json({ message: 'Pin not found'})
+    }
 
 });
 
