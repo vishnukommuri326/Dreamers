@@ -91,4 +91,34 @@ router.delete('/pins/:id', (req, res) => {
 
 });
 
+// Additional route to return mock pins dynamically
+router.get('/pins/mock', (req, res) => {
+    const mockPins = [
+      { id: 101, userId: 111, message: 'Mock memory 1.', location: [40.7419, -73.9850] },
+      { id: 102, userId: 112, message: 'Mock memory 2.', location: [40.7420, -73.9840] },
+      { id: 103, userId: 113, message: 'Mock memory 3.', location: [40.7430, -73.9830] },
+    ];
+    res.json(mockPins);
+  });
+  
+  // Route to search pins by keyword in the message
+  router.get('/pins/search', (req, res) => {
+    const { keyword } = req.query;
+    if (!keyword) {
+      return res.status(400).json({ error: 'Keyword query parameter is required' });
+    }
+    const matchingPins = pins.filter(pin => pin.message.toLowerCase().includes(keyword.toLowerCase()));
+    res.json(matchingPins);
+  });
+  
+  // Route to fetch the latest N pins
+  router.get('/pins/latest/:count', (req, res) => {
+    const count = parseInt(req.params.count, 10);
+    if (isNaN(count) || count <= 0) {
+      return res.status(400).json({ error: 'Count parameter must be a positive number' });
+    }
+    const latestPins = pins.slice(-count);
+    res.json(latestPins);
+  });
+
 module.exports = router;
