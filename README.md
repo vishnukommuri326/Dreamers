@@ -36,6 +36,7 @@ To set up the project locally, follow these steps:
    npm install
    cd ../front-end
    npm install
+   npm install leaflet
    ```
 
 ### Running the Application Locally
