@@ -5,7 +5,9 @@ const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+// import routes
 const testRoute = require('./routes/testroute.js');
+const pinRoutes = require('./routes/pinroutes.js');
 
 dotenv.config();
 const app = express();
@@ -25,6 +27,9 @@ app.get('/', (req, res) => {
 
 // Register external routes
 app.use('/test', testRoute);
+
+// register the pin routes under the /api prefix
+app.use('/api', pinRoutes); 
 
 // Start the server if this file is run directly
 if (require.main === module) {
