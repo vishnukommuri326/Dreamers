@@ -58,7 +58,7 @@ router.post('/pins', (req, res) => {
         id: pins.length + 1, // add actual functionality when db is made
         userId: req.body.userId,
         message: req.body.message,
-        location: req.body.message,
+        location: req.body.location,
     }
 
     pins.push(newPin)
@@ -70,8 +70,8 @@ router.put('/pins/:id', (req, res) => {
     const pin = pins.find(p => p.id === parseInt(req.params.id));
 
     if (pin) {
-        message: req.body.message
-        res.json(pin)
+        pin.message = req.body.message
+        res.status(200).json(pin);
     } else {
         res.status(404).json({ message: 'Pin not found'})
     }
@@ -84,6 +84,7 @@ router.delete('/pins/:id', (req, res) => {
 
     if (pinIndex !== -1) { // if pin exists
        pins.splice(pinIndex, 1);
+       res.status(204).send();
     } else {
         res.status(404).json({ message: 'Pin not found' });
     }
