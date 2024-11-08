@@ -119,6 +119,6 @@ router.get('/pins/mock', (req, res) => {
     }
     const latestPins = pins.slice(-count);
     res.json(latestPins);
-  });
-
+  }); 
+  
 module.exports = router;
