@@ -7,6 +7,7 @@ const testRoute = require('./routes/testroute.js');
 const pinRoutes = require('./routes/pinroutes.js');
 const authRoutes = require('./routes/authroutes.js');  
 const mapRoutes = require('./routes/maproutes.js');
+const userRoute = require('./routes/userroutes.js');
 
 dotenv.config();
 const app = express();
@@ -30,7 +31,7 @@ app.use('/test', testRoute);
 app.use('/api', pinRoutes); 
 app.use('/api', mapRoutes); 
 app.use('/auth', authRoutes); 
-
+app.use('/user-settings', userRoute);
 
 // Start the server if this file is run directly
 if (require.main === module) {
@@ -40,3 +41,6 @@ if (require.main === module) {
 }
 
 module.exports = app;
+
+
+
