@@ -1,3 +1,5 @@
+// a copy of pinroutes.js to test github tracking, this file will be deleted after
+
 const express = require('express');
 const router = express.Router();
 
@@ -95,4 +97,3 @@ router.get('/pins/latest/:count', (req, res) => {
 });
 
 module.exports = router;
- 
