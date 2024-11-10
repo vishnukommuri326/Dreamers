@@ -15,7 +15,7 @@ const pins = [
         id: 2, 
         userId: 123,
         message: 'I am another default pin', 
-        location: [40.7326, -73.9973] 
+        location: [40.73055766427531, -73.99614393711092] 
 
     },
 
