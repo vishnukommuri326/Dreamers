@@ -43,5 +43,20 @@ router.delete('/friends/user/:userId/:name', (req, res) => {
     }
 });
 
+// Search friends by keyword
+router.get('/friends/search/:userId', (req, res) => {
+    const userId = parseInt(req.params.userId);
+    const { keyword } = req.query;
+    
+    if (!keyword) {
+        return res.status(400).json({ error: 'Keyword query parameter is required' });
+    }
+
+    const matchingFriends = friendsList.filter(
+        friend => friend.userId === userId && friend.name.toLowerCase().includes(keyword.toLowerCase())
+    );
+    res.json(matchingFriends);
+});
+
 
 module.exports = router;
