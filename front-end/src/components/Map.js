@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import PinModal from './pinModal';
@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import '../assets/styles/App.css';
 import MapSettings from './MapSettings';
 import { ReactComponent as SettingsIcon } from '../assets/images/icons/settings.svg';
+import api from '../api';
 
 // custom svg marker
 const createCustomIcon = () => {
@@ -23,13 +24,27 @@ const createCustomIcon = () => {
 };
 
 const MapComponent = () => {
-  const [pins, setPins] = useState([{ description: "Where it all begins.", position: [40.7309, -73.9973], id: 1 }]);
+  const [pins, setPins] = useState([]);
   const [isModalOpen, setModalOpen] = useState(false);
   const [newPinLocation, setNewPinLocation] = useState(null); // coords for new pin
   const [phantomPin, setPhantomPin] = useState(null); // coords for the phantom pin
 
   const [isSettingsOpen, setSettingsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // fetch pins from backend on mount
+  useEffect(() => {
+    const fetchPins = async () => {
+        try {
+            const response = await api.get('/api/pins');
+            setPins(response.data); // set fetched pins in state
+        } catch (error) {
+            console.error('Error fetching pins:', error);
+        }
+    };
+
+    fetchPins();
+}, []);
 
   const toggleSettingsModal = () => {
     setSettingsOpen(!isSettingsOpen);
@@ -41,15 +56,20 @@ const MapComponent = () => {
     // future logic for searching locations will be added here
   };
 
-  const handleAddPin = (description) => {
+  const handleAddPin = async (message) => {
     const newPin = {
-      description,
-      position: [newPinLocation.lat, newPinLocation.lng],
-      id: Date.now(),
+        userId: 123, // handle this using currentuser later
+        message: message,
+        location: [newPinLocation.lat, newPinLocation.lng],
     };
-    setPins([...pins, newPin]);
-    setModalOpen(false); 
-    setPhantomPin(null); // remove the phantom pin
+    try {
+        const response = await api.post('/api/pins', newPin);
+        setPins([...pins, response.data]); // add new pin from backend response
+        setModalOpen(false); 
+        setPhantomPin(null); // remove the phantom pin
+    } catch (error) {
+        console.error('Error adding new pin:', error);
+    }
   };
 
   const handleMapClick = (latlng) => {
@@ -105,9 +125,9 @@ const MapComponent = () => {
 
         {/* evntually, render existing pins */}
         {pins.map((pin, index) => (
-          <Marker key={pin.id} position={pin.position} icon={createCustomIcon()}>
+          <Marker key={pin.id} position={[pin.location[0], pin.location[1]]} icon={createCustomIcon()}>
             <Popup>
-              <p className="text-sm text-purpleDark break-words">{pin.description}</p>
+              <p className="text-sm text-purpleDark break-words">{pin.message}</p>
               <button onClick={() => handleReportPin(index)} className="text-red-500 hover:underline">
                 Report Pin
               </button>
