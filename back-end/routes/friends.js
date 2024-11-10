@@ -29,20 +29,6 @@ router.post('/friends', (req, res) => {
     res.status(201).json(newFriend);
 });
 
-// Remove a friend
-router.delete('/friends/user/:userId/:name', (req, res) => {
-    const userId = parseInt(req.params.userId);
-    const name = req.params.name;
-    const friendIndex = friendsList.findIndex(friend => friend.userId === userId && friend.name === name);
-
-    if (friendIndex !== -1) {
-        friendsList.splice(friendIndex, 1);
-        res.status(204).send();
-    } else {
-        res.status(404).json({ message: 'Friend not found' });
-    }
-});
-
 // Search friends by keyword
 router.get('/friends/search/:userId', (req, res) => {
     const userId = parseInt(req.params.userId);
