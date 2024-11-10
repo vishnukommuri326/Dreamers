@@ -12,8 +12,10 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import UserSettings from './pages/UserSettings';
 import TestPage from './pages/TestPage';
-import Contact from './pages/Contact'; // Import the Contact component
+import Contact from './pages/Contact';
 import Feedback from './pages/Feedback';
+import ModifyPins from './pages/ModifyPins';
+
 import 'leaflet/dist/leaflet.css';
 
 
@@ -49,6 +51,8 @@ const App = props => {
 
             {/* a route for the contact page */}
             <Route path="/contact" element={<Contact />} />
+
+            <Route path="/modify-pins" element={<ModifyPins />} />
 
             <Route path="/feedback" element={<Feedback />} />
           </Routes>
