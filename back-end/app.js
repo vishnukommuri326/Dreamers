@@ -32,7 +32,7 @@ app.use('/test', testRoute);
 app.use('/api', pinRoutes); 
 app.use('/api', mapRoutes); 
 app.use('/auth', authRoutes); 
-app.use('/user-settings', userRoute);
+app.use('/user', userRoute);
 app.use('/friends', friendRoutes);
 
 // Start the server if this file is run directly
