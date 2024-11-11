@@ -7,16 +7,36 @@ import '../assets/styles/login.css';
  * @param {*} props Props passed down from the parent component
  * @returns A register form in JSX form.
  */
-const Register = props => {
+const Register = (props) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState('');
 
-  const handleRegister = (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
-    // Add registration logic
-    console.log('Registering with:', username, email, password, confirmPassword);
+    
+    try {
+      const response = await fetch('http://localhost:5001/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, password, confirmPassword })
+      });
+      
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage('Registration successful!');
+        console.log('Registration successful:', data);
+        // Perform additional actions on successful registration, like redirecting to login
+      } else {
+        setMessage(`Registration failed: ${data.error}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setMessage('An error occurred. Please try again.');
+    }
   };
 
   return (
@@ -69,9 +89,9 @@ const Register = props => {
         </div>
         <button type="submit" className="login-btn">Register</button>
       </form>
+      {message && <p>{message}</p>}
     </div>
   );
 };
 
-// register component
 export default Register;

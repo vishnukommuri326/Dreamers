@@ -1,22 +1,32 @@
 const express = require('express');
 const router = express.Router();
 
-// Hardcoded users for demonstration
+// Temporary in-memory user store
 const users = [
-  { id: 1, username: 'user1', password: 'password123' },
-  { id: 2, username: 'user2', password: 'password456' }
+  { id: 1, username: 'user1', email: 'user1@example.com', password: 'password123' },
+  { id: 2, username: 'user2', email: 'user2@example.com', password: 'password456' }
 ];
 
-// Login route
-router.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  const user = users.find(u => u.username === username && u.password === password);
-  
-  if (user) {
-    res.status(200).json({ message: 'Login successful', userId: user.id });
-  } else {
-    res.status(401).json({ error: 'Invalid username or password' });
+// Register route
+router.post('/register', (req, res) => {
+  const { username, email, password, confirmPassword } = req.body;
+
+  // Check if password and confirm password match
+  if (password !== confirmPassword) {
+    return res.status(400).json({ error: 'Passwords do not match' });
   }
+
+  // Check if username or email already exists
+  const existingUser = users.find(u => u.username === username || u.email === email);
+  if (existingUser) {
+    return res.status(400).json({ error: 'Username or email already exists' });
+  }
+
+
+  const newUser = { id: users.length + 1, username, email, password };
+  users.push(newUser);
+
+  res.status(201).json({ message: 'Registration successful', userId: newUser.id });
 });
 
 module.exports = router;
