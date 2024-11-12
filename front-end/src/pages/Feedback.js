@@ -7,20 +7,61 @@ import '../assets/styles/Feedback.css';
 const FeedbackForm = (props) => {
   const [formData, setFormData] = useState({ answer1: '', answer2: '', answer3: '' });
 
+  const [feedbackSent, setFeedbackSent] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Simulate sending an email 
-    console.log('Form submitted:', formData);
-    alert('Your Feedback has been sent successfully!');
-    setFormData({ answer1: '', answer2: '', answer3: '' }); // Clear form fields after submission
-  };
+
+  // Updated handleSubmit for Backend
+
+  const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try{
+          const response = await fetch("http://localhost:5001/feedback", {
+
+            method: "POST",
+
+            headers:{
+              "Content-Type" : "application/json",
+            },
+
+            body: JSON.stringify(formData),
+          } )
+
+
+          if (response.ok){
+            setFeedbackSent(true); // Update State of Feedback after successful
+            const resData = await response.json();
+            setFormData({ answer1: '', answer2: '', answer3: '' }); // Clear Form
+            setErrorMessage(''); // Clear Error message
+            // alert("Feedback Sent Successfully") 
+          }
+
+          else{
+            const errData = await response.json()
+            setErrorMessage("Error: ${errData.message}")
+            // alert("Error: ${errData.message}")// Kept for testing
+
+          }
+        }catch(error){
+
+          console.error("Error Submitting Feedback: ", error)
+          setErrorMessage("Error occured while submitting feedback. Please try again later.")
+          // alert("Error occured while submitting feedback") // Kept for tesing
+
+        }
+
+  }
+
 
   return (
+
     <div className="feedback-form-container">
       <header className="header">
         <img src={logo} alt="Logo" className="Altlogo" />
@@ -28,7 +69,25 @@ const FeedbackForm = (props) => {
 
 
       <h1>Feedback</h1>
-      <form onSubmit={handleSubmit} className="feedback-form">
+
+      { errorMessage && (
+        <div className="error-message">
+          <p>{errorMessage}</p>
+        </div>
+      )}
+
+
+      {feedbackSent ? ( // Page after successful feedback
+
+        <div className="feedback-success-message">
+        <p>Thank you for your feedback!</p>
+        </div>
+
+
+      ): ( // Page during feedback
+
+
+        <form onSubmit={handleSubmit} className="feedback-form">
         <div className="form-group">
           <label htmlFor="answer1">Question 1</label>
           <textarea
@@ -71,10 +130,20 @@ const FeedbackForm = (props) => {
         <button type="submit" className="submit-btn">Send Feedback</button>
       </form>
 
+
+      )}
+
+
+
+
+
+
       <button type="button" className="back-btn" onClick={() => window.location.href='/about'}>Back</button>
 
     </div>
   );
+
+  
 };
 
 export default FeedbackForm;

@@ -9,6 +9,10 @@ const authRoutes = require('./routes/authroutes.js');
 const mapRoutes = require('./routes/maproutes.js');
 const userRoute = require('./routes/userroutes.js');
 const friendRoutes = require('./routes/friends.js');
+const feedbackRoutes =require('./routes/feedbackroutes.js');
+
+
+
 
 dotenv.config();
 const app = express();
@@ -34,6 +38,7 @@ app.use('/api', mapRoutes);
 app.use('/auth', authRoutes); 
 app.use('/user', userRoute);
 app.use('/friends', friendRoutes);
+app.use('/feedback',feedbackRoutes)
 
 // Start the server if this file is run directly
 if (require.main === module) {
