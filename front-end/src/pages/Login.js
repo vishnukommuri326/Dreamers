@@ -27,6 +27,7 @@ const Login = (props) => {
       if (response.ok) {
         setMessage('Login successful!');
         console.log('Login successful:', data);
+        window.location.href = '/';
        
       } else {
         setMessage(`Login failed: ${data.error}`);

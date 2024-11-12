@@ -29,6 +29,7 @@ const Register = (props) => {
       if (response.ok) {
         setMessage('Registration successful!');
         console.log('Registration successful:', data);
+        window.location.href = '/login';
         // Perform additional actions on successful registration, like redirecting to login
       } else {
         setMessage(`Registration failed: ${data.error}`);
