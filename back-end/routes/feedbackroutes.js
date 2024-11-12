@@ -3,13 +3,12 @@ const router = express.Router();
 
 
 
-let feedbacks = []; // For demonstration- will replace with MongoDb storage next spring
+let feedbacks = []; // For demonstration- will replace with MongoDb storage next sprint
 
 router.post("/",(req, res) => {
     const {answer1, answer2, answer3} = req.body
 
     if (!answer1 || !answer2 || !answer3){ // if one of the answers are empty
-        console.log("POST /feedback hit"); // Add this line
         return res.status(400).json({message: "All questions are required"})
     }
 

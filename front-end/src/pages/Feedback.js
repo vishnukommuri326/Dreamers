@@ -21,6 +21,8 @@ const FeedbackForm = (props) => {
 
   const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrorMessage("") // reset error message
+
 
         try{
           const response = await fetch("http://localhost:5001/feedback", {
@@ -71,15 +73,15 @@ const FeedbackForm = (props) => {
       <h1>Feedback</h1>
 
       { errorMessage && (
-        <div className="error-message">
-          <p>{errorMessage}</p>
+        <div className="error-message-container">
+          <p className = "error-message">{errorMessage}</p>
         </div>
       )}
 
 
       {feedbackSent ? ( // Page after successful feedback
 
-        <div className="feedback-success-message">
+        <div className="submit-success-message">
         <p>Thank you for your feedback!</p>
         </div>
 

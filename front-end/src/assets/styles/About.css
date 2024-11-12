@@ -74,3 +74,27 @@ button.back-btn:hover {
 button.back-btn:active {
     background-color: #595561;
 }
+
+
+
+.error-message-container { 
+    max-width: 250px; 
+    text-align: center; 
+    margin-bottom: 1rem; 
+  }
+
+  
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+.submit-success-message {
+    text-align: center;
+    margin: 10px 0;
+
+    
+  }
+  
