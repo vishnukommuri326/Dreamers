@@ -9,7 +9,6 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Profile from './pages/Profile';
 import UserSettings from './pages/UserSettings';
 import TestPage from './pages/TestPage';
 import Contact from './pages/Contact';
@@ -39,9 +38,6 @@ const App = props => {
 
             {/* a route for the register page */}
             <Route path="/register" element={<Register />} />
-
-            {/* a route for the profile page */}
-            <Route path="/profile" element={<Profile />} />
 
             {/* a route for the user settings page */}
             <Route path="/user-settings" element={<UserSettings />} />
