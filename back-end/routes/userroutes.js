@@ -57,7 +57,7 @@ router.put('/settings/:username', (req, res) => {
     const user = users.find(u => u.username === username);
 
     if (user) {
-        // Update user information
+        // Update user information with data from request body, or keep existing values if not provided
         user.aboutMe = aboutMe || user.aboutMe;
         user.number = number || user.number;
         user.otherSocialMedia = otherSocialMedia || user.otherSocialMedia;
@@ -70,4 +70,5 @@ router.put('/settings/:username', (req, res) => {
 });
 
 module.exports = router;
+
 

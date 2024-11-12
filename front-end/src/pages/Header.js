@@ -49,7 +49,7 @@ const Header = props => {
               <li><Link to="/register">Register</Link></li>
               <li><Link to="/about">About</Link></li>
               <li><Link to="/modify-pins">Modify Pins</Link></li>
-              <li><Link to="/profile">User Settings</Link></li>
+              <li><Link to="/user-settings">User Settings</Link></li>
             </ul>
           )}
         </div>
