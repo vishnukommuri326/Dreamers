@@ -10,6 +10,8 @@ const mapRoutes = require('./routes/maproutes.js');
 const userRoute = require('./routes/userroutes.js');
 const friendRoutes = require('./routes/friends.js');
 const feedbackRoutes =require('./routes/feedbackroutes.js');
+const contactRoutes =require('./routes/contactroutes.js');
+
 
 
 
@@ -39,6 +41,8 @@ app.use('/auth', authRoutes);
 app.use('/user', userRoute);
 app.use('/friends', friendRoutes);
 app.use('/feedback',feedbackRoutes)
+app.use('/contact',contactRoutes)
+
 
 // Start the server if this file is run directly
 if (require.main === module) {
