@@ -81,7 +81,7 @@ const ModifyPins = () => {
       transition: 'background-color 0.3s ease',
     },
     editButton: {
-      backgroundColor: '#4CAF50',
+      backgroundColor: '#7e57c2',
       color: 'white',
     },
     deleteButton: {

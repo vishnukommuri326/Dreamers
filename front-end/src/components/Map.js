@@ -32,19 +32,30 @@ const MapComponent = () => {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const [showPersonalPins, setShowPersonalPins] = useState(false);
+
   // fetch pins from backend on mount
   useEffect(() => {
-    const fetchPins = async () => {
-        try {
-            const response = await api.get('/api/pins');
-            setPins(response.data); // set fetched pins in state
-        } catch (error) {
-            console.error('Error fetching pins:', error);
-        }
-    };
-
     fetchPins();
-}, []);
+  }, []);
+
+  const fetchPins = async () => {
+    try {
+      const response = await api.get('http://localhost:5001/api/pins');
+      setPins(response.data);
+    } catch (error) {
+      console.error('Error fetching pins:', error);
+    }
+  };
+
+  const fetchUserPins = async () => {
+    try {
+      const response = await api.get('http://localhost:5001/api/pins/user/123');
+      setPins(response.data);
+    } catch (error) {
+      console.error('Error fetching user pins:', error);
+    }
+  };
 
   const toggleSettingsModal = () => {
     setSettingsOpen(!isSettingsOpen);
@@ -55,6 +66,18 @@ const MapComponent = () => {
     console.log('Searching for:', searchQuery);
     // future logic for searching locations will be added here
   };
+
+  const togglePersonalPins = () => {
+    setShowPersonalPins(!showPersonalPins);
+    if (showPersonalPins) {
+      // If toggling off, fetch all pins
+      fetchPins();
+    } else {
+      // If toggling on, fetch only personal pins
+      fetchUserPins();
+    }
+  };
+
 
   const handleAddPin = async (message) => {
     const newPin = {
@@ -99,7 +122,7 @@ const MapComponent = () => {
       </button>
 
       {/* search Bar */}
-        <div className="fixed md:absolute bottom-20 md:top-4 left-1/2 transform -translate-x-1/2 
+        {/* <div className="fixed md:absolute bottom-20 md:top-4 left-1/2 transform -translate-x-1/2 
         z-[1000] w-72 h-10 flex items-center ">
             <input
                 type="text"
@@ -108,7 +131,7 @@ const MapComponent = () => {
                 value={searchQuery}
                 onChange={handleSearchChange}
                 />
-        </div>
+        </div> */}
 
 
       <MapContainer
@@ -122,18 +145,16 @@ const MapComponent = () => {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         />
-
-        {/* evntually, render existing pins */}
-        {pins.map((pin, index) => (
-          <Marker key={pin.id} position={[pin.location[0], pin.location[1]]} icon={createCustomIcon()}>
+{pins.map((pin) => (
+          <Marker key={pin.id} position={pin.location} icon={createCustomIcon()}>
             <Popup>
               <p className="text-sm text-purpleDark break-words">{pin.message}</p>
-              <button onClick={() => handleReportPin(index)} className="text-red-500 hover:underline">
-                Report Pin
-              </button>
             </Popup>
           </Marker>
         ))}
+
+        {/* evntually, render existing pins */}
+      
 
         {/* render phantom pin if it exists */}
         {phantomPin && (
@@ -160,7 +181,7 @@ const MapComponent = () => {
             <MapSettings
             isOpen={isSettingsOpen}
             onClose={toggleSettingsModal}
-            onTogglePersonal={() => {}}
+            onTogglePersonal={togglePersonalPins}
             onToggleFriends={() => {}}
             />
         )}
