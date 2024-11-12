@@ -122,7 +122,7 @@ const MapComponent = () => {
       </button>
 
       {/* search Bar */}
-        {/* <div className="fixed md:absolute bottom-20 md:top-4 left-1/2 transform -translate-x-1/2 
+        <div className="fixed md:absolute bottom-20 md:top-4 left-1/2 transform -translate-x-1/2 
         z-[1000] w-72 h-10 flex items-center ">
             <input
                 type="text"
@@ -131,7 +131,7 @@ const MapComponent = () => {
                 value={searchQuery}
                 onChange={handleSearchChange}
                 />
-        </div> */}
+        </div>
 
 
       <MapContainer
