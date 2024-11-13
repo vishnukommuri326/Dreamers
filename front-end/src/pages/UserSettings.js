@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import imageCompression from 'browser-image-compression';
 import '../assets/styles/profile.css';
 import Button from '../components/button';
 import { getUserSettings, updateUserSettings } from '../api';
@@ -26,6 +27,12 @@ const UserSettings = () => {
     const [friendSearch, setFriendSearch] = useState("");
     const [newFriend, setNewFriend] = useState("");
 
+
+    //Profile photo management
+    const [profilePhoto, setProfilePhoto] = useState(null);
+
+
+
     // Fetch user settings when the component loads
     useEffect(() => {
         const fetchSettings = async () => {
@@ -39,6 +46,7 @@ const UserSettings = () => {
                 setNumber(data.number);
                 setOtherSocial(data.otherSocialMedia);
                 setFriends(data.friendsList);
+                setProfilePhoto(data.profilePhoto)
             } catch (err) {
                 console.error("Error fetching user settings:", err);
                 setError("Failed to load user settings");
@@ -48,6 +56,50 @@ const UserSettings = () => {
         };
         fetchSettings();
     }, [username]);
+
+
+    // Handle profile file photo change
+
+    const handleFileChange = async (event) => {
+        const file = event.target.files[0];
+        if (file){
+            const reader = new FileReader()
+
+            const options = { // [To do]: Be able to process Large memory images
+                maxSizeMB: 0.25, // Maximum memory
+                maxWidthOrHeight: 540, //Maximum dimensions
+                useWebWorker: true,
+            };
+
+            try{
+
+                const compressedFile = await imageCompression(file, options);
+                const reader = new FileReader();
+
+                reader.onload = () =>{
+                    setProfilePhoto(reader.result) // Store image in base-64 string
+                };
+                reader.readAsDataURL(compressedFile)
+
+            }
+            catch{// If there is failure in compression
+                console.log("Errer occured during compression", error)
+                setError("Failed to process image (try to upload a smaller image) ")
+
+            }
+
+
+        }
+
+    }
+
+
+    const handleRemovePhoto = () => {
+        setProfilePhoto(null)
+    }
+
+
+
 
     // Handle updating user settings
     const handleSaveSettings = async () => {
@@ -60,12 +112,14 @@ const UserSettings = () => {
                 number,
                 otherSocialMedia: otherSocial,
                 friendsList: friends,
+                profilePhoto,
             });
             setSuccessMessage("Settings updated successfully!");
             setAboutme(updatedData.user.aboutMe);
             setNumber(updatedData.user.number);
             setOtherSocial(updatedData.user.otherSocialMedia);
             setFriends(updatedData.user.friendsList);
+            setProfilePhoto(updatedData.user.profilePhoto)
         } catch (err) {
             console.error("Error updating user settings:", err);
             setError("Failed to update settings");
@@ -123,11 +177,21 @@ const UserSettings = () => {
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
 
             <div className="avatar-frame">
-                <label className="upload-label">
-                    Upload image from your device
-                    <input type="file" className="file-input" onChange={() => {}} />
-                </label>
-            </div>
+                {profilePhoto ? (
+                    <>
+                        <img src={profilePhoto} alt="Profile" className="avatar-image" />
+                        <div className="profbutn-container">
+                            <Button className="remove-button" onClick={handleRemovePhoto}>Remove</Button>
+                        </div>
+                    </>
+                ) : (
+                    <label className="upload-label">
+                        Upload image from your device
+                        <input type="file" className="file-input" onChange={handleFileChange} />
+                    </label>
+                )}
+                </div>
+
 
             <div className="info-section">
                 <label>
