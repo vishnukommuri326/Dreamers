@@ -1,5 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const app = express();
+app.use(express.json({ limit: '10mb' })); //If needed- adjust size limit
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
 
 // Hardcoded mock users for demonstration
 const users = [
@@ -43,7 +47,8 @@ router.get('/settings/:username', (req, res) => {
             aboutMe: user.aboutMe,
             number: user.number,
             otherSocialMedia: user.otherSocialMedia,
-            friendsList: user.friendsList
+            friendsList: user.friendsList,
+            profilePhoto: user.profilePhoto,
         });
     } else {
         res.status(404).json({ error: 'User not found' });
@@ -53,7 +58,7 @@ router.get('/settings/:username', (req, res) => {
 // Route to update user settings
 router.put('/settings/:username', (req, res) => {
     const { username } = req.params;
-    const { aboutMe, number, otherSocialMedia, friendsList } = req.body;
+    const { aboutMe, number, otherSocialMedia, friendsList, profilePhoto } = req.body;
     const user = users.find(u => u.username === username);
 
     if (user) {
@@ -62,6 +67,13 @@ router.put('/settings/:username', (req, res) => {
         user.number = number || user.number;
         user.otherSocialMedia = otherSocialMedia || user.otherSocialMedia;
         user.friendsList = friendsList || user.friendsList;
+
+        if (profilePhoto === null || profilePhoto === undefined) { // if the profile photo is explicitly cleared (You had an image, removed it, then saved)
+            user.profilePhoto = null;
+        }else{
+            user.profilePhoto = profilePhoto || user.profilePhoto;
+
+        }
 
         res.status(200).json({ message: 'User settings updated successfully', user });
     } else {
