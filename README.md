@@ -34,8 +34,11 @@ To set up the project locally, follow these steps:
    ```bash
    cd back-end
    npm install
+   npm install chai
+   npm install mocha
    cd ../front-end
    npm install
+   npm install browser-image-compression
    npm install leaflet
    ```
 
