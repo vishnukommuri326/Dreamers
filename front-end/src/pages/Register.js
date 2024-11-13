@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
-import '../assets/styles/login.css';
+import '../assets/styles/register.css'; // Use the new CSS file
 
-/**
- * A React component that represents the register page of the app.
- * This component includes input fields for username, email, password, confirm password, and a submit button.
- * @param {*} props Props passed down from the parent component
- * @returns A register form in JSX form.
- */
 const Register = (props) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -30,7 +24,6 @@ const Register = (props) => {
         setMessage('Registration successful!');
         console.log('Registration successful:', data);
         window.location.href = '/login';
-        // Perform additional actions on successful registration, like redirecting to login
       } else {
         setMessage(`Registration failed: ${data.error}`);
       }
@@ -41,9 +34,9 @@ const Register = (props) => {
   };
 
   return (
-    <div className="login-container">
+    <div className="register-container">
       <h1>Register</h1>
-      <form onSubmit={handleRegister} className="login-form">
+      <form onSubmit={handleRegister} className="register-form">
         <div className="form-group">
           <label htmlFor="username">Username:</label>
           <input
@@ -88,7 +81,7 @@ const Register = (props) => {
             required
           />
         </div>
-        <button type="submit" className="login-btn">Register</button>
+        <button type="submit" className="register-btn">Register</button>
       </form>
       {message && <p>{message}</p>}
     </div>
