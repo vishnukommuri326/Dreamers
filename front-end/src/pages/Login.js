@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import '../assets/styles/login.css';
 
-/**
- * A React component that represents the login page of the app.
- * This component includes input fields for username and password, and a submit button.
- * @param {*} props Props passed down from the parent component
- * @returns A login form in JSX form.
- */
 const Login = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -21,14 +15,16 @@ const Login = (props) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
       });
-      
+
       const data = await response.json();
 
       if (response.ok) {
+        // Set a flag in localStorage to indicate that the user is logged in
+        localStorage.setItem('isLoggedIn', 'true');
         setMessage('Login successful!');
         console.log('Login successful:', data);
+        // Redirect or update the UI as needed, e.g., redirect to home page
         window.location.href = '/';
-       
       } else {
         setMessage(`Login failed: ${data.error}`);
       }
