@@ -3,18 +3,18 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "mocha 'test/**/*.mjs'",
-    "test:coverage": "c8 mocha 'test/**/*.mjs'",
-    "start": "node app.js",
-    "dev": "nodemon app.js"
-  },
+  "test": "mocha 'test/**/*.js' --exit",
+  "test:coverage": "c8 mocha 'test/**/*.js' --exit",
+  "start": "node app.js",
+  "dev": "nodemon app.js"
+}
+,
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "axios": "^1.7.7",
-    "chai": "^5.1.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
@@ -23,8 +23,10 @@
   },
   "devDependencies": {
     "@types/chai-http": "^3.0.5",
-    "chai-http": "^5.1.1",
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
     "esm": "^3.2.25",
+    "mocha": "^10.8.2",
     "nodemon": "^3.1.7"
   }
 }
