@@ -4,7 +4,6 @@ const chaiHttp = require('chai-http');
 const express = require('express');
 const path = require('path');
 
-// Import the routes directly using an absolute path
 const authRoutes = require(path.join(__dirname, '../routes/authroutes'));
 
 chai.use(chaiHttp);
