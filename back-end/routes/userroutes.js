@@ -14,7 +14,8 @@ const users = [
         aboutMe: 'Hello! I am Dreamer1.',
         number: '123-456-7890',
         otherSocialMedia: 'https://example.com/dreamer1',
-        friendsList: ['Alice', 'Bob', 'Charlie']
+        friendsList: ['Alice', 'Bob', 'Charlie'],
+        profilePhoto: null,
     },
     {
         id: 2,
@@ -23,7 +24,8 @@ const users = [
         aboutMe: 'Hello! I am Dreamer2.',
         number: '234-567-8901',
         otherSocialMedia: 'https://example.com/dreamer2',
-        friendsList: ['Dave', 'Eve', 'Frank']
+        friendsList: ['Dave', 'Eve', 'Frank'],
+        profilePhoto: null,
     },
     {
         id: 3,
@@ -32,7 +34,8 @@ const users = [
         aboutMe: 'Hello! I am Dreamer3.',
         number: '345-678-9012',
         otherSocialMedia: 'https://example.com/dreamer3',
-        friendsList: ['Grace', 'Hank', 'Ivy']
+        friendsList: ['Grace', 'Hank', 'Ivy'],
+        profilePhoto: null,
     }
 ];
 
