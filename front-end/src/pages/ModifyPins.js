@@ -1,33 +1,25 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { PinContext } from '../PinContext';
 
 const ModifyPins = () => {
-  const [pins, setPins] = useState([
-    { id: 1, description: 'My favorite coffee spot.', location: [40.7309, -73.9973] },
-    { id: 2, description: 'Relaxing at the park.', location: [40.7326, -73.9973] },
-    { id: 3, description: 'Study session spot.', location: [40.7359, -73.9911] },
-  ]);
-
+  const {pins, updatePin, deletePin} = useContext(PinContext);
   const [editPinId, setEditPinId] = useState(null);
   const [newDescription, setNewDescription] = useState('');
 
-  const handleEdit = (id) => {
-    const pinToEdit = pins.find((pin) => pin.id === id);
+  const handleEdit = (id, description) => {
+    // const pinToEdit = pins.find((pin) => pin.id === id);
     setEditPinId(id);
-    setNewDescription(pinToEdit.description);
+    setNewDescription(description);
   };
 
   const handleSave = () => {
-    const updatedPins = pins.map((pin) =>
-      pin.id === editPinId ? { ...pin, description: newDescription } : pin
-    );
-    setPins(updatedPins);
-    setEditPinId(null);
-    setNewDescription('');
-  };
 
-  const handleDelete = (id) => {
-    const updatedPins = pins.filter((pin) => pin.id !== id);
-    setPins(updatedPins);
+    if (editPinId){
+      updatePin(editPinId, newDescription);
+      setEditPinId(null)
+      setNewDescription('')
+    }
+
   };
 
   const styles = {
@@ -133,17 +125,17 @@ const ModifyPins = () => {
               </div>
             ) : (
               <>
-                <p style={styles.pinDescription}>{pin.description}</p>
+                <p style={styles.pinDescription}>{pin.message}</p>
                 <div style={styles.actionButtons}>
                   <button
                     style={{ ...styles.button, ...styles.editButton }}
-                    onClick={() => handleEdit(pin.id)}
+                    onClick={() => handleEdit(pin.id, pin.message)}
                   >
                     Edit
                   </button>
                   <button
                     style={{ ...styles.button, ...styles.deleteButton }}
-                    onClick={() => handleDelete(pin.id)}
+                    onClick={() => deletePin(pin.id)}
                   >
                     Delete
                   </button>

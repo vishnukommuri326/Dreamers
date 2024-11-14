@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useContext, useState} from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import PinModal from './pinModal';
@@ -6,7 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import '../assets/styles/App.css';
 import MapSettings from './MapSettings';
 import { ReactComponent as SettingsIcon } from '../assets/images/icons/settings.svg';
-import api from '../api';
+import { PinContext } from '../PinContext';
 
 // custom svg marker
 const createCustomIcon = () => {
@@ -24,7 +24,7 @@ const createCustomIcon = () => {
 };
 
 const MapComponent = () => {
-  const [pins, setPins] = useState([]);
+  const {pins, addPin} = useContext(PinContext)
   const [isModalOpen, setModalOpen] = useState(false);
   const [newPinLocation, setNewPinLocation] = useState(null); // coords for new pin
   const [phantomPin, setPhantomPin] = useState(null); // coords for the phantom pin
@@ -33,29 +33,6 @@ const MapComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const [showPersonalPins, setShowPersonalPins] = useState(false);
-
-  // fetch pins from backend on mount
-  useEffect(() => {
-    fetchPins();
-  }, []);
-
-  const fetchPins = async () => {
-    try {
-      const response = await api.get('http://localhost:5001/api/pins');
-      setPins(response.data);
-    } catch (error) {
-      console.error('Error fetching pins:', error);
-    }
-  };
-
-  const fetchUserPins = async () => {
-    try {
-      const response = await api.get('http://localhost:5001/api/pins/user/123');
-      setPins(response.data);
-    } catch (error) {
-      console.error('Error fetching user pins:', error);
-    }
-  };
 
   const toggleSettingsModal = () => {
     setSettingsOpen(!isSettingsOpen);
@@ -69,14 +46,10 @@ const MapComponent = () => {
 
   const togglePersonalPins = () => {
     setShowPersonalPins(!showPersonalPins);
-    if (showPersonalPins) {
-      // If toggling off, fetch all pins
-      fetchPins();
-    } else {
-      // If toggling on, fetch only personal pins
-      fetchUserPins();
-    }
   };
+
+  const filteredPins = showPersonalPins ? pins.filter((pin) => pin.userId === 123): pins; //Replace 123 with actual userId logic
+                      
 
 
   const handleAddPin = async (message) => {
@@ -85,14 +58,11 @@ const MapComponent = () => {
         message: message,
         location: [newPinLocation.lat, newPinLocation.lng],
     };
-    try {
-        const response = await api.post('/api/pins', newPin);
-        setPins([...pins, response.data]); // add new pin from backend response
-        setModalOpen(false); 
-        setPhantomPin(null); // remove the phantom pin
-    } catch (error) {
-        console.error('Error adding new pin:', error);
-    }
+
+    addPin(newPin)
+    setModalOpen(false)
+    setPhantomPin(null)
+
   };
 
   const handleMapClick = (latlng) => {
@@ -145,7 +115,7 @@ const MapComponent = () => {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         />
-{pins.map((pin) => (
+{filteredPins.map((pin) => (
           <Marker key={pin.id} position={pin.location} icon={createCustomIcon()}>
             <Popup>
               <p className="text-sm text-purpleDark break-words">{pin.message}</p>

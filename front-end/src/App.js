@@ -1,6 +1,7 @@
 import React from 'react';
 import 'leaflet/dist/leaflet.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { PinProvider } from './PinContext'; 
 import '../src/assets/styles/App.css';
 import '../src/assets/styles/output.css';
 import Header from './pages/Header';
@@ -22,6 +23,7 @@ const App = props => {
 
   return (
     <div className="App">
+      <PinProvider>
       <Router>
         <Header />
         <main className="App-main">
@@ -55,6 +57,7 @@ const App = props => {
         </main>
         <Footer />
       </Router>
+      </PinProvider>
     </div>
   );
 }
