@@ -21,8 +21,10 @@ const PinProvider = ({children}) => {
 
 
 
+      // addPin, updatePin, and deletePin are called for both Map.js and ModifyPins.js (homogonizes the function)
 
-      const addPin = async (newPin) => { // Add pin to frontend
+
+      const addPin = async (newPin) => { // Add pin 
         try{
             const response = await fetch("http://localhost:5001/api/pins", {
                 method: 'POST',
@@ -62,7 +64,8 @@ const PinProvider = ({children}) => {
             method: 'DELETE',
           });
           setPins((prevPins) => prevPins.filter((pin) => pin.id !== id));
-        } catch (error) {
+        } 
+        catch (error) {
           console.error('Error deleting pin:', error);
         }
       };
