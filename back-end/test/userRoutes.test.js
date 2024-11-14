@@ -1,12 +1,11 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../app'); // Import your app using CommonJS
+const app = require('../app');
 
 chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('User Routes', () => {
-  // Test the GET user settings route
   describe('/GET user settings by username', () => {
     it('should GET user settings for a valid username', (done) => {
       chai.request(app)
