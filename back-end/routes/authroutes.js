@@ -11,6 +11,10 @@ const users = [
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
 
+  // Validate presence of username and password
+  if (!username) return res.status(400).json({ error: 'Username is required' });
+  if (!password) return res.status(400).json({ error: 'Password is required' });
+
   // Find the user with the matching username and password
   const user = users.find(u => u.username === username && u.password === password);
 
@@ -26,6 +30,12 @@ router.post('/login', (req, res) => {
 // Register route
 router.post('/register', (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
+
+  // Validate presence of required fields
+  if (!username) return res.status(400).json({ error: 'Username is required' });
+  if (!email) return res.status(400).json({ error: 'Email is required' });
+  if (!password) return res.status(400).json({ error: 'Password is required' });
+  if (!confirmPassword) return res.status(400).json({ error: 'Confirm password is required' });
 
   // Validate that passwords match
   if (password !== confirmPassword) {
