@@ -37,6 +37,9 @@ router.get('/pins', (req, res) => {
 // get all pins for user
 router.get('/pins/user/:userId', (req, res) => {
     const userPins = pins.filter(p => p.userId === parseInt(req.params.userId));
+    if (userPins.length === 0) {
+        return res.status(404).json({ message: 'User not found' });
+    }
     res.json(userPins);
 });
 
