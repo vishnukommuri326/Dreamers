@@ -8,14 +8,14 @@ let friendsList = [
 ];
 
 // Get all friends for a specific user
-router.get('/friends/user/:userId', (req, res) => {
+router.get('/user/:userId', (req, res) => {
     const userId = parseInt(req.params.userId);
     const userFriends = friendsList.filter(friend => friend.userId === userId);
     res.json(userFriends);
 });
 
 // Add a new friend
-router.post('/friends', (req, res) => {
+router.post('/', (req, res) => {
     const { userId, name } = req.body;
     if (!userId || !name) {
         return res.status(400).json({ message: 'User ID and friend name are required' });
@@ -30,7 +30,7 @@ router.post('/friends', (req, res) => {
 });
 
 // Remove a friend
-router.delete('/friends/user/:userId/:name', (req, res) => {
+router.delete('/user/:userId/:name', (req, res) => {
     const userId = parseInt(req.params.userId);
     const name = req.params.name;
     const friendIndex = friendsList.findIndex(friend => friend.userId === userId && friend.name === name);
@@ -44,7 +44,7 @@ router.delete('/friends/user/:userId/:name', (req, res) => {
 });
 
 // Search friends by keyword
-router.get('/friends/search/:userId', (req, res) => {
+router.get('/search/:userId', (req, res) => {
     const userId = parseInt(req.params.userId);
     const { keyword } = req.query;
     
@@ -57,6 +57,5 @@ router.get('/friends/search/:userId', (req, res) => {
     );
     res.json(matchingFriends);
 });
-
 
 module.exports = router;
