@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "axios": "^1.7.7",
-    "concurrently": "^9.1.0",
     "cors": "^2.8.5",
     "leaflet": "^1.9.4",
     "react": "^18.3.1",
@@ -18,6 +17,7 @@
     "c8": "^10.1.2",
     "chai": "^5.1.2",
     "chai-http": "^5.1.1",
+    "concurrently": "^9.1.0",
     "esm": "^3.2.25",
     "mocha": "^10.8.2",
     "nodemon": "^3.1.7",
@@ -26,8 +26,8 @@
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server":"cd back-end && npm start",
-    "client":"cd front-end && npm start",
+    "server": "cd back-end && npm start",
+    "client": "cd front-end && npm start",
     "build": "cd front-end && react-scripts build"
   }
 }
