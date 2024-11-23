@@ -12,10 +12,6 @@ const friendRoutes = require('./routes/friends.js');
 const feedbackRoutes =require('./routes/feedbackroutes.js');
 const contactRoutes =require('./routes/contactroutes.js');
 
-
-
-
-
 dotenv.config();
 const app = express();
 
