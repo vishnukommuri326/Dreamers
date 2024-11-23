@@ -10,6 +10,9 @@ let friendsList = [
 // Get all friends for a specific user
 router.get('/user/:userId', (req, res) => {
     const userId = parseInt(req.params.userId);
+    if (isNaN(userId)) {
+        return res.status(400).json({ error: 'User ID must be a number' });
+    }
     const userFriends = friendsList.filter(friend => friend.userId === userId);
     res.json(userFriends);
 });
@@ -19,6 +22,9 @@ router.post('/', (req, res) => {
     const { userId, name } = req.body;
     if (!userId || !name) {
         return res.status(400).json({ message: 'User ID and friend name are required' });
+    }
+    if (typeof userId !== 'number') {
+        return res.status(400).json({ error: 'User ID must be a number' });
     }
     const newFriend = {
         id: friendsList.length + 1,
@@ -32,6 +38,9 @@ router.post('/', (req, res) => {
 // Remove a friend
 router.delete('/user/:userId/:name', (req, res) => {
     const userId = parseInt(req.params.userId);
+    if (isNaN(userId)) {
+        return res.status(400).json({ error: 'User ID must be a number' });
+    }
     const name = req.params.name;
     const friendIndex = friendsList.findIndex(friend => friend.userId === userId && friend.name === name);
 
@@ -46,7 +55,10 @@ router.delete('/user/:userId/:name', (req, res) => {
 // Search friends by keyword
 router.get('/search/:userId', (req, res) => {
     const userId = parseInt(req.params.userId);
-    const { keyword } = req.query;
+    if (isNaN(userId)) {
+        return res.status(400).json({ error: 'User ID must be a number' });
+    }
+    const keyword = req.query.keyword;
     
     if (!keyword) {
         return res.status(400).json({ error: 'Keyword query parameter is required' });
