@@ -1,29 +1,31 @@
 import React, { useState } from 'react';
-import '../assets/styles/login.css';
+import '../assets/styles/login.css'; // Ensure this file exists and has relevant styles
 
-const Login = (props) => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    
+
     try {
-      const response = await fetch('http://localhost:5001/auth/login', {
+      const response = await fetch('http://localhost:5001/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Set a flag in localStorage to indicate that the user is logged in
-        localStorage.setItem('isLoggedIn', 'true');
+        // Save the JWT token to localStorage
+        localStorage.setItem('token', data.token);
+
         setMessage('Login successful!');
         console.log('Login successful:', data);
-        // Redirect or update the UI as needed, e.g., redirect to home page
+
+        // Redirect to home page or dashboard
         window.location.href = '/';
       } else {
         setMessage(`Login failed: ${data.error}`);
@@ -60,9 +62,11 @@ const Login = (props) => {
             required
           />
         </div>
-        <button type="submit" className="login-btn">Login</button>
+        <button type="submit" className="login-btn">
+          Login
+        </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="message">{message}</p>}
     </div>
   );
 };
