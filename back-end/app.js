@@ -1,67 +1,62 @@
 const express = require('express');
-const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-require('dotenv').config();
+
+// Load environment variables
+dotenv.config();
+
+// Import route files
 const testRoute = require('./routes/testroute.js');
 const pinRoutes = require('./routes/pinroutes.js');
-const authRoutes = require('./routes/authroutes.js');  
+const authRoutes = require('./routes/authroutes.js');
 const mapRoutes = require('./routes/maproutes.js');
-const userRoute = require('./routes/userroutes.js');
+const userRoutes = require('./routes/userroutes.js');
 const friendRoutes = require('./routes/friends.js');
-const feedbackRoutes =require('./routes/feedbackroutes.js');
-const contactRoutes =require('./routes/contactroutes.js');
+const feedbackRoutes = require('./routes/feedbackroutes.js');
+const contactRoutes = require('./routes/contactroutes.js');
 
-
-// mongoose models for MongoDB data manipulation
-const mongoose = require('mongoose')
-// const User = require('./models/User.js')
-
-// connect to the database
-// console.log(`Conneting to MongoDB at ${process.env.MONGODB_URI}`)
-try {
-  mongoose.connect(process.env.MONGODB_URI)
-  console.log(`Connected to MongoDB.`)
-} catch (err) {
-  console.log(
-    `Error connecting to MongoDB user account authentication will fail: ${err}`
-  )
-}
-
-
-
-
-
-dotenv.config();
+// Initialize Express app
 const app = express();
 
+// Define port
 const PORT = process.env.PORT || 5001;
 
-// Middleware setup
-app.use(morgan('dev'));
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Connect to MongoDB
+const connectToDatabase = async () => {
+    try {
+        await mongoose.connect(process.env.MONGODB_URI);
+        console.log('Connected to MongoDB successfully.');
+    } catch (err) {
+        console.error('Failed to connect to MongoDB:', err);
+        process.exit(1); // Exit process if connection fails
+    }
+};
+connectToDatabase();
 
-// Default test route for root path
+// Middleware setup
+app.use(morgan('dev')); // Logs HTTP requests
+app.use(cors()); // Enables Cross-Origin Resource Sharing
+app.use(express.json()); // Parses JSON payloads
+app.use(express.urlencoded({ extended: true })); // Parses URL-encoded payloads
+
+// Default root route
 app.get('/', (req, res) => {
-    res.send('Hello world');
+    res.send('Hello World! Welcome to the Dreamer API.');
 });
 
-// Register routes
-app.use('/test', testRoute);
+// Register API routes
+app.use('/api/test', testRoute);
+app.use('/api/pins', pinRoutes);
+app.use('/api/maps', mapRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/friends', friendRoutes);
+app.use('/api/feedback', feedbackRoutes);
+app.use('/api/contact', contactRoutes);
 
-app.use('/api', pinRoutes); 
-app.use('/api', mapRoutes); 
-app.use('/auth', authRoutes); 
-app.use('/user', userRoute);
-app.use('/friends', friendRoutes);
-app.use('/feedback',feedbackRoutes)
-app.use('/contact',contactRoutes)
-
-
-// Start the server if this file is run directly
+// Start the server
 if (require.main === module) {
     app.listen(PORT, () => {
         console.log(`Server is running on http://localhost:${PORT}`);
@@ -69,6 +64,3 @@ if (require.main === module) {
 }
 
 module.exports = app;
-
-
-
