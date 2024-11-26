@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import '../assets/styles/register.css'; // Use the new CSS file
+import '../assets/styles/register.css'; // Ensure this file exists and has the relevant styles
 
-const Register = (props) => {
+const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,19 +10,20 @@ const Register = (props) => {
 
   const handleRegister = async (event) => {
     event.preventDefault();
-    
+
     try {
-      const response = await fetch('http://localhost:5001/auth/register', {
+      const response = await fetch('http://localhost:5001/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, email, password, confirmPassword })
+        body: JSON.stringify({ username, email, password, confirmPassword }),
       });
-      
+
       const data = await response.json();
 
       if (response.ok) {
         setMessage('Registration successful!');
         console.log('Registration successful:', data);
+        // Redirect to login page after successful registration
         window.location.href = '/login';
       } else {
         setMessage(`Registration failed: ${data.error}`);
@@ -81,9 +82,11 @@ const Register = (props) => {
             required
           />
         </div>
-        <button type="submit" className="register-btn">Register</button>
+        <button type="submit" className="register-btn">
+          Register
+        </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="message">{message}</p>}
     </div>
   );
 };
