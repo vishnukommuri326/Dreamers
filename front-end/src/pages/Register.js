@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import '../assets/styles/register.css'; // Ensure this file exists and has the relevant styles
+import '../assets/styles/register.css';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errors, setErrors] = useState({});
   const [message, setMessage] = useState('');
 
   const handleRegister = async (event) => {
@@ -23,8 +24,13 @@ const Register = () => {
       if (response.ok) {
         setMessage('Registration successful!');
         console.log('Registration successful:', data);
-        // Redirect to login page after successful registration
         window.location.href = '/login';
+      } else if (data.errors) {
+        const fieldErrors = {};
+        data.errors.forEach((err) => {
+          fieldErrors[err.param] = err.msg; // Map field to error message
+        });
+        setErrors(fieldErrors); // Set specific errors
       } else {
         setMessage(`Registration failed: ${data.error}`);
       }
@@ -44,10 +50,14 @@ const Register = () => {
             type="text"
             id="username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              setUsername(e.target.value);
+              setErrors({ ...errors, username: '' }); // Clear username error
+            }}
             placeholder="Enter your username"
             required
           />
+          {errors.username && <p className="error">{errors.username}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="email">Email:</label>
@@ -55,10 +65,14 @@ const Register = () => {
             type="email"
             id="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setErrors({ ...errors, email: '' }); // Clear email error
+            }}
             placeholder="Enter your email"
             required
           />
+          {errors.email && <p className="error">{errors.email}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="password">Password:</label>
@@ -66,10 +80,14 @@ const Register = () => {
             type="password"
             id="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErrors({ ...errors, password: '' }); // Clear password error
+            }}
             placeholder="Enter your password"
             required
           />
+          {errors.password && <p className="error">{errors.password}</p>}
         </div>
         <div className="form-group">
           <label htmlFor="confirmPassword">Confirm Password:</label>
@@ -77,16 +95,20 @@ const Register = () => {
             type="password"
             id="confirmPassword"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+              setErrors({ ...errors, confirmPassword: '' }); // Clear confirm password error
+            }}
             placeholder="Confirm your password"
             required
           />
+          {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
         </div>
         <button type="submit" className="register-btn">
           Register
         </button>
       </form>
-      {message && <p className="message">{message}</p>}
+      {message && <div className="message">{message}</div>}
     </div>
   );
 };
