@@ -712,6 +712,10 @@ video {
   max-height: 10rem !important;
 }
 
+.max-h-10 {
+  max-height: 2.5rem !important;
+}
+
 .min-h-20 {
   min-height: 5rem !important;
 }

@@ -124,7 +124,7 @@ const handleSearchChange = async (e) => {
      {/* Search Bar */}
      <div
       className="fixed md:absolute bottom-20 md:top-4 left-1/2 transform -translate-x-1/2 
-        z-[1000] w-72 h-auto flex flex-col items-center relative"
+        z-[1000] w-72 h-10 flex flex-col items-center relative"
     >
       <input
         type="text"
@@ -142,13 +142,14 @@ const handleSearchChange = async (e) => {
               key={index}
               className="p-2 hover:bg-purpleLight cursor-pointer text-sm text-gray-700 flex items-start leading-snug"
               onClick={() => {
+                setSearchResults([]); // Clear results first
                 if (map) {
-                    map.setView([parseFloat(result.lat), parseFloat(result.lon)], 15); // Update map view
-                    setSearchResults([]); // Clear search results
+                    map.setView([parseFloat(result.lat), parseFloat(result.lon)], 15);
                 } else {
                     console.error("Map instance is not defined.");
                 }
             }}
+            
             >
               {result.display_name}
             </li>
@@ -167,9 +168,7 @@ const handleSearchChange = async (e) => {
         zoom={23}
         style={{ height: 'calc(100vh - 95px)', width: '100%' }}
       >
-        <MapEvents handleMapClick={handleMapClick} 
-        searchResults={searchResults}
-        setSearchResults={setSearchResults} />
+        <MapEvents handleMapClick={handleMapClick}/>
 
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
