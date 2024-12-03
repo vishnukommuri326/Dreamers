@@ -6,6 +6,7 @@ import PinModal from '../components/pinModal';
 import PinCreation from '../components/pinCreation';
 import MapSettings from '../components/MapSettings';
 import MapComponent from '../components/Map';
+import TutorialModal from '../components/tutorialModal';
 
 /**
  * A React component that represents a single page of the app.
@@ -19,8 +20,9 @@ const Home = (props) => {
   return (
     <div className="map-container">
       <MapComponent />
+      <TutorialModal />
     </div>
-  );
+  ); 
 };
 
 export default Home;
