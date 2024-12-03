@@ -23,7 +23,20 @@ const createCustomIcon = () => {
   });
 };
 
+function InitializeMap({ setMap }) {
+  const map = useMap(); // Access the map instance
+  React.useEffect(() => {
+    if (map) {
+      console.log("Map instance created via useMap:", map); // Debug log
+      setMap(map); // Pass the map instance to the state
+    }
+  }, [map]);
+  return null;
+}
+
+
 const MapComponent = () => {
+
   const {pins, addPin} = useContext(PinContext)
   const [isModalOpen, setModalOpen] = useState(false);
   const [newPinLocation, setNewPinLocation] = useState(null); // coords for new pin
@@ -163,12 +176,18 @@ const handleSearchChange = async (e) => {
       <MapContainer
       key={pins.length}
         center={mapCenter}
-        whenCreated={setMap}
-  
         zoom={23}
         style={{ height: 'calc(100vh - 95px)', width: '100%' }}
+        whenCreated={(mapInstance) => {
+          console.log("Map instance created:", mapInstance);
+          setMap(mapInstance);
+        }}
       >
         <MapEvents handleMapClick={handleMapClick}/>
+
+        <InitializeMap setMap={setMap} />
+
+
 
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -218,6 +237,7 @@ const handleSearchChange = async (e) => {
 
       
     </div>
+    
   );
 };
 
