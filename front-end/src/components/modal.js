@@ -1,21 +1,78 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
+import MapSettings from './MapSettings';
+import PinModal from './pinModal';
+import { PinContext } from '../PinContext';
+import 'leaflet/dist/leaflet.css';
 
-function Modal({ isOpen, onClose, title, children }) {
-  if (!isOpen) return null;
+// Custom SVG marker
+const createCustomIcon = () => {
+    return L.divIcon({
+        className: 'custom-icon-container',
+        html: `
+          <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" class="custom-icon">
+            <path d="M12 2C8.134 2 5 5.134 5 9c0 6.23 7 13 7 13s7-6.77 7-13c0-3.866-3.134-7-7-7zm0 10.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/>
+          </svg>
+        `,
+        iconSize: [38, 38],
+        iconAnchor: [19, 38],
+        popupAnchor: [0, -38],
+    });
+};
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[10000]">
-      <div className="bg-purpleLight text-purpleDark p-4 md:p-6 rounded-lg shadow-lg w-11/12 sm:w-96 z-[10001] max-w-md"
-      onClick={(e) => e.stopPropagation()} >
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-bold text-purpleDark">{title}</h3>
-          <button onClick={onClose} 
-          className="text-purpleDarker">X</button>
+const MapComponent = () => {
+    const { pins, addPin } = useContext(PinContext);
+    const [isSettingsOpen, setSettingsOpen] = useState(false);
+    const [searchResults, setSearchResults] = useState([]);
+
+    const toggleSettingsModal = () => {
+        setSettingsOpen(!isSettingsOpen);
+    };
+
+    const filteredPins = searchResults.length > 0 ? searchResults : pins;
+
+    return (
+        <div className="map-wrapper w-full h-full relative">
+            {/* Map Settings Button */}
+            <button
+                onClick={toggleSettingsModal}
+                className="absolute top-4 right-4 z-[1000] bg-white p-2 rounded-full shadow-md hover:bg-purpleLight"
+            >
+                Settings
+            </button>
+
+            {/* Map */}
+            <MapContainer
+                center={[40.7309, -73.9973]} // Initial location
+                zoom={15}
+                style={{ height: '100%', width: '100%' }}
+            >
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution="&copy; OpenStreetMap contributors"
+                />
+
+                {/* Render Pins */}
+                {filteredPins.map((pin) => (
+                    <Marker key={pin.id} position={pin.location} icon={createCustomIcon()}>
+                        <Popup>{pin.message}</Popup>
+                    </Marker>
+                ))}
+            </MapContainer>
+
+            {/* Map Settings Modal */}
+            {isSettingsOpen && (
+                <MapSettings
+                    isOpen={isSettingsOpen}
+                    onClose={toggleSettingsModal}
+                    onSearchResults={setSearchResults} // Pass search results here
+                    onTogglePersonal={() => {}}
+                    onToggleFriends={() => {}}
+                />
+            )}
         </div>
-        <div>{children}</div>
-      </div>
-    </div>
-  );
-}
+    );
+};
 
-export default Modal;
+export default MapComponent;
