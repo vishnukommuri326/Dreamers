@@ -1,151 +1,193 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from '../assets/images/dreamer-1-Alternate.png';
-import '../assets/styles/About.css'; // Used for back button formatting
+import '../assets/styles/About.css';
 import '../assets/styles/Feedback.css';
 
-
 const FeedbackForm = (props) => {
-  const [formData, setFormData] = useState({ answer1: '', answer2: '', answer3: '' });
-
+  const [formData, setFormData] = useState({
+    answer1: '',
+    answer2: '',
+    answer3: '',
+    additionalInfo: '',
+  });
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [remainingChars, setRemainingChars] = useState({});
 
+  useEffect(() => {
+    const charLimits = {
+      answer1: 200,
+      answer2: 200,
+      answer3: 300,
+      additionalInfo: 500,
+    };
+    setRemainingChars(charLimits);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Update the remaining character count based on the current length of the value
+    if (remainingChars[name] !== undefined) {
+      const charsLeft = Math.max(0, remainingChars[name] - (formData[name]?.length || 0) + value.length);
+      setRemainingChars({ ...remainingChars, [name]: charsLeft });
+    }
+
+    // Update the form data state
     setFormData({ ...formData, [name]: value });
   };
 
-
-  // Updated handleSubmit for Backend
-
   const handleSubmit = async (e) => {
-        e.preventDefault();
-        setErrorMessage("") // reset error message
+    e.preventDefault();
+    setErrorMessage('');
+    setFieldErrors({});
 
+    try {
+      const response = await fetch('http://localhost:5001/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-        try{
-          const response = await fetch("http://localhost:5001/feedback", {
+      if (response.ok) {
+        setFeedbackSent(true);
+        setFormData({ answer1: '', answer2: '', answer3: '', additionalInfo: '' });
+        setErrorMessage('');
+      } else {
+        const errData = await response.json();
 
-            method: "POST",
-
-            headers:{
-              "Content-Type" : "application/json",
-            },
-
-            body: JSON.stringify(formData),
-          } )
-
-
-          if (response.ok){
-            setFeedbackSent(true); // Update State of Feedback after successful
-            const resData = await response.json();
-            setFormData({ answer1: '', answer2: '', answer3: '' }); // Clear Form
-            setErrorMessage(''); // Clear Error message
-            // alert("Feedback Sent Successfully") 
-          }
-
-          else{
-            const errData = await response.json()
-            setErrorMessage("Error: ${errData.message}")
-            // alert("Error: ${errData.message}")// Kept for testing
-
-          }
-        }catch(error){
-
-          console.error("Error Submitting Feedback: ", error)
-          setErrorMessage("Error occured while submitting feedback. Please try again later.")
-          // alert("Error occured while submitting feedback") // Kept for tesing
-
+        if (errData.errors) {
+          const errors = {};
+          errData.errors.forEach((err) => {
+            errors[err.param] = err.msg;
+          });
+          setFieldErrors(errors);
+        } else {
+          setErrorMessage(`Error: ${errData.message}`);
         }
-
-  }
-
+      }
+    } catch (error) {
+      console.error('Error Submitting Feedback: ', error);
+      setErrorMessage('Error occurred while submitting feedback. Please try again later.');
+    }
+  };
 
   return (
-
     <div className="feedback-form-container">
       <header className="header">
         <img src={logo} alt="Logo" className="Altlogo" />
       </header>
 
-
       <h1>Feedback</h1>
 
-      { errorMessage && (
+      {errorMessage && (
         <div className="error-message-container">
-          <p className = "error-message">{errorMessage}</p>
+          <p className="error-message">{errorMessage}</p>
         </div>
       )}
 
-
-      {feedbackSent ? ( // Page after successful feedback
-
+      {feedbackSent ? (
         <div className="submit-success-message">
-        <p>Thank you for your feedback!</p>
+          <p>Thank you for your feedback!</p>
+          <button
+            type="button"
+            className="reset-btn"
+            onClick={() => {
+              setFeedbackSent(false);
+            }}
+          >
+            Submit More Feedback
+          </button>
         </div>
-
-
-      ): ( // Page during feedback
-
-
+      ) : (
         <form onSubmit={handleSubmit} className="feedback-form">
-        <div className="form-group">
-          <label htmlFor="answer1">Question 1</label>
-          <textarea
-            type="message"
-            id="answer1"
-            name="answer1"
-            value={formData.answer1}
-            onChange={handleChange}
-            placeholder='Your Response'
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="answer1">Question 1</label>
+            <textarea
+              id="answer1"
+              name="answer1"
+              value={formData.answer1}
+              onChange={handleChange}
+              placeholder="Your Response"
+              maxLength="200"
+              required
+            />
+            {fieldErrors.answer1 && <p className="error-message">{fieldErrors.answer1}</p>}
+            {remainingChars.answer1 !== undefined && (
+              <p className="char-counter">{remainingChars.answer1} characters left</p>
+            )}
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="answer2">Question 2</label>
-          <textarea
-            type="message"
-            id="answer2"
-            name="answer2"
-            value={formData.answer2}
-            onChange={handleChange}
-            placeholder='Your Response'
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="answer2">Question 2</label>
+            <textarea
+              id="answer2"
+              name="answer2"
+              value={formData.answer2}
+              onChange={handleChange}
+              placeholder="Your Response"
+              maxLength="200"
+              required
+            />
+            {fieldErrors.answer2 && <p className="error-message">{fieldErrors.answer2}</p>}
+            {remainingChars.answer2 !== undefined && (
+              <p className="char-counter">{remainingChars.answer2} characters left</p>
+            )}
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="answer3">Question 3</label>
-          <textarea
-            type="message"
-            id="answer3"
-            name="answer3"
-            value={formData.answer3}
-            onChange={handleChange}
-            placeholder='Your Response'
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="answer3">Question 3</label>
+            <textarea
+              id="answer3"
+              name="answer3"
+              value={formData.answer3}
+              onChange={handleChange}
+              placeholder="Your Response"
+              maxLength="300"
+              required
+            />
+            {fieldErrors.answer3 && <p className="error-message">{fieldErrors.answer3}</p>}
+            {remainingChars.answer3 !== undefined && (
+              <p className="char-counter">{remainingChars.answer3} characters left</p>
+            )}
+          </div>
 
-        <button type="submit" className="submit-btn">Send Feedback</button>
-      </form>
+          <div className="form-group">
+            <label htmlFor="additionalInfo">Additional Information (Optional)</label>
+            <textarea
+              id="additionalInfo"
+              name="additionalInfo"
+              value={formData.additionalInfo}
+              onChange={handleChange}
+              placeholder="Any other feedback you'd like to provide"
+              maxLength="500"
+            />
+            {fieldErrors.additionalInfo && (
+              <p className="error-message">{fieldErrors.additionalInfo}</p>
+            )}
+            {remainingChars.additionalInfo !== undefined && (
+              <p className="char-counter">{remainingChars.additionalInfo} characters left</p>
+            )}
+          </div>
 
-
+          <button type="submit" className="submit-btn">
+            Send Feedback
+          </button>
+        </form>
       )}
 
-
-
-
-
-
-      <button type="button" className="back-btn" onClick={() => window.location.href='/about'}>Back</button>
-
+      <button
+        type="button"
+        className="back-btn"
+        onClick={() => (window.location.href = '/about')}
+      >
+        Back
+      </button>
     </div>
   );
-
-  
 };
 
 export default FeedbackForm;
