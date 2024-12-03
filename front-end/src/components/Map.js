@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import PinModal from './pinModal';
 import 'leaflet/dist/leaflet.css';
@@ -23,14 +23,31 @@ const createCustomIcon = () => {
   });
 };
 
+function InitializeMap({ setMap }) {
+  const map = useMap(); // Access the map instance
+  React.useEffect(() => {
+    if (map) {
+      console.log("Map instance created via useMap:", map); // Debug log
+      setMap(map); // Pass the map instance to the state
+    }
+  }, [map]);
+  return null;
+}
+
+
 const MapComponent = () => {
+
   const {pins, addPin} = useContext(PinContext)
   const [isModalOpen, setModalOpen] = useState(false);
   const [newPinLocation, setNewPinLocation] = useState(null); // coords for new pin
   const [phantomPin, setPhantomPin] = useState(null); // coords for the phantom pin
 
+  const [mapCenter, setMapCenter] = useState([40.7309, -73.9973]); // Default starting center
+  const [map, setMap] = useState(null);
+
+
   const [isSettingsOpen, setSettingsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+
 
   const [showPersonalPins, setShowPersonalPins] = useState(false);
 
@@ -38,11 +55,31 @@ const MapComponent = () => {
     setSettingsOpen(!isSettingsOpen);
   };
 
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-    console.log('Searching for:', searchQuery);
-    // future logic for searching locations will be added here
-  };
+  const [searchQuery, setSearchQuery] = useState('');
+const [searchResults, setSearchResults] = useState([]);
+
+const handleSearchChange = async (e) => {
+  setSearchQuery(e.target.value);
+  console.log('Searching for:', searchQuery);
+  
+
+  if (e.target.value.length > 2) {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?q=${e.target.value}&format=json&addressdetails=1&limit=5`
+      );
+      const data = await response.json();
+      setSearchResults(data);
+      console.log('Results:', searchResults);
+    } catch (error) {
+      console.error('Error fetching geocode data:', error);
+    }
+  } else {
+    setSearchResults([]);
+  }
+};
+
+
 
   const togglePersonalPins = () => {
     setShowPersonalPins(!showPersonalPins);
@@ -97,26 +134,60 @@ const MapComponent = () => {
         />
       </button>
 
-      {/* search Bar */}
-        <div className="fixed md:absolute bottom-20 md:top-4 left-1/2 transform -translate-x-1/2 
-        z-[1000] w-72 h-10 flex items-center ">
-            <input
-                type="text"
-                placeholder="Search for a location..."
-                className="w-full h-full p-2 border border-purpleMedium rounded-md focus:outline-none focus:ring-2 focus:ring-purpleDark "
-                value={searchQuery}
-                onChange={handleSearchChange}
-                />
-        </div>
+     {/* Search Bar */}
+     <div
+      className="fixed md:absolute bottom-20 md:top-4 left-1/2 transform -translate-x-1/2 
+        z-[1000] w-72 h-10 flex flex-col items-center relative"
+    >
+      <input
+        type="text"
+        placeholder="Search for a location..."
+        className="w-full h-10 p-2 border border-purpleMedium rounded-md focus:outline-none focus:ring-2 focus:ring-purpleDark"
+        value={searchQuery}
+        onChange={handleSearchChange}
+      />
+      {searchResults.length > 0 && (
+        <ul
+          className="absolute top-12 bg-white border border-gray-300 w-full rounded-md shadow-md max-h-40 overflow-auto z-[1000] divide-y divide-gray-200"
+        >
+          {searchResults.map((result, index) => (
+            <li
+              key={index}
+              className="p-2 hover:bg-purpleLight cursor-pointer text-sm text-gray-700 flex items-start leading-snug"
+              onClick={() => {
+                setSearchResults([]); // Clear results first
+                if (map) {
+                    map.flyTo([parseFloat(result.lat), parseFloat(result.lon)], 23);
+                } else {
+                    console.error("Map instance is not defined.");
+                }
+            }}
+            
+            >
+              {result.display_name}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
 
 
       <MapContainer
       key={pins.length}
-        center={[40.7309, -73.9973]} // start at wash sq
+        center={mapCenter}
         zoom={23}
         style={{ height: 'calc(100vh - 95px)', width: '100%' }}
+        whenCreated={(mapInstance) => {
+          console.log("Map instance created:", mapInstance);
+          setMap(mapInstance);
+        }}
       >
-        <MapEvents handleMapClick={handleMapClick} />
+        <MapEvents handleMapClick={handleMapClick}/>
+
+        <InitializeMap setMap={setMap} />
+
+
 
         <TileLayer
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -166,6 +237,7 @@ const MapComponent = () => {
 
       
     </div>
+    
   );
 };
 
