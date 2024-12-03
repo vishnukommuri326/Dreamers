@@ -49,21 +49,27 @@ const MapComponent = () => {
   };
 
   const filteredPins = showPersonalPins ? pins.filter((pin) => pin.userId === 123): pins; //Replace 123 with actual userId logic
-                      
 
-
+  const currentUser = null; 
   const handleAddPin = async (message) => {
     const newPin = {
-        userId: 123, // handle this using currentuser later
-        message: message,
-        location: [newPinLocation.lat, newPinLocation.lng],
+      userId: currentUser || null,
+      message: message,
+      location: [newPinLocation.lat, newPinLocation.lng],
     };
-
-    addPin(newPin)
-    setModalOpen(false)
-    setPhantomPin(null)
-
+  
+    try {
+      await addPin(newPin);
+      // setPins((prevPins) => [...prevPins, response.data]);
+  
+      // Reset modal and phantom pin state
+      setModalOpen(false);
+      setPhantomPin(null);
+    } catch (error) {
+      console.error('Error adding new pin:', error);
+    }
   };
+  
 
   const handleMapClick = (latlng) => {
     setPhantomPin(latlng); // create the phantom pin on first click
@@ -105,6 +111,7 @@ const MapComponent = () => {
 
 
       <MapContainer
+      key={pins.length}
         center={[40.7309, -73.9973]} // start at wash sq
         zoom={23}
         style={{ height: 'calc(100vh - 95px)', width: '100%' }}
@@ -115,8 +122,9 @@ const MapComponent = () => {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         />
+
 {filteredPins.map((pin) => (
-          <Marker key={pin.id} position={pin.location} icon={createCustomIcon()}>
+          <Marker key={pin._id} position={pin.location} icon={createCustomIcon()}>
             <Popup>
               <p className="text-sm text-purpleDark break-words">{pin.message}</p>
             </Popup>

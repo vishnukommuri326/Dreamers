@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const User = require('../models/User');
+const Pin = require('../models/Pin');
+
 // Mock pin data for testing
 const pins = [
     {
@@ -24,72 +27,85 @@ const pins = [
 ];
 
 // Route to get all pins
-router.get('/', (req, res) => {
-    res.json(pins);
+router.get('/', async (req, res) => {
+    try {
+        const pins = await Pin.find();
+        res.json(pins);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching pins.' });
+    }
 });
 
 // Route to get all pins for a specific user
-router.get('/user/:userId', (req, res) => {
-    const userPins = pins.filter((p) => p.userId === parseInt(req.params.userId));
-    if (userPins.length === 0) {
-        return res.status(404).json({ message: 'User not found.' });
+router.get('/user/:userId', async (req, res) => {
+    try {
+        const userPins = await Pin.find({ userId: req.params.userId });
+        if (userPins.length === 0) {
+            return res.status(404).json({ message: 'No pins found for this user.' });
+        }
+        res.json(userPins);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching user pins.' });
     }
-    res.json(userPins);
 });
 
 // Route to get a specific pin by ID
-router.get('/:id', (req, res) => {
-    const pin = pins.find((p) => p.id === parseInt(req.params.id));
-    if (pin) {
-        res.json(pin);
-    } else {
-        res.status(404).json({ message: 'Pin not found.' });
+router.get('/:id', async (req, res) => {
+    try {
+        const pin = await Pin.findById(req.params.id);
+        if (!pin) {
+            return res.status(404).json({ message: 'Pin not found.' });
+        }
+        res.status(200).json(pin);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching pin.' });
     }
 });
 
 // Route to create a new pin
-router.post('/', (req, res) => {
-    const newPin = {
-        id: pins.length + 1, // Incremental ID for simplicity
-        userId: req.body.userId,
-        message: req.body.message,
-        location: req.body.location,
-    };
-
-    pins.push(newPin);
-    res.status(201).json(newPin);
+router.post('/', async (req, res) => {
+    try {
+        const { userId, message, location } = req.body;
+        // validate required fields
+        if (!message || !location || location.length !== 2) {
+            return res.status(400).json({ error: 'message and location fields are required.' });
+        }
+        const newPin = new Pin({
+            userId,
+            message,
+            location,
+        });
+        const savedPin = await newPin.save();
+        res.status(201).json(savedPin);
+    } catch (error) {
+        res.status(400).json({ error: 'Error creating pin.' });
+    }
 });
 
 // Route to update an existing pin by ID
-router.put('/:id', (req, res) => {
-    const pin = pins.find((p) => p.id === parseInt(req.params.id));
-    if (pin) {
-        pin.message = req.body.message;
-        res.status(200).json(pin);
-    } else {
-        res.status(404).json({ message: 'Pin not found.' });
+router.put('/:id', async (req, res) => {
+    try {
+        const updatedPin = await Pin.findByIdAndUpdate(req.params.id, req.body, { new: true , runValidators: true});
+        if (!updatedPin) {
+            return res.status(404).json({ message: 'Pin not found.' });
+        }
+        res.json(updatedPin);
+    } catch (error) {
+        res.status(400).json({ error: 'Error updating pin.' });
     }
 });
 
 // Route to delete a pin by ID
-router.delete('/:id', (req, res) => {
-    const pinIndex = pins.findIndex((p) => p.id === parseInt(req.params.id));
-    if (pinIndex !== -1) {
-        pins.splice(pinIndex, 1);
+router.delete('/:id',async  (req, res) => {
+    try {
+        const deletedPin = await Pin.findByIdAndDelete(req.params.id);
+        if (!deletedPin) {
+            return res.status(404).json({ message: 'Pin not found.' });
+        }
         res.status(204).send();
-    } else {
-        res.status(404).json({ message: 'Pin not found.' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error deleting pin.' });
     }
-});
-
-// Route to return dynamically generated mock pins
-router.get('/mock', (req, res) => {
-    const mockPins = [
-        { id: 101, userId: 111, message: 'Mock memory 1.', location: [40.7419, -73.9850] },
-        { id: 102, userId: 112, message: 'Mock memory 2.', location: [40.7420, -73.9840] },
-        { id: 103, userId: 113, message: 'Mock memory 3.', location: [40.7430, -73.9830] },
-    ];
-    res.json(mockPins);
 });
 
 // Route to search pins by a keyword in the message

@@ -25,20 +25,26 @@ const PinProvider = ({children}) => {
 
 
       const addPin = async (newPin) => { // Add pin 
-        try{
-            const response = await fetch("http://localhost:5001/api/pins", {
-                method: 'POST',
-                headers: {'Content-Type':'application/json'},
-                body: JSON.stringify(newPin),
-            })
-
-            const data = await response.json()
-            setPins((prevPins) => [...prevPins, data]); // add the new pin to the existing pins
+        try {
+          const response = await fetch("http://localhost:5001/api/pins", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newPin),
+          });
+      
+          if (!response.ok) {
+            throw new Error("Failed to add pin");
+          }
+      
+          const data = await response.json();
+      
+          // Add the new pin to the existing pins
+          setPins((prevPins) => [...prevPins, data]); 
+        } catch (error) {
+          console.error("Error adding pin:", error);
         }
-        catch (error){
-            console.error("Error adding pins:", error)
-        }
-      }
+      };
+      
 
 
       const updatePin = async (id, updatedMessage) => { // Update pin to backend
