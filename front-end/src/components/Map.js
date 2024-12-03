@@ -157,7 +157,7 @@ const handleSearchChange = async (e) => {
               onClick={() => {
                 setSearchResults([]); // Clear results first
                 if (map) {
-                    map.setView([parseFloat(result.lat), parseFloat(result.lon)], 15);
+                    map.flyTo([parseFloat(result.lat), parseFloat(result.lon)], 23);
                 } else {
                     console.error("Map instance is not defined.");
                 }
