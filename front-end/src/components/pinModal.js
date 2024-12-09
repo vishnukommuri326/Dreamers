@@ -8,6 +8,7 @@ function PinModal({ isOpen, onClose, onCreate }) {
 
   const handleSubmit = () => {
     onCreate(pinDescription);
+    setPinDescription(''); 
     onClose(); 
   };
 

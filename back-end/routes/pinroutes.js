@@ -96,17 +96,21 @@ router.put('/:id', async (req, res) => {
 });
 
 // Route to delete a pin by ID
-router.delete('/:id',async  (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
-        const deletedPin = await Pin.findByIdAndDelete(req.params.id);
-        if (!deletedPin) {
-            return res.status(404).json({ message: 'Pin not found.' });
-        }
-        res.status(204).send();
+      const deletedPin = await Pin.findByIdAndDelete(req.params.id);
+      if (!deletedPin) {
+        return res.status(404).json({ message: 'Pin not found.' });
+      }
+      res.status(200).json({ message: 'Pin deleted successfully', id: deletedPin._id });
     } catch (error) {
-        res.status(500).json({ error: 'Error deleting pin.' });
+      console.error("Error deleting pin:", error);
+      res.status(500).json({ error: 'Error deleting pin.' });
     }
-});
+  });
+  
+
+
 
 // Route to search pins by a keyword in the message
 router.get('/search', (req, res) => {
