@@ -56,7 +56,7 @@ const PinProvider = ({children}) => {
           });
           const updatedPin = await response.json();
           setPins((prevPins) =>
-            prevPins.map((pin) => (pin.id === id ? updatedPin:pin))
+            prevPins.map((pin) => (pin._id === id ? updatedPin:pin))
           );
         } 
         catch (error) {
@@ -69,7 +69,16 @@ const PinProvider = ({children}) => {
           await fetch(`http://localhost:5001/api/pins/${id}`, {
             method: 'DELETE',
           });
-          setPins((prevPins) => prevPins.filter((pin) => pin.id !== id));
+
+          // setPins((prevPins) => prevPins.filter((pin) => pin.id !== id));
+
+          setPins((prevPins) => {
+            const updatedPins = prevPins.filter((pin) => pin._id !== id);
+            console.log("Updated pins after deletion:", updatedPins);
+            return updatedPins;
+          });
+
+
         } 
         catch (error) {
           console.error('Error deleting pin:', error);

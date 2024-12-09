@@ -99,8 +99,8 @@ const ModifyPins = () => {
       <h1 style={styles.title}>Modify Your Pins</h1>
       <div style={styles.pinList}>
         {pins.map((pin) => (
-          <div style={styles.pinItem} key={pin.id}>
-            {editPinId === pin.id ? (
+          <div style={styles.pinItem} key={pin._id}>
+            {editPinId === pin._id ? (
               <div style={styles.editMode}>
                 <textarea
                   style={styles.textarea}
@@ -129,13 +129,13 @@ const ModifyPins = () => {
                 <div style={styles.actionButtons}>
                   <button
                     style={{ ...styles.button, ...styles.editButton }}
-                    onClick={() => handleEdit(pin.id, pin.message)}
+                    onClick={() => handleEdit(pin._id, pin.message)}
                   >
                     Edit
                   </button>
                   <button
                     style={{ ...styles.button, ...styles.deleteButton }}
-                    onClick={() => deletePin(pin.id)}
+                    onClick={() => deletePin(pin._id)}
                   >
                     Delete
                   </button>
