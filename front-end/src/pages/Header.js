@@ -4,16 +4,14 @@ import logo from '../assets/images/dreamer-1.png';
 import { Link } from 'react-router-dom';
 import Button from '../components/button';
 
-const Header = props => {
+const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
 
+  // Check login status on component mount
   useEffect(() => {
-    // Check if 'isLoggedIn' flag is in localStorage
-    const loginStatus = localStorage.getItem('isLoggedIn');
-    if (loginStatus === 'true') {
-      setIsLoggedIn(true);
-    }
+    const token = localStorage.getItem('token'); // Check if a token exists in localStorage
+    setIsLoggedIn(!!token); // If token exists, user is logged in
   }, []);
 
   const toggleDropdown = () => {
@@ -21,7 +19,7 @@ const Header = props => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn'); // Remove login flag
+    localStorage.removeItem('token'); // Remove the token
     setIsLoggedIn(false); // Update login status
     window.location.href = '/'; // Redirect to home after logout
   };
@@ -33,13 +31,20 @@ const Header = props => {
           <img src={logo} alt="Logo" className="logo" />
         </Link>
 
-        <div className="controls-container"> 
+        <div className="controls-container">
+          {/* Render Logout button if logged in, otherwise show Login/Register */}
           {isLoggedIn ? (
-            <Button type="button" onClick={handleLogout}>Logout</Button>
+            <Button type="button" onClick={handleLogout}>
+              Logout
+            </Button>
           ) : (
             <>
-              <Button type="button" onClick={() => window.location.href='/login'}>Login</Button>
-              <Button type="button" onClick={() => window.location.href='/register'}>Register</Button>
+              <Button type="button" onClick={() => (window.location.href = '/login')}>
+                Login
+              </Button>
+              <Button type="button" onClick={() => (window.location.href = '/register')}>
+                Register
+              </Button>
             </>
           )}
 
