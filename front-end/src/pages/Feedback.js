@@ -13,29 +13,28 @@ const FeedbackForm = (props) => {
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
-  const [remainingChars, setRemainingChars] = useState({});
+  const [remainingChars, setRemainingChars] = useState({
+    answer1: 200,
+    answer2: 200,
+    answer3: 300,
+    additionalInfo: 500,
+  });
 
-  useEffect(() => {
-    const charLimits = {
-      answer1: 200,
-      answer2: 200,
-      answer3: 300,
-      additionalInfo: 500,
-    };
-    setRemainingChars(charLimits);
-  }, []);
+  const charLimits = {
+    answer1: 200,
+    answer2: 200,
+    answer3: 300,
+    additionalInfo: 500,
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Update the remaining character count based on the current length of the value
-    if (remainingChars[name] !== undefined) {
-      const charsLeft = Math.max(0, remainingChars[name] - (formData[name]?.length || 0) + value.length);
-      setRemainingChars({ ...remainingChars, [name]: charsLeft });
+    // Ensure the character count updates correctly even with backspace
+    if (value.length <= charLimits[name]) {
+      setFormData({ ...formData, [name]: value });
+      setRemainingChars({ ...remainingChars, [name]: charLimits[name] - value.length });
     }
-
-    // Update the form data state
-    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -55,6 +54,7 @@ const FeedbackForm = (props) => {
       if (response.ok) {
         setFeedbackSent(true);
         setFormData({ answer1: '', answer2: '', answer3: '', additionalInfo: '' });
+        setRemainingChars({ answer1: 200, answer2: 200, answer3: 300, additionalInfo: 500 });
         setErrorMessage('');
       } else {
         const errData = await response.json();
@@ -112,7 +112,7 @@ const FeedbackForm = (props) => {
               value={formData.answer1}
               onChange={handleChange}
               placeholder="Your Response"
-              maxLength="200"
+              maxLength={200}
               required
             />
             {fieldErrors.answer1 && <p className="error-message">{fieldErrors.answer1}</p>}
@@ -129,7 +129,7 @@ const FeedbackForm = (props) => {
               value={formData.answer2}
               onChange={handleChange}
               placeholder="Your Response"
-              maxLength="200"
+              maxLength={200}
               required
             />
             {fieldErrors.answer2 && <p className="error-message">{fieldErrors.answer2}</p>}
@@ -146,7 +146,7 @@ const FeedbackForm = (props) => {
               value={formData.answer3}
               onChange={handleChange}
               placeholder="Your Response"
-              maxLength="300"
+              maxLength={300}
               required
             />
             {fieldErrors.answer3 && <p className="error-message">{fieldErrors.answer3}</p>}
@@ -163,7 +163,7 @@ const FeedbackForm = (props) => {
               value={formData.additionalInfo}
               onChange={handleChange}
               placeholder="Any other feedback you'd like to provide"
-              maxLength="500"
+              maxLength={500}
             />
             {fieldErrors.additionalInfo && (
               <p className="error-message">{fieldErrors.additionalInfo}</p>
