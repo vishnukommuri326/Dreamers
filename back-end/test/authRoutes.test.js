@@ -1,4 +1,4 @@
-// test/authRoutes.test.js
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const express = require('express');
@@ -9,7 +9,7 @@ const authRoutes = require(path.join(__dirname, '../routes/authroutes'));
 chai.use(chaiHttp);
 const { expect } = chai;
 
-// Set up an Express app instance for testing
+
 const app = express();
 app.use(express.json());
 app.use('/auth', authRoutes);
