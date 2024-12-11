@@ -10,7 +10,16 @@ const userSchema = new mongoose.Schema({
     number: { type: String, default: '' },
     otherSocialMedia: { type: String, default: '' },
     friendsList: { type: [String], default: [] },
-    profilePhoto: { type: String, default: '' }
+    profilePhoto: { type: String, default: '' },
+    notifications: {
+        type: [
+            {
+                message: { type: String, required: true },
+                createdAt: { type: Date, default: Date.now },
+            }
+        ],
+        default: [],
+    }
 });
 
 // Hash password before saving
