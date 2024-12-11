@@ -61,6 +61,14 @@ h2 {
   height: 70px;
 }
 
+.welcome-message {
+  font-size: 25px;
+  color: #fff;
+  margin-right: 15px;
+  margin-left: 15px;
+  align-self: auto;
+}
+
 .App-footer {
   display: flex;
   justify-content: space-between;
@@ -203,6 +211,7 @@ button.prof-btn:active {
 
 .edit-button {
   margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 
