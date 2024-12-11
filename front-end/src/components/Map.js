@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import '../assets/styles/App.css';
 import MapSettings from './MapSettings';
 import { ReactComponent as SettingsIcon } from '../assets/images/icons/settings.svg';
+import { ReactComponent as StarIcon } from '../assets/images/icons/star.svg';
 import { PinContext } from '../PinContext';
 
 // custom svg marker
@@ -30,7 +31,7 @@ function InitializeMap({ setMap }) {
       console.log("Map instance created via useMap:", map); // Debug log
       setMap(map); // Pass the map instance to the state
     }
-  }, [map]);
+  }, [map, setMap]);
   return null;
 }
 
@@ -78,6 +79,32 @@ const handleSearchChange = async (e) => {
     setSearchResults([]);
   }
 };
+
+const [showPopularList, setShowPopularList] = useState(false);
+
+const popularLocations = [
+  { name: "Washington Square Park", coords: [40.7309, -73.9973] },
+  { name: "Bobst Library", coords: [40.72965722194712, -73.99707897057179] },
+  { name: "NYU Shanghai", coords: [31.225566443106725, 121.53388570181292] },
+  { name: "NYU Abu Dhabi", coords: [24.524158345879982, 54.43489912275673] },
+  { name: "Union Square", coords: [40.735788089603375, -73.9908750603095] },
+  { name: "Paulson Center", coords: [40.72698409187966, -73.99729979683126] },
+  { name: "Tisch School of Arts", coords: [40.72950671419619, -73.99382658320908] },
+  { name: "Gallatin School of Individualized Study", coords: [40.72932439233608, -73.99391616387615] },
+  { name: "Steinhardt Barney Building", coords: [40.72987294381137, -73.98800584486644] },
+  { name: "Tandon School of Engineering", coords: [40.69440445841927, -73.98645217639368] },
+  { name: "Kimmel Center", coords: [40.7295, -73.9979] },
+  { name: "Stern School of Business", coords: [40.72920995777136, -73.99624593575685] },
+];
+
+const handleLocationClick = (coords) => {
+  if (map) {
+    map.flyTo(coords, 18); // Set map center
+    setShowPopularList(false); // Close the list
+  }
+};
+
+
 
 
 
@@ -139,7 +166,21 @@ const handleSearchChange = async (e) => {
       className="fixed md:absolute bottom-20 md:top-4 left-1/2 transform -translate-x-1/2 
         z-[1000] w-72 h-10 flex flex-col items-center relative"
     >
-      <input
+
+<div className="flex items-center w-full">
+
+
+<button
+      className="mr-2 mt-2 bg-purpleMedium hover:bg-purpleDark text-white p-2 rounded-md"
+      onClick={() => setShowPopularList((prev) => !prev)}
+  >
+    
+      <StarIcon className="w-5 h-5 text-purpleLight"
+        />
+    </button>
+
+
+      <input 
         type="text"
         placeholder="Search for a location..."
         className="w-full h-10 p-2 border border-purpleMedium rounded-md focus:outline-none focus:ring-2 focus:ring-purpleDark"
@@ -157,7 +198,7 @@ const handleSearchChange = async (e) => {
               onClick={() => {
                 setSearchResults([]); // Clear results first
                 if (map) {
-                    map.flyTo([parseFloat(result.lat), parseFloat(result.lon)], 23);
+                    map.flyTo([parseFloat(result.lat), parseFloat(result.lon)], 15);
                 } else {
                     console.error("Map instance is not defined.");
                 }
@@ -169,8 +210,28 @@ const handleSearchChange = async (e) => {
           ))}
         </ul>
       )}
-    </div>
 
+ 
+
+
+    </div>
+    
+  
+
+    {showPopularList && (
+    <ul className="absolute top-12 bg-white border border-gray-300 w-full rounded-md shadow-md max-h-40 overflow-auto z-[1000] divide-y divide-gray-200">
+      {popularLocations.map((location, index) => (
+        <li
+          key={index}
+          className="p-2 hover:bg-purpleLight cursor-pointer text-sm text-gray-700 flex items-start leading-snug"
+          onClick={() => handleLocationClick(location.coords)}
+        >
+          {location.name}
+        </li>
+      ))}
+    </ul>
+  )}
+  </div>
 
 
       <MapContainer
