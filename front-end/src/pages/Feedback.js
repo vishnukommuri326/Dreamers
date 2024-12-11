@@ -105,7 +105,7 @@ const FeedbackForm = (props) => {
       ) : (
         <form onSubmit={handleSubmit} className="feedback-form">
           <div className="form-group">
-            <label htmlFor="answer1">Question 1</label>
+            <label htmlFor="answer1">How did you hear about this app? </label>
             <textarea
               id="answer1"
               name="answer1"
@@ -122,7 +122,7 @@ const FeedbackForm = (props) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="answer2">Question 2</label>
+            <label htmlFor="answer2">If there's one thing you like about the app, what was it?  </label>
             <textarea
               id="answer2"
               name="answer2"
@@ -139,7 +139,9 @@ const FeedbackForm = (props) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="answer3">Question 3</label>
+            <label htmlFor="answer3">If there is one thing you want this app to improve on, what would it be?
+
+            </label>
             <textarea
               id="answer3"
               name="answer3"
