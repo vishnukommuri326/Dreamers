@@ -42,9 +42,7 @@ To set up the project locally, follow these steps:
    npm install leaflet
    npm install mongoose
    npm install express-validator
-   testing 
-   testing
-   testing
+   npm install jwt-decode
    ```
 
 ### Running the Application Locally
