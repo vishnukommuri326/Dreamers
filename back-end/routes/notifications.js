@@ -1,10 +1,10 @@
 const express = require('express');
 const User = require('../models/User');
-const authenticateToken = require('./authroutes'); //ensure this is correctly imported
+const authenticateToken = require('./authroutes');
 
 const router = express.Router();
 
-// AddNotification function (optional, if needed for other modules)
+// AddNotification func
 const addNotification = async (userId, message) => {
     console.log("addNotification triggered");
     try {
@@ -19,7 +19,7 @@ const addNotification = async (userId, message) => {
     }
 };
 
-// Get notifications route
+// route for getting notif
 router.get('/', authenticateToken, async (req, res) => {
     try {
         const notifications = await User.findById(req.user.id).select('notifications');
@@ -31,7 +31,7 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 });
 
-// Delete notification route
+// route for deleting notif
 router.delete('/:id', authenticateToken, async (req, res) => {
     try {
         const user = await User.findByIdAndUpdate(
@@ -47,4 +47,4 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     }
 });
 
-module.exports = router; // Export the router
+module.exports = router;

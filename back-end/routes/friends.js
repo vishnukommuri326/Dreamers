@@ -17,7 +17,7 @@ router.get('/user/:userId', (req, res) => {
     res.json(userFriends);
 });
 
-// Add a new friend
+// add a new friend
 router.post('/', async (req, res) => {
     // console.log("POST / route hit");
     const { userId, name } = req.body;
@@ -34,9 +34,9 @@ router.post('/', async (req, res) => {
     };
     friendsList.push(newFriend);
     
-    // Trigger notification for user being added
+    // trigger notification for user added
     try {
-        // add notification to the users notification stack
+        // add notification to user's notification stack
         await addNotification(userId, `You have a new friend: ${name}`);
         console.log("test2");
         res.status(201).json(newFriend);
