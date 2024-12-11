@@ -76,7 +76,7 @@ const Header = () => {
               {!isLoggedIn && <li><Link to="/login">Login</Link></li>}
               {!isLoggedIn && <li><Link to="/register">Register</Link></li>}
               <li><Link to="/about">About</Link></li>
-              <li><Link to="/modify-pins">Modify Pins</Link></li>
+              {isLoggedIn && <li><Link to="/modify-pins">Modify Pins</Link></li>}
               {isLoggedIn && <li><Link to="/user-settings">User Settings</Link></li>}
             </ul>
           )}
