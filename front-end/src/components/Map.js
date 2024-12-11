@@ -164,7 +164,7 @@ const handleLocationClick = (coords) => {
      {/* Search Bar */}
      <div
       className="fixed md:absolute bottom-20 md:top-4 left-1/2 transform -translate-x-1/2 
-        z-[1000] w-72 h-10 flex flex-col items-center relative"
+        z-[1000] w-72 h-10 flex items-center"
     >
 
 <div className="flex items-center w-full">
