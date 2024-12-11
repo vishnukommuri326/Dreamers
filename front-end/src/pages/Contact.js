@@ -1,137 +1,197 @@
 import React, { useState } from 'react';
-import logo from '../assets/images/dreamer-1-Alternate.png';
+import emailjs from 'emailjs-com'; // Import EmailJS SDK for sending emails
+//import '../assets/styles/Contact.css';
 import '../assets/styles/About.css';
+import '../assets/styles/Feedback.css';
 
-const Contact = (props) => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [contactSent, setContactSent] = useState(false);
+
+
+const ContactForm = () => {
+  // Form state: Captures the user's name, email, and message
+  const [formData, setFormData] = useState({
+    userName: '',
+    userEmail: '',
+    userMessage: '',
+  });
+
+  // State to track whether the message has been successfully sent
+  const [messageSent, setMessageSent] = useState(false);
+
+  // State to handle any potential error messages during form submission
   const [errorMessage, setErrorMessage] = useState('');
-  const [fieldErrors, setFieldErrors] = useState({}); // For field-specific errors
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    setFieldErrors({ ...fieldErrors, [name]: '' }); // Clear the field error on change
+  // Function to update form state when user interacts with input fields
+  const handleChange = (event) => {
+    const target = event.target; // Get the target input element
+    const name = target.name; // Get the name of the field
+    const value = target.value; // Get the value of the field
+
+    // Use previous state to update the specific field without affecting others
+    setFormData((prevState) => {
+      const updatedState = {
+        ...prevState,
+        [name]: value,
+      };
+      return updatedState; // Return the updated state
+    });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setErrorMessage('');
-    setFieldErrors({}); // Reset all errors
+  // Function to handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    setErrorMessage(''); // Reset error message on new submission
+
+    // Validate form data before proceeding
+    const isValid = validateFormData(formData);
+    if (!isValid) {
+      setErrorMessage('Please fill out all required fields correctly.');
+      return;
+    }
 
     try {
-      const response = await fetch('http://localhost:5001/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      // Define constants for EmailJS service, template, and user credentials
+      const serviceID = 'service_u58tn8n'; // EmailJS Service ID
+      const templateID = 'template_kkbfnue'; // EmailJS Template ID
+      const userID = 'k_OkNdBx5fQ7bpD2S'; // EmailJS User ID
 
-      if (response.ok) {
-        setContactSent(true); // Update state on successful submission
-        setFormData({ name: '', email: '', message: '' }); // Clear form
-        setErrorMessage(''); // Clear any error message
-      } else {
-        const errData = await response.json();
+      // Create an object to map form data to email template parameters
+      const templateParams = {
+        userName: formData.userName || 'Anonymous', // Default to Anonymous if no name is provided
+        userEmail: formData.userEmail || 'No email provided', // Handle missing email gracefully
+        userMessage: formData.userMessage || 'No message provided.', // Default message if empty
+      };
 
-        if (errData.errors) {
-          const errors = {};
-          errData.errors.forEach((err) => {
-            errors[err.field] = err.message; // Map field to error message
-          });
-          setFieldErrors(errors); // Update state with field-specific errors
-        } else {
-          setErrorMessage(`Error: ${errData.message}`);
-        }
-      }
+      // Use EmailJS to send the email
+      await emailjs.send(serviceID, templateID, templateParams, userID);
+
+      // If successful, update the messageSent state and reset the form
+      setMessageSent(true);
+      resetFormState();
+
     } catch (error) {
-      console.error('Error Submitting Form: ', error);
-      setErrorMessage('An unexpected error occurred. Please try again later.');
+      console.error('Error Sending Message:', error);
+
+      // Update the errorMessage state if the email fails to send
+      setErrorMessage(
+        'There was an issue sending your message. Please try again later.'
+      );
     }
   };
 
-  return (
-    <div className="contact-page">
-      <header className="header">
-        <img src={logo} alt="Logo" className="Altlogo" />
-        <nav className="navigation"></nav>
-      </header>
+  // Helper function to validate form data
+  const validateFormData = (data) => {
+    const { userName, userEmail, userMessage } = data;
 
+    // Simple validation logic to ensure all fields are filled
+    if (!userName || !userEmail || !userMessage) {
+      return false; // Invalid if any field is empty
+    }
+
+    // Additional validation for email format
+    if (!isValidEmail(userEmail)) {
+      return false; // Invalid if email format is incorrect
+    }
+
+    return true; // All fields are valid
+  };
+
+  // Helper function to check if an email address is valid
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email regex
+    return emailRegex.test(email); // Return true if email matches regex
+  };
+
+  // Helper function to reset the form state
+  const resetFormState = () => {
+    setFormData({
+      userName: '',
+      userEmail: '',
+      userMessage: '',
+    });
+  };
+
+  return (
+    <div className="contact-form-container">
       <h1>Contact Us</h1>
 
+      {/* Display error message if one exists */}
       {errorMessage && (
         <div className="error-message-container">
           <p className="error-message">{errorMessage}</p>
         </div>
       )}
 
-      {contactSent ? (
+      {/* Show success message if the form has been submitted successfully */}
+      {messageSent ? (
         <div className="submit-success-message">
-          <p>Thank you for contacting us!</p>
+          <p>
+            Thank you for reaching out! Your message has been successfully sent,
+            and we will get back to you as soon as possible.
+          </p>
           <button
             type="button"
             className="reset-btn"
-            onClick={() => setContactSent(false)}
+            onClick={() => setMessageSent(false)}
           >
-            Submit Another Message
+            Send Another Message
           </button>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="contact-form">
+          {/* Name Field */}
           <div className="form-group">
-            <label htmlFor="name">Name:</label>
+            <label htmlFor="userName">Your Name</label>
             <input
               type="text"
-              id="name"
-              name="name"
-              value={formData.name}
+              id="userName"
+              name="userName"
+              value={formData.userName}
               onChange={handleChange}
+              placeholder="Enter your name"
               required
             />
-            {fieldErrors.name && <p className="error-message">{fieldErrors.name}</p>}
           </div>
 
+          {/* Email Field */}
           <div className="form-group">
-            <label htmlFor="email">Email:</label>
+            <label htmlFor="userEmail">Your Email</label>
             <input
               type="email"
-              id="email"
-              name="email"
-              value={formData.email}
+              id="userEmail"
+              name="userEmail"
+              value={formData.userEmail}
               onChange={handleChange}
+              placeholder="Enter your email"
               required
             />
-            {fieldErrors.email && <p className="error-message">{fieldErrors.email}</p>}
           </div>
 
+          {/* Message Field */}
           <div className="form-group">
-            <label htmlFor="message">Message:</label>
+            <label htmlFor="userMessage">Your Message</label>
             <textarea
-              id="message"
-              name="message"
-              value={formData.message}
+              id="userMessage"
+              name="userMessage"
+              value={formData.userMessage}
               onChange={handleChange}
+              placeholder="Enter your message here"
+              rows="5"
               required
             />
-            {fieldErrors.message && <p className="error-message">{fieldErrors.message}</p>}
           </div>
 
-          <button type="submit" className="submit-btn">
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="submit-btn"
+            aria-label="Submit Contact Form"
+          >
             Send Message
           </button>
         </form>
       )}
-
-      <button
-        type="button"
-        className="back-btn"
-        onClick={() => (window.location.href = '/about')}
-      >
-        Back
-      </button>
     </div>
   );
 };
 
-export default Contact;
+export default ContactForm;
