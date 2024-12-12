@@ -53,13 +53,7 @@ function MapSettings({ isOpen, onClose, onTogglePersonal, onToggleFriends }) {
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="text-purpleDark font-bold">Friends View Toggle</label>
-            <ToggleButton
-              isOn={friendsView}
-              onToggle={handleFriendsToggle}
-            />
-          </div>
+          
         </div>
       </Modal>
 
