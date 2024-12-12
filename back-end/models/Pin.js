@@ -6,6 +6,10 @@ const pinSchema = new mongoose.Schema({
         ref: 'User', // reference the user schema
         required: false,
     },
+    username: {
+        type: String, // Use String instead of ObjectId
+        required: false, // Make it required if every pin must have a username
+    },
     message: {
         type: String,
         required: true,
