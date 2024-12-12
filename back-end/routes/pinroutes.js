@@ -4,27 +4,6 @@ const router = express.Router();
 const User = require('../models/User');
 const Pin = require('../models/Pin');
 
-// Mock pin data for testing
-const pins = [
-    {
-        id: 1,
-        userId: 123,
-        message: 'Where it all begins.',
-        location: [40.7309, -73.9973],
-    },
-    {
-        id: 2,
-        userId: 123,
-        message: 'I am another default pin.',
-        location: [40.73055766427531, -73.99614393711092],
-    },
-    {
-        id: 3,
-        userId: 456,
-        message: 'I am a third default pin.',
-        location: [40.7309, -73.9980],
-    },
-];
 
 // Route to get all pins
 router.get('/', async (req, res) => {
@@ -40,6 +19,18 @@ router.get('/', async (req, res) => {
 router.get('/user/:userId', async (req, res) => {
     try {
         const userPins = await Pin.find({ userId: req.params.userId });
+        if (userPins.length === 0) {
+            return res.status(404).json({ message: 'No pins found for this user.' });
+        }
+        res.json(userPins);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching user pins.' });
+    }
+});
+
+router.get('/user/:username', async (req, res) => {
+    try {
+        const userPins = await Pin.find({ username: req.params.username });
         if (userPins.length === 0) {
             return res.status(404).json({ message: 'No pins found for this user.' });
         }
@@ -65,13 +56,14 @@ router.get('/:id', async (req, res) => {
 // Route to create a new pin
 router.post('/', async (req, res) => {
     try {
-        const { userId, message, location } = req.body;
+        const { userId, username, message, location } = req.body;
         // validate required fields
         if (!message || !location || location.length !== 2) {
             return res.status(400).json({ error: 'message and location fields are required.' });
         }
         const newPin = new Pin({
             userId,
+            username,
             message,
             location,
         });
