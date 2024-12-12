@@ -7,11 +7,22 @@ import Button from '../components/button';
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+  const [username, setUsername] = useState(''); // Track username
 
   // Check login status on component mount
   useEffect(() => {
     const token = localStorage.getItem('token'); // Check if a token exists in localStorage
-    setIsLoggedIn(!!token); // If token exists, user is logged in
+    if (token) {
+      setIsLoggedIn(true); // If token exists, user is logged in
+      try {
+        // Decode the token payload to extract the username
+        const decodedToken = JSON.parse(atob(token.split('.')[1]));
+        setUsername(decodedToken.username || ''); // Set username from the token payload
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        setUsername(''); // Reset username if decoding fails
+      }
+    }
   }, []);
 
   const toggleDropdown = () => {
@@ -21,6 +32,7 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove the token
     setIsLoggedIn(false); // Update login status
+    setUsername(''); // Clear username
     window.location.href = '/'; // Redirect to home after logout
   };
 
@@ -32,6 +44,9 @@ const Header = () => {
         </Link>
 
         <div className="controls-container">
+          {/* Display welcome message when logged in */}
+          {isLoggedIn && <span className="welcome-message">Welcome, {username}</span>}
+
           {/* Render Logout button if logged in, otherwise show Login/Register */}
           {isLoggedIn ? (
             <Button type="button" onClick={handleLogout}>
@@ -61,7 +76,7 @@ const Header = () => {
               {!isLoggedIn && <li><Link to="/login">Login</Link></li>}
               {!isLoggedIn && <li><Link to="/register">Register</Link></li>}
               <li><Link to="/about">About</Link></li>
-              <li><Link to="/modify-pins">Modify Pins</Link></li>
+              {isLoggedIn && <li><Link to="/modify-pins">Modify Pins</Link></li>}
               {isLoggedIn && <li><Link to="/user-settings">User Settings</Link></li>}
             </ul>
           )}

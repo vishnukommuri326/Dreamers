@@ -9,6 +9,7 @@ const ModifyPins = () => {
   const { username } = useContext(UserContext); // Fetch current user context
   const userPins = pins.filter((pin) => pin.username === username); // Filter pins for the current user
 
+
   const [editPinId, setEditPinId] = useState(null);
   const [newDescription, setNewDescription] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -151,6 +152,7 @@ const ModifyPins = () => {
           </button>
         </div>
       </Modal>
+
     </div>
   );
 };

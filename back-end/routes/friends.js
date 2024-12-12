@@ -17,8 +17,9 @@ router.get('/user/:userId', (req, res) => {
     res.json(userFriends);
 });
 
-// Add a new friend
-router.post('/', (req, res) => {
+// add a new friend
+router.post('/', async (req, res) => {
+    // console.log("POST / route hit");
     const { userId, name } = req.body;
     if (!userId || !name) {
         return res.status(400).json({ message: 'User ID and friend name are required' });
@@ -32,7 +33,18 @@ router.post('/', (req, res) => {
         name,
     };
     friendsList.push(newFriend);
-    res.status(201).json(newFriend);
+    
+    // trigger notification for user added
+    try {
+        // add notification to user's notification stack
+        await addNotification(userId, `You have a new friend: ${name}`);
+        console.log("test2");
+        res.status(201).json(newFriend);
+        console.log("test3");
+    } catch (error) {
+        console.error('Error adding notification:', error);
+        res.status(500).json({ error: 'Failed to send notification' });
+    }
 });
 
 // Remove a friend
