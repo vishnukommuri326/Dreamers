@@ -8,6 +8,9 @@ import MapSettings from './MapSettings';
 import { ReactComponent as SettingsIcon } from '../assets/images/icons/settings.svg';
 import { ReactComponent as StarIcon } from '../assets/images/icons/star.svg';
 import { PinContext } from '../PinContext';
+import { UserContext } from '../UserContext';
+
+
 
 // custom svg marker
 const createCustomIcon = () => {
@@ -37,6 +40,9 @@ function InitializeMap({ setMap }) {
 
 
 const MapComponent = () => {
+
+  const { userId, username } = useContext(UserContext); // Fetch current user context
+
 
   const {pins, addPin} = useContext(PinContext)
   const [isModalOpen, setModalOpen] = useState(false);
@@ -112,12 +118,15 @@ const handleLocationClick = (coords) => {
     setShowPersonalPins(!showPersonalPins);
   };
 
-  const filteredPins = showPersonalPins ? pins.filter((pin) => pin.userId === 123): pins; //Replace 123 with actual userId logic
+  const filteredPins = showPersonalPins ? pins.filter((pin) => pin.username === username): pins; //Replace 123 with actual userId logic
 
-  const currentUser = null; 
+  const currentUser = userId; 
   const handleAddPin = async (message) => {
+    console.log('User id:', userId);
+    console.log('Username:', username);
     const newPin = {
-      userId: currentUser || null,
+      userId: userId || null,
+      username: username,
       message: message,
       location: [newPinLocation.lat, newPinLocation.lng],
     };
