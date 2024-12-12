@@ -2,9 +2,13 @@ import React, { useContext, useState } from 'react';
 import { PinContext } from '../PinContext';
 import '../assets/styles/ModifyPins.css';
 import Modal from '../components/modal'; // Assume Modal component is available
+import { UserContext } from '../UserContext';
 
 const ModifyPins = () => {
   const { pins, updatePin, deletePin } = useContext(PinContext);
+  const { username } = useContext(UserContext); // Fetch current user context
+  const userPins = pins.filter((pin) => pin.userId === username?._id); // Filter pins for the current user
+
 
   const [editPinId, setEditPinId] = useState(null);
   const [newDescription, setNewDescription] = useState('');
@@ -45,49 +49,55 @@ const ModifyPins = () => {
     <div className="pin-list-container">
       <h1 className="title">Modify Your Pins</h1>
       <div className="pin-list">
-        {pins.map((pin) => (
-          <div className="pin-item" key={pin._id}>
-            {editPinId === pin._id ? (
-              <div className="edit-mode">
-                <textarea
-                  className="textarea"
-                  value={newDescription}
-                  onChange={(e) => setNewDescription(e.target.value)}
-                  rows="3"
-                />
-                <div className="action-buttons">
-                  <button className="button edit-button" onClick={handleSave}>
-                    Save
-                  </button>
-                  <button
-                    className="button cancel-button"
-                    onClick={() => setEditPinId(null)}
-                  >
-                    Cancel
-                  </button>
+        {userPins.length === 0 ? ( // Check if userPins is empty
+          <p className="no-pins-message">
+            You don’t have any pins yet. Explore the map and add some memories!
+          </p>
+        ) : (
+          userPins.map((pin) => (
+            <div className="pin-item" key={pin._id}>
+              {editPinId === pin._id ? (
+                <div className="edit-mode">
+                  <textarea
+                    className="textarea"
+                    value={newDescription}
+                    onChange={(e) => setNewDescription(e.target.value)}
+                    rows="3"
+                  />
+                  <div className="action-buttons">
+                    <button className="button edit-button" onClick={handleSave}>
+                      Save
+                    </button>
+                    <button
+                      className="button cancel-button"
+                      onClick={() => setEditPinId(null)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <>
-                <p className="pin-description">{pin.message}</p>
-                <div className="action-buttons">
-                  <button
-                    className="edit-button"
-                    onClick={() => handleEdit(pin._id, pin.message)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="delete-button"
-                    onClick={() => handleDeleteConfirmation(pin._id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        ))}
+              ) : (
+                <>
+                  <p className="pin-description">{pin.message}</p>
+                  <div className="action-buttons">
+                    <button
+                      className="edit-button"
+                      onClick={() => handleEdit(pin._id, pin.message)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="delete-button"
+                      onClick={() => handleDeleteConfirmation(pin._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          ))
+        )}
       </div>
 
       {/* Delete Confirmation Modal */}
@@ -114,35 +124,34 @@ const ModifyPins = () => {
       </Modal>
 
       {/* View on Map Modal */}
-      {/* View on Map Modal */}
-<Modal
-  isOpen={showViewModal}
-  onClose={() => setShowViewModal(false)}
-  title="View Pin on Map"
->
-  <p>Your pin has been modified! Would you like to view it on the map?</p>
-  <div className="flex justify-end gap-2">
-    <button
-      className="px-4 py-2 rounded"
-      style={{
-        backgroundColor: "black",
-        color: "white",
-        fontWeight: "bold",
-        border: "1px solid white",
-        cursor: "pointer",
-      }}
-      onClick={handleViewOnMap}
-    >
-      Yes
-    </button>
-    <button
-      className="px-4 py-2 bg-gray-300 rounded"
-      onClick={() => setShowViewModal(false)}
-    >
-      No
-    </button>
-  </div>
-</Modal>
+      <Modal
+        isOpen={showViewModal}
+        onClose={() => setShowViewModal(false)}
+        title="View Pin on Map"
+      >
+        <p>Your pin has been modified! Would you like to view it on the map?</p>
+        <div className="flex justify-end gap-2">
+          <button
+            className="px-4 py-2 rounded"
+            style={{
+              backgroundColor: 'black',
+              color: 'white',
+              fontWeight: 'bold',
+              border: '1px solid white',
+              cursor: 'pointer',
+            }}
+            onClick={handleViewOnMap}
+          >
+            Yes
+          </button>
+          <button
+            className="px-4 py-2 bg-gray-300 rounded"
+            onClick={() => setShowViewModal(false)}
+          >
+            No
+          </button>
+        </div>
+      </Modal>
 
     </div>
   );
