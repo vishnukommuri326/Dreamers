@@ -27,11 +27,8 @@ const UserSettings = () => {
     const [friendSearch, setFriendSearch] = useState("");
     const [newFriend, setNewFriend] = useState("");
 
-
     //Profile photo management
     const [profilePhoto, setProfilePhoto] = useState(null);
-
-
 
     // Fetch user settings when the component loads
     useEffect(() => {
@@ -56,7 +53,6 @@ const UserSettings = () => {
         };
         fetchSettings();
     }, [username]);
-
 
     // Handle profile file photo change
 
@@ -87,19 +83,13 @@ const UserSettings = () => {
                 setError("Failed to process image (try to upload a smaller image) ")
 
             }
-
-
         }
-
     }
 
 
     const handleRemovePhoto = () => {
         setProfilePhoto(null)
     }
-
-
-
 
     // Handle updating user settings
     const handleSaveSettings = async () => {
