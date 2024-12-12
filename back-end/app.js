@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
+
 // Load environment variables
 dotenv.config();
 
@@ -16,6 +17,7 @@ const userRoutes = require('./routes/userroutes.js');
 const friendRoutes = require('./routes/friends.js');
 const feedbackRoutes = require('./routes/feedbackroutes.js');
 const contactRoutes = require('./routes/contactroutes.js');
+const notificationsRoutes = require('./routes/notifications');  // added 2024-12-11
 
 // Initialize Express app
 const app = express();
@@ -55,6 +57,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/friends', friendRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/notifications', notificationsRoutes); // added 2024-12-11
 
 // Start the server
 if (require.main === module) {
