@@ -2,6 +2,7 @@ import React from 'react';
 import 'leaflet/dist/leaflet.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { PinProvider } from './PinContext'; 
+import { UserProvider } from './UserContext';
 import '../src/assets/styles/App.css';
 import '../src/assets/styles/output.css';
 import Header from './pages/Header';
@@ -18,11 +19,11 @@ import ModifyPins from './pages/ModifyPins';
 
 import 'leaflet/dist/leaflet.css';
 
-
 const App = props => {
 
   return (
     <div className="App">
+      <UserProvider>
       <PinProvider>
       <Router>
         <Header />
@@ -58,6 +59,7 @@ const App = props => {
         <Footer />
       </Router>
       </PinProvider>
+      </UserProvider>
     </div>
   );
 }

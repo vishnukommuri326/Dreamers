@@ -1,55 +1,67 @@
 import React, { useState, useEffect } from 'react';
+import {jwtDecode} from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 import imageCompression from 'browser-image-compression';
 import '../assets/styles/profile.css';
 import Button from '../components/button';
 import { getUserSettings, updateUserSettings } from '../api';
 
 const UserSettings = () => {
-    const [username, setUsername] = useState("Dreamer1"); // Make sure this is a valid username
-    const [password, setPassword] = useState("Dreamer123456");
-    const [aboutme, setAboutme] = useState("Hello! I am a Dreamer.");
-    const [number, setNumber] = useState("123-456-7890");
-    const [otherSocial, setOtherSocial] = useState("https://example.com");
+    const navigate = useNavigate();
+    const token = localStorage.getItem('token'); // Fetch the JWT token from localStorage
 
-    const [isEditingUsername, setIsEditingUsername] = useState(false);
-    const [isEditingPassword, setIsEditingPassword] = useState(false);
-    const [isEditingAboutme, setIsEditingAboutme] = useState(false);
-    const [isEditingNumber, setIsEditingNumber] = useState(false);
-    const [isEditingOtherSocial, setIsEditingOtherSocial] = useState(false);
+    // State variables for user data
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('********'); // Display password as masked by default
+    const [aboutme, setAboutme] = useState('');
+    const [number, setNumber] = useState('');
+    const [otherSocial, setOtherSocial] = useState('');
+    const [friends, setFriends] = useState([]); // Initialize as an empty array to avoid runtime errors
+    const [newFriend, setNewFriend] = useState('');
+    const [friendSearch, setFriendSearch] = useState('');
+    const [profilePhoto, setProfilePhoto] = useState(null); // Profile photo for upload functionality
 
     // Loading and error states
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
 
-    // Friend management
-    const [friends, setFriends] = useState([]);
-    const [friendSearch, setFriendSearch] = useState("");
-    const [newFriend, setNewFriend] = useState("");
-
-
-    //Profile photo management
-    const [profilePhoto, setProfilePhoto] = useState(null);
-
-
-
-    // Fetch user settings when the component loads
+    // Decode the JWT token to get the username
     useEffect(() => {
+        if (!token) {
+            setError('No token provided. Please log in.');
+            setTimeout(() => navigate('/login'), 3000); // Redirect to login if no token
+            return;
+        }
+
+        try {
+            const decoded = jwtDecode(token); // Decode the JWT
+            setUsername(decoded.username); // Extract the username from the token
+        } catch (err) {
+            console.error('Error decoding token:', err);
+            setError('Invalid token. Please log in again.');
+            setTimeout(() => navigate('/login'), 3000); // Redirect if token is invalid
+        }
+    }, [token, navigate]);
+
+    // Fetch user settings from the backend
+    useEffect(() => {
+        if (!username) return;
+
         const fetchSettings = async () => {
             setLoading(true);
             setError(null);
             try {
-                const data = await getUserSettings(username);
-                setUsername(data.username);
-                setPassword(data.password); // Assuming password is fetched securely
-                setAboutme(data.aboutMe);
-                setNumber(data.number);
-                setOtherSocial(data.otherSocialMedia);
-                setFriends(data.friendsList);
-                setProfilePhoto(data.profilePhoto)
+                const data = await getUserSettings(username); // API call to fetch user settings
+                setPassword('********'); // Display masked password by default
+                setAboutme(data.aboutMe || '');
+                setNumber(data.number || '');
+                setOtherSocial(data.otherSocialMedia || '');
+                setFriends(data.friendsList || []); // Ensure friends is always an array
+                setProfilePhoto(data.profilePhoto || null); // Load profile photo if available
             } catch (err) {
-                console.error("Error fetching user settings:", err);
-                setError("Failed to load user settings");
+                console.error('Error fetching user settings:', err);
+                setError('Failed to load user settings.');
             } finally {
                 setLoading(false);
             }
@@ -57,116 +69,81 @@ const UserSettings = () => {
         fetchSettings();
     }, [username]);
 
+    
 
-    // Handle profile file photo change
-
+    // Handle profile photo upload
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
-        if (file){
-            const reader = new FileReader()
-
-            const options = { // [To do]: Be able to process Large memory images
-                maxSizeMB: 0.25, // Maximum memory
-                maxWidthOrHeight: 540, //Maximum dimensions
+        if (file) {
+            const options = {
+                maxSizeMB: 0.25,
+                maxWidthOrHeight: 540,
                 useWebWorker: true,
             };
 
-            try{
-
-                const compressedFile = await imageCompression(file, options);
+            try {
+                const compressedFile = await imageCompression(file, options); // Compress the image
                 const reader = new FileReader();
-
-                reader.onload = () =>{
-                    setProfilePhoto(reader.result) // Store image in base-64 string
+                reader.onload = () => {
+                    setProfilePhoto(reader.result); // Convert to base64 and update state
                 };
-                reader.readAsDataURL(compressedFile)
-
+                reader.readAsDataURL(compressedFile);
+            } catch (error) {
+                console.error('Error compressing image:', error);
+                setError('Failed to process the image. Try a smaller one.');
             }
-            catch{// If there is failure in compression
-                console.log("Errer occured during compression", error)
-                setError("Failed to process image (try to upload a smaller image) ")
-
-            }
-
-
         }
+    };
 
-    }
-
-
+    // Remove the profile photo
     const handleRemovePhoto = () => {
-        setProfilePhoto(null)
-    }
+        setProfilePhoto(null);
+    };
 
-
-
-
-    // Handle updating user settings
+    // Save all user settings to the backend
     const handleSaveSettings = async () => {
         setLoading(true);
         setError(null);
         setSuccessMessage(null);
         try {
-            const updatedData = await updateUserSettings(username, {
+            const updatedData = {
                 aboutMe: aboutme,
                 number,
                 otherSocialMedia: otherSocial,
                 friendsList: friends,
                 profilePhoto,
-            });
-            setSuccessMessage("Settings updated successfully!");
-            setAboutme(updatedData.user.aboutMe);
-            setNumber(updatedData.user.number);
-            setOtherSocial(updatedData.user.otherSocialMedia);
-            setFriends(updatedData.user.friendsList);
-            setProfilePhoto(updatedData.user.profilePhoto)
+            };
+    
+            console.log('Sending data to backend:', updatedData); // Debug log
+    
+            const response = await updateUserSettings(username, updatedData);
+            console.log('Response from backend:', response); // Debug log
+    
+            setSuccessMessage('Settings updated successfully!');
         } catch (err) {
-            console.error("Error updating user settings:", err);
-            setError("Failed to update settings");
+            console.error('Error updating user settings:', err);
+            setError('Failed to update settings.');
         } finally {
             setLoading(false);
         }
     };
+    
 
-    const handleEditToggle = (field) => {
-        switch (field) {
-            case "username":
-                setIsEditingUsername((prev) => !prev);
-                if (isEditingUsername) setUsername(username || "Dreamer1");
-                break;
-            case "password":
-                setIsEditingPassword((prev) => !prev);
-                if (isEditingPassword) setPassword(password || "Dreamer123456");
-                break;
-            case "aboutme":
-                setIsEditingAboutme((prev) => !prev);
-                if (isEditingAboutme) setAboutme(aboutme || "Hello! I am a Dreamer.");
-                break;
-            case "number":
-                setIsEditingNumber((prev) => !prev);
-                if (isEditingNumber) setNumber(number || "123-456-7890");
-                break;
-            case "otherSocial":
-                setIsEditingOtherSocial((prev) => !prev);
-                if (isEditingOtherSocial) setOtherSocial(otherSocial || "https://example.com");
-                break;
-            default:
-                break;
-        }
-    };
-
+    // Add a new friend to the friends list
     const handleAddFriend = () => {
         if (newFriend && !friends.includes(newFriend)) {
             setFriends((prev) => [...prev, newFriend]);
-            setNewFriend("");
+            setNewFriend('');
         }
     };
 
+    // Remove a friend from the friends list
     const handleRemoveFriend = (friend) => {
         setFriends((prev) => prev.filter((f) => f !== friend));
     };
 
-    const filteredFriends = friends.filter((friend) =>
+    // Filter friends based on search input
+    const filteredFriends = (friends || []).filter((friend) =>
         friend.toLowerCase().includes(friendSearch.toLowerCase())
     );
 
@@ -176,13 +153,14 @@ const UserSettings = () => {
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
 
+            {/* Profile photo upload and preview */}
             <div className="avatar-frame">
                 {profilePhoto ? (
                     <>
                         <img src={profilePhoto} alt="Profile" className="avatar-image" />
-                        <div className="profbutn-container">
-                            <Button className="remove-button" onClick={handleRemovePhoto}>Remove</Button>
-                        </div>
+                        <Button className="remove-button" onClick={handleRemovePhoto}>
+                            Remove
+                        </Button>
                     </>
                 ) : (
                     <label className="upload-label">
@@ -190,39 +168,21 @@ const UserSettings = () => {
                         <input type="file" className="file-input" onChange={handleFileChange} />
                     </label>
                 )}
-                </div>
+            </div>
 
-
+            {/* User information fields */}
             <div className="info-section">
                 <label>
                     <strong>Username:</strong>
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        readOnly={!isEditingUsername}
-                        className="info-input"
-                    />
+                    <input type="text" value={username} readOnly className="info-input" />
                 </label>
-                <Button onClick={() => handleEditToggle("username")}>
-                    {isEditingUsername ? "Save" : "Edit"}
-                </Button>
             </div>
 
             <div className="info-section">
                 <label>
                     <strong>Password:</strong>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        readOnly={!isEditingPassword}
-                        className="info-input"
-                    />
+                    <input type="password" value={password} readOnly className="info-input" />
                 </label>
-                <Button onClick={() => handleEditToggle("password")}>
-                    {isEditingPassword ? "Save" : "Edit"}
-                </Button>
             </div>
 
             <div className="info-section">
@@ -232,13 +192,9 @@ const UserSettings = () => {
                         type="text"
                         value={aboutme}
                         onChange={(e) => setAboutme(e.target.value)}
-                        readOnly={!isEditingAboutme}
                         className="info-input"
                     />
                 </label>
-                <Button onClick={() => handleEditToggle("aboutme")}>
-                    {isEditingAboutme ? "Save" : "Edit"}
-                </Button>
             </div>
 
             <div className="info-section">
@@ -248,13 +204,9 @@ const UserSettings = () => {
                         type="text"
                         value={number}
                         onChange={(e) => setNumber(e.target.value)}
-                        readOnly={!isEditingNumber}
                         className="info-input"
                     />
                 </label>
-                <Button onClick={() => handleEditToggle("number")}>
-                    {isEditingNumber ? "Save" : "Edit"}
-                </Button>
             </div>
 
             <div className="info-section">
@@ -264,17 +216,12 @@ const UserSettings = () => {
                         type="text"
                         value={otherSocial}
                         onChange={(e) => setOtherSocial(e.target.value)}
-                        readOnly={!isEditingOtherSocial}
                         className="info-input"
                     />
                 </label>
-                <Button onClick={() => handleEditToggle("otherSocial")}>
-                    {isEditingOtherSocial ? "Save" : "Edit"}
-                </Button>
             </div>
 
-            <Button onClick={handleSaveSettings} disabled={loading}>Save All Changes</Button>
-
+            {/* Friends management */}
             <div className="friends-section">
                 <h3>Friends List</h3>
                 <input
@@ -300,7 +247,12 @@ const UserSettings = () => {
                     className="add-input"
                 />
                 <Button onClick={handleAddFriend}>Add Friend</Button>
-            </div>            
+            </div>
+
+            {/* Save all changes button */}
+            <Button onClick={handleSaveSettings} disabled={loading}>
+                Save All Changes
+            </Button>
         </div>
     );
 };
