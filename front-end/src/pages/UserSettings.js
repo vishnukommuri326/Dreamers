@@ -221,34 +221,7 @@ const UserSettings = () => {
                 </label>
             </div>
 
-            {/* Friends management */}
-            <div className="friends-section">
-                <h3>Friends List</h3>
-                <input
-                    type="text"
-                    placeholder="Search friends..."
-                    value={friendSearch}
-                    onChange={(e) => setFriendSearch(e.target.value)}
-                    className="search-input"
-                />
-                <ul className="friend-list">
-                    {filteredFriends.map((friend, index) => (
-                        <li key={index}>
-                            {friend}
-                            <Button onClick={() => handleRemoveFriend(friend)}>Remove</Button>
-                        </li>
-                    ))}
-                </ul>
-                <input
-                    type="text"
-                    placeholder="Add new friend"
-                    value={newFriend}
-                    onChange={(e) => setNewFriend(e.target.value)}
-                    className="add-input"
-                />
-                <Button onClick={handleAddFriend}>Add Friend</Button>
-            </div>
-
+            
             {/* Save all changes button */}
             <Button onClick={handleSaveSettings} disabled={loading}>
                 Save All Changes
