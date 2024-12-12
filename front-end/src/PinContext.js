@@ -9,7 +9,7 @@ const PinProvider = ({children}) => {
     useEffect(() => {
         const fetchPins = async () => { // Fetch pins from backend when context starts
           try {
-            const response = await fetch('http://localhost:5001/api/pins');
+            const response = await fetch('http://64.225.57.7:5001/api/pins');
             const data = await response.json();
             setPins(data);
           } catch (error) { //[Make Page]
@@ -26,7 +26,7 @@ const PinProvider = ({children}) => {
 
       const addPin = async (newPin) => { // Add pin 
         try {
-          const response = await fetch("http://localhost:5001/api/pins", {
+          const response = await fetch("http://64.225.57.7:5001/api/pins", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newPin),
@@ -49,7 +49,7 @@ const PinProvider = ({children}) => {
 
       const updatePin = async (id, updatedMessage) => { // Update pin to backend
         try {
-          const response = await fetch(`http://localhost:5001/api/pins/${id}`, {
+          const response = await fetch(`http://64.225.57.7:5001/api/pins/${id}`, {
             method: 'PUT',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({ message: updatedMessage }),
@@ -66,7 +66,7 @@ const PinProvider = ({children}) => {
 
       const deletePin = async (id) => {
         try {
-          await fetch(`http://localhost:5001/api/pins/${id}`, {
+          await fetch(`http://64.225.57.7:5001/api/pins/${id}`, {
             method: 'DELETE',
           });
 

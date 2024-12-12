@@ -34,6 +34,7 @@ To set up the project locally, follow these steps:
    ```bash
    cd back-end
    npm install
+   npm install cors
    npm install chai
    npm install mocha
    cd ../front-end
@@ -42,9 +43,8 @@ To set up the project locally, follow these steps:
    npm install leaflet
    npm install mongoose
    npm install express-validator
-   testing 
-   testing
-   testing
+   npm install jwt-decode
+   npm install emailjs-com
    ```
 
 ### Running the Application Locally

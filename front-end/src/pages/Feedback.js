@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import emailjs from 'emailjs-com'; // Import EmailJS SDK
 import logo from '../assets/images/dreamer-1-Alternate.png';
 import '../assets/styles/About.css';
 import '../assets/styles/Feedback.css';
 
-const FeedbackForm = (props) => {
+const FeedbackForm = () => {
   const [formData, setFormData] = useState({
     answer1: '',
     answer2: '',
     answer3: '',
     additionalInfo: '',
   });
+
   const [feedbackSent, setFeedbackSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [fieldErrors, setFieldErrors] = useState({});
   const [remainingChars, setRemainingChars] = useState({
     answer1: 200,
     answer2: 200,
@@ -20,6 +21,7 @@ const FeedbackForm = (props) => {
     additionalInfo: 500,
   });
 
+  // Define character limits for each field to ensure they match requirements
   const charLimits = {
     answer1: 200,
     answer2: 200,
@@ -27,51 +29,86 @@ const FeedbackForm = (props) => {
     additionalInfo: 500,
   };
 
+  // Function to handle changes in form inputs and manage state updates
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const inputName = e.target.name;
+    const inputValue = e.target.value;
 
-    // Ensure the character count updates correctly even with backspace
-    if (value.length <= charLimits[name]) {
-      setFormData({ ...formData, [name]: value });
-      setRemainingChars({ ...remainingChars, [name]: charLimits[name] - value.length });
+    if (inputName in charLimits) {
+      // Check if the value's length exceeds the defined limit
+      if (inputValue.length <= charLimits[inputName]) {
+        setFormData((prevState) => {
+          return {
+            ...prevState,
+            [inputName]: inputValue,
+          };
+        });
+
+        setRemainingChars((prevRemainingChars) => {
+          return {
+            ...prevRemainingChars,
+            [inputName]: charLimits[inputName] - inputValue.length,
+          };
+        });
+      }
+    } else {
+      setFormData((prevState) => {
+        return {
+          ...prevState,
+          [inputName]: inputValue,
+        };
+      });
     }
   };
 
+  // Function to handle form submission and send the email
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');
-    setFieldErrors({});
+
+    setErrorMessage(''); // Clear any existing error messages
 
     try {
-      const response = await fetch('http://localhost:5001/feedback', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      // Define EmailJS configuration details
+      const serviceID = 'service_u58tn8n'; // Your EmailJS Service ID
+      const templateID = 'template_jt3gx9m'; // Your EmailJS Template ID
+      const userID = 'k_OkNdBx5fQ7bpD2S'; // Your EmailJS User ID
+
+      // Template parameters for EmailJS
+      const templateParams = {
+        to_email: 'gr2257@nyu.edu', // Send to this email
+        answer1: formData.answer1, // Answer 1
+        answer2: formData.answer2, // Answer 2
+        answer3: formData.answer3, // Answer 3
+        additionalInfo: formData.additionalInfo || 'No additional information provided.',
+      };
+
+      // Send email through EmailJS
+      await emailjs.send(serviceID, templateID, templateParams, userID);
+
+      // If successful, update feedbackSent and reset form
+      setFeedbackSent(true);
+
+      setFormData({
+        answer1: '',
+        answer2: '',
+        answer3: '',
+        additionalInfo: '',
       });
 
-      if (response.ok) {
-        setFeedbackSent(true);
-        setFormData({ answer1: '', answer2: '', answer3: '', additionalInfo: '' });
-        setRemainingChars({ answer1: 200, answer2: 200, answer3: 300, additionalInfo: 500 });
-        setErrorMessage('');
-      } else {
-        const errData = await response.json();
+      setRemainingChars({
+        answer1: charLimits.answer1,
+        answer2: charLimits.answer2,
+        answer3: charLimits.answer3,
+        additionalInfo: charLimits.additionalInfo,
+      });
 
-        if (errData.errors) {
-          const errors = {};
-          errData.errors.forEach((err) => {
-            errors[err.param] = err.msg;
-          });
-          setFieldErrors(errors);
-        } else {
-          setErrorMessage(`Error: ${errData.message}`);
-        }
-      }
+      setErrorMessage(''); // Clear any error messages upon success
     } catch (error) {
-      console.error('Error Submitting Feedback: ', error);
-      setErrorMessage('Error occurred while submitting feedback. Please try again later.');
+      console.error('Error Sending Email:', error);
+
+      setErrorMessage(
+        'We encountered an issue while sending your feedback. Please try again later.'
+      );
     }
   };
 
@@ -91,13 +128,11 @@ const FeedbackForm = (props) => {
 
       {feedbackSent ? (
         <div className="submit-success-message">
-          <p>Thank you for your feedback!</p>
+          <p>Thank you for your feedback! We greatly appreciate your time and effort in helping us improve.</p>
           <button
             type="button"
             className="reset-btn"
-            onClick={() => {
-              setFeedbackSent(false);
-            }}
+            onClick={() => setFeedbackSent(false)}
           >
             Submit More Feedback
           </button>
@@ -105,54 +140,42 @@ const FeedbackForm = (props) => {
       ) : (
         <form onSubmit={handleSubmit} className="feedback-form">
           <div className="form-group">
-            <label htmlFor="answer1">Question 1</label>
+            <label htmlFor="answer1">How did you hear about this app?</label>
             <textarea
               id="answer1"
               name="answer1"
               value={formData.answer1}
               onChange={handleChange}
-              placeholder="Your Response"
               maxLength={200}
               required
             />
-            {fieldErrors.answer1 && <p className="error-message">{fieldErrors.answer1}</p>}
-            {remainingChars.answer1 !== undefined && (
-              <p className="char-counter">{remainingChars.answer1} characters left</p>
-            )}
+            <p className="char-counter">{remainingChars.answer1} characters left</p>
           </div>
 
           <div className="form-group">
-            <label htmlFor="answer2">Question 2</label>
+            <label htmlFor="answer2">What did you like about the app?</label>
             <textarea
               id="answer2"
               name="answer2"
               value={formData.answer2}
               onChange={handleChange}
-              placeholder="Your Response"
               maxLength={200}
               required
             />
-            {fieldErrors.answer2 && <p className="error-message">{fieldErrors.answer2}</p>}
-            {remainingChars.answer2 !== undefined && (
-              <p className="char-counter">{remainingChars.answer2} characters left</p>
-            )}
+            <p className="char-counter">{remainingChars.answer2} characters left</p>
           </div>
 
           <div className="form-group">
-            <label htmlFor="answer3">Question 3</label>
+            <label htmlFor="answer3">What could we improve?</label>
             <textarea
               id="answer3"
               name="answer3"
               value={formData.answer3}
               onChange={handleChange}
-              placeholder="Your Response"
               maxLength={300}
               required
             />
-            {fieldErrors.answer3 && <p className="error-message">{fieldErrors.answer3}</p>}
-            {remainingChars.answer3 !== undefined && (
-              <p className="char-counter">{remainingChars.answer3} characters left</p>
-            )}
+            <p className="char-counter">{remainingChars.answer3} characters left</p>
           </div>
 
           <div className="form-group">
@@ -162,30 +185,22 @@ const FeedbackForm = (props) => {
               name="additionalInfo"
               value={formData.additionalInfo}
               onChange={handleChange}
-              placeholder="Any other feedback you'd like to provide"
               maxLength={500}
             />
-            {fieldErrors.additionalInfo && (
-              <p className="error-message">{fieldErrors.additionalInfo}</p>
-            )}
-            {remainingChars.additionalInfo !== undefined && (
-              <p className="char-counter">{remainingChars.additionalInfo} characters left</p>
-            )}
+            <p className="char-counter">
+              {remainingChars.additionalInfo} characters left
+            </p>
           </div>
 
-          <button type="submit" className="submit-btn">
+          <button
+            type="submit"
+            className="submit-btn"
+            aria-label="Submit Feedback Button"
+          >
             Send Feedback
           </button>
         </form>
       )}
-
-      <button
-        type="button"
-        className="back-btn"
-        onClick={() => (window.location.href = '/about')}
-      >
-        Back
-      </button>
     </div>
   );
 };
