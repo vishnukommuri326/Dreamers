@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an axios instance with the correct base URL
 const api = axios.create({
-    baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:5001/api', // Ensure /api prefix is included
+    baseURL: process.env.REACT_APP_API_BASE_URL || 'http://64.225.57.7:5001/api', // Ensure /api prefix is included
     timeout: 1000,
     headers: { 'Content-Type': 'application/json' },
 });
