@@ -56,7 +56,7 @@ const MapComponent = () => {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
 
 
-  const [showPersonalPins, setShowPersonalPins] = useState(false);
+  // const [showPersonalPins, setShowPersonalPins] = useState(false);
 
   const toggleSettingsModal = () => {
     setSettingsOpen(!isSettingsOpen);
@@ -113,12 +113,24 @@ const handleLocationClick = (coords) => {
 
 
 
+const [showPersonalPins, setShowPersonalPins] = useState(() => {
+  const storedValue = localStorage.getItem('personalView');
+  return storedValue === null ? false : JSON.parse(storedValue);
+});
 
-  const togglePersonalPins = () => {
-    setShowPersonalPins(!showPersonalPins);
-  };
+const togglePersonalPins = (newState) => {
+  setShowPersonalPins(newState);
+};
 
-  const filteredPins = showPersonalPins ? pins.filter((pin) => pin.username === username): pins; //Replace 123 with actual userId logic
+const filteredPins = showPersonalPins
+  ? pins.filter((pin) => pin.username === username)
+  : pins;
+
+  // const togglePersonalPins = () => {
+  //   setShowPersonalPins(!showPersonalPins);
+  // };
+
+  // const filteredPins = showPersonalPins ? pins.filter((pin) => pin.username === username): pins; //Replace 123 with actual userId logic
 
   const currentUser = userId; 
   const handleAddPin = async (message) => {

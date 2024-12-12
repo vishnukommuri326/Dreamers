@@ -1,86 +1,90 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Modal from '../components/modal';
 import ToggleButton from '../components/toggle';
+import { UserContext } from '../UserContext';
 
 function MapSettings({ isOpen, onClose, onTogglePersonal, onToggleFriends }) {
+  const { isLoggedIn } = useContext(UserContext); // Get isLoggedIn status
   const [personalView, setPersonalView] = useState(() => {
-    const storedValue = sessionStorage.getItem('personalView');
+    const storedValue = localStorage.getItem('personalView');
     return storedValue === null ? false : JSON.parse(storedValue);
   });
 
   const [friendsView, setFriendsView] = useState(() => {
-    const storedValue = sessionStorage.getItem('friendsView');
+    const storedValue = localStorage.getItem('friendsView');
     return storedValue === null ? false : JSON.parse(storedValue);
   });
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [showGuestModal, setShowGuestModal] = useState(false); // Modal for guests
 
   const handlePersonalToggle = () => {
-    const newPersonalView = personalView ? false : true;
+    if (!isLoggedIn) {
+      setShowGuestModal(true); // Show modal if guest
+      return;
+    }
+
+    const newPersonalView = !personalView;
     setPersonalView(newPersonalView);
-    sessionStorage.setItem('personalView', JSON.stringify(newPersonalView));
+    localStorage.setItem('personalView', JSON.stringify(newPersonalView));
     onTogglePersonal(newPersonalView);
   };
 
   const handleFriendsToggle = () => {
-    const newFriendsView = friendsView ? false : true; 
+    if (!isLoggedIn) {
+      setShowGuestModal(true); // Show modal if guest
+      return;
+    }
+
+    const newFriendsView = !friendsView;
     setFriendsView(newFriendsView);
-    sessionStorage.setItem('friendsView', JSON.stringify(newFriendsView));
+    localStorage.setItem('friendsView', JSON.stringify(newFriendsView));
     onToggleFriends(newFriendsView);
   };
-  
-  // const [personalView, setPersonalView] = useState(false);
-  // const [friendsView, setFriendsView] = useState(false);
-  // const [searchQuery, setSearchQuery] = useState('');
-
-  // const handlePersonalToggle = () => {
-  //   setPersonalView(!personalView);
-  //   onTogglePersonal(!personalView);
-  // };
-
-  // const handleFriendsToggle = () => {
-  //   setFriendsView(!friendsView);
-  //   onToggleFriends(!friendsView);
-  // };
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-    console.log('Searching for:', searchQuery);
-    // future search logic will go here
-  };
-
-  useEffect(() => {
-    const handleUnmount = () => {
-      sessionStorage.removeItem('personalView');
-      sessionStorage.removeItem('friendsView');
-      setPersonalView(false);
-      setFriendsView(false);
-    };
-
-    return handleUnmount;
-  }, []);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Map Settings">
-      <div className="p-4 space-y-6">
+    <>
+      <Modal isOpen={isOpen} onClose={onClose} title="Map Settings">
+        <div className="p-4 space-y-6">
+          <div className="space-y-2">
+            <label className="text-purpleDark font-bold">Personal View Toggle</label>
+            <ToggleButton
+              isOn={personalView}
+              onToggle={handlePersonalToggle}
+            />
+          </div>
 
-        <div className="space-y-2">
-          <label className="text-purpleDark font-bold">Personal View Change Toggler</label>
-          <ToggleButton
-            isOn={personalView}
-            onToggle={handlePersonalToggle}
-          />
+          <div className="space-y-2">
+            <label className="text-purpleDark font-bold">Friends View Toggle</label>
+            <ToggleButton
+              isOn={friendsView}
+              onToggle={handleFriendsToggle}
+            />
+          </div>
         </div>
+      </Modal>
 
-        <div className="space-y-2">
-          <label className="text-purpleDark font-bold">Friends View Change Toggler</label>
-          <ToggleButton
-            isOn={friendsView}
-            onToggle={handleFriendsToggle}
-          />
+      {/* Guest modal */}
+      <Modal
+        isOpen={showGuestModal}
+        onClose={() => setShowGuestModal(false)}
+        title="Feature Unavailable"
+      >
+        <div className="p-4 text-center">
+          <p className="text-purpleDark mb-4">
+            These features are only available for registered users.
+          </p>
+          <button
+            onClick={() => {
+              // Redirect to the registration page (update with actual route)
+              window.location.href = '/register';
+            }}
+            className="bg-purpleMedium text-white px-4 py-2 rounded-md hover:bg-purpleDarker transition"
+          >
+            Create an Account
+          </button>
         </div>
-      </div>
-    </Modal>
+      </Modal>
+    </>
   );
 }
 
