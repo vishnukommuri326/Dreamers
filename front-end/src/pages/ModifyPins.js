@@ -7,7 +7,7 @@ import { UserContext } from '../UserContext';
 const ModifyPins = () => {
   const { pins, updatePin, deletePin } = useContext(PinContext);
   const { username } = useContext(UserContext); // Fetch current user context
-  const userPins = pins.filter((pin) => pin.userId === username?._id); // Filter pins for the current user
+  const userPins = pins.filter((pin) => pin.username === username); // Filter pins for the current user
 
   const [editPinId, setEditPinId] = useState(null);
   const [newDescription, setNewDescription] = useState('');
