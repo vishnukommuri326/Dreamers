@@ -84,10 +84,25 @@ const PinProvider = ({children}) => {
           console.error('Error deleting pin:', error);
         }
       };
+
+      const fetchPinsForUser = async (userId) => {
+        try {
+          const response = await fetch(`http://64.225.57.7:5001/api/pins/user/${userId}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch user pins');
+          }
+          const userPins = await response.json();
+          return userPins;
+        } catch (error) {
+          console.error('Error fetching user pins:', error);
+          return [];
+        }
+      };
+      
     
 
       return (
-        <PinContext.Provider value={{ pins, addPin, updatePin, deletePin }}>
+        <PinContext.Provider value={{ pins, addPin, updatePin, deletePin, fetchPinsForUser }}>
           {children}
         </PinContext.Provider>
       );
