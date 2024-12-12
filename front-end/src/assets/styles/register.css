@@ -1,7 +1,7 @@
 /* Container styling */
 .register-container {
-    max-width: 800px; /* Increased width for a larger form */
-    margin: 20px auto; /* Center the form with some space around it */
+    max-width: 810px; /* Increased width for a larger form */
+    margin: 18px auto; /* Center the form with some space around it */
     padding: 40px;
     background-color: #f3e5f5; /* Light purple background */
     border-radius: 10px;
@@ -78,5 +78,5 @@ button.register-btn:active {
 p {
     text-align: center;
     font-weight: bold;
-    font-size: 1.1rem; /* Slightly larger font for emphasis */
+    font-size: 1.2rem; /* Slightly larger font for emphasis */
 }
