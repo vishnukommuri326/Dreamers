@@ -45,7 +45,7 @@ const Header = () => {
 
         <div className="controls-container">
           {/* Display welcome message when logged in */}
-          {isLoggedIn && <span className="welcome-message">Welcome, {username}</span>}
+          {/* {isLoggedIn && <span className="welcome-message">Welcome, {username}</span>} */}
 
           {/* Render Logout button if logged in, otherwise show Login/Register */}
           {isLoggedIn ? (

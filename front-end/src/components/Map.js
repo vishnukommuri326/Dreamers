@@ -210,7 +210,7 @@ const filteredPins = showPersonalPins
       />
       {searchResults.length > 0 && (
         <ul
-          className="absolute top-12 bg-white border border-gray-300 w-full rounded-md shadow-md max-h-40 overflow-auto z-[1000] divide-y divide-gray-200"
+          className="absolute bottom-20 md:top-12 md:bottom-0 bg-white border border-gray-300 w-full rounded-md shadow-md max-h-40 overflow-auto z-[1000] divide-y divide-gray-200"
         >
           {searchResults.map((result, index) => (
             <li
@@ -240,7 +240,7 @@ const filteredPins = showPersonalPins
   
 
     {showPopularList && (
-    <ul className="absolute top-12 bg-white border border-gray-300 w-full rounded-md shadow-md max-h-40 overflow-auto z-[1000] divide-y divide-gray-200">
+    <ul className="absolute bottom-20 md:top-12 md:bottom-0 bg-white border border-gray-300 w-full rounded-md shadow-md max-h-40 overflow-auto z-[1000] divide-y divide-gray-200">
       {popularLocations.map((location, index) => (
         <li
           key={index}
