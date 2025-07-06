@@ -3,6 +3,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+dotenv.config();
+
 
 
 // Load environment variables
