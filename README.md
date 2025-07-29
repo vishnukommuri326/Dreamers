@@ -1,4 +1,4 @@
-# While We Were Dreaming
+# Dreamers
 
 ## Deployment
 The live app is hosted here: [View Deployment](http://64.225.57.7/)
